@@ -3,7 +3,7 @@ name: Build lecture notes
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
   workflow_dispatch:
 
 concurrency:
@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
           tectonic --version
 
       - name: Cache Tectonic bundle
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/Tectonic
           key: tectonic-${{ runner.os }}-${{ env.TECTONIC_VERSION }}
@@ -44,7 +44,7 @@ jobs:
           test -s build/main.pdf
 
       - name: Upload PDF
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lecture-notes
           path: build/main.pdf
@@ -70,3 +70,20 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Auto-build lecture notes PDF"
           git push origin HEAD:main
+
+      - name: Publish tagged release
+        if: github.event_name == 'push' && github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if release=$(gh release view "$RELEASE_TAG" --json isDraft,assets); then
+            if ! jq -e '.assets | any(.name == "main.pdf")' <<< "$release" > /dev/null; then
+              gh release upload "$RELEASE_TAG" build/main.pdf
+            fi
+            if jq -e '.isDraft' <<< "$release" > /dev/null; then
+              gh release edit "$RELEASE_TAG" --draft=false --verify-tag
+            fi
+          else
+            gh release create "$RELEASE_TAG" build/main.pdf --verify-tag --title "$RELEASE_TAG" --generate-notes
+          fi
