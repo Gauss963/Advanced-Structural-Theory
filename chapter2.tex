@@ -1,0 +1,48 @@
+\chapter{Definitions and Concepts}
+
+\section{Mathematical model}
+A framed structure is composed of \emph{members} and \emph{joints}. Joints can be classified as rigid, pin (simple), and semi-rigid. Joints are commonly referred to as connections; they are the structural components that tie the members together. For an analysis mathematical model, we like to say that the model is composed of \emph{elements} and \emph{nodes} instead of members and joints.
+
+\section{Coordinate systems}
+\begin{itemize}
+  \item Member (local) coordinate system $(xyz)$
+  \item Structural (global) coordinate system $(XYZ)$
+\end{itemize}
+\begin{fig}
+  \input{figures/ch02_coordinate_systems}
+\end{fig}
+
+\section{Degrees of freedom (DOFs)}
+DOFs are kinematic parameters such as displacements and rotations used to describe the configuration (deformed shape) of the structure. For an analysis model, each node will be assigned appropriate DOFs according to its restraints.
+
+\begin{remark}
+\begin{enumerate}
+  \item The number of DOFs is infinity for structures theoretically.
+  \item Different types of analysis such as static, dynamic, and buckling may need different numbers of DOFs to achieve the same level of accuracy. For example, for buckling and dynamic analyses, a member usually needs to be divided into four elements. However, for linear static analysis, no discretization of a member is needed in general.
+\end{enumerate}
+\end{remark}
+
+\section{External loads, nodal displacements, and member displacements (forces)}
+\topic{External (applied) loads}
+\begin{itemize}
+  \item Nodal loads: concentrated; referred to the $XYZ$ coordinate system
+  \item Member loads: distributed; referred to the $xyz$ coordinate system
+\end{itemize}
+
+\topic{Nodal displacements}
+Referred to the $XYZ$ coordinate system.
+
+\topic{Member displacements (forces)}
+Referred to the $xyz$ coordinate system.
+
+\section{Static and kinematic indeterminacy}
+Please refer to Sec.~3.4 and Fig.~3.7 (shown below) of the textbook. Note that:
+\begin{itemize}
+  \item Degree of \emph{static} indeterminacy $=$ the number of unknowns in force (flexibility) methods.
+  \item Degree of \emph{kinematic} indeterminacy $=$ the number of unknowns in displacement (stiffness) methods.
+\end{itemize}
+\begin{figure}[H]
+  \centering
+  \input{figures/ch02_indeterminacy}
+  \caption{Static and kinematic indeterminacy (after Fig.~3.7 of the textbook).}
+\end{figure}

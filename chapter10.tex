@@ -1,0 +1,209 @@
+\chapter[Equivalent Nodal Loads]{Equivalent Nodal Loads; Self-straining Problems}
+\label{ch:eqload}
+
+\section{Equivalent nodal loads}
+The stiffness equation for a member subjected to intermediate concentrated loads or distributed loads can be written, with respect to the local or member axes, as
+\begin{equation}
+  \kmat\bs{\Delta}_l + \mat{f}_{fef} = \mat{f} \tag{a}\label{eq10:a}
+\end{equation}
+where $\mat{f}_{fef}$ is the fixed end force vector. Defining the equivalent force vector as $\mat{f}_{eq} = -\mat{f}_{fef}$, the above equation can be rewritten as
+\begin{equation}
+  \kmat\bs{\Delta}_l - \mat{f}_{eq} = \mat{f} \tag{b}\label{eq10:b}
+\end{equation}
+The above member stiffness equation is referred to the member (local) coordinate system. In order to carry out the assembling process, the stiffness equation referred to the structural (global) coordinate system is needed, which is:
+\begin{equation}
+  \Tmat^\tr\kmat\Tmat\bs{\Delta}_g - \Tmat^\tr\mat{f}_{eq} = \Tmat^\tr\mat{f}
+  \quad\text{or}\quad
+  \kmat_g\bs{\Delta}_g - \mat{f}_{eqg} = \mat{f}_g \tag{c}\label{eq10:c}
+\end{equation}
+where $\kmat_g = \Tmat^\tr\kmat\Tmat$, $\mat{f}_{eqg} = \Tmat^\tr\mat{f}_{eq}$, $\mat{f}_g = \Tmat^\tr\mat{f}$, and $\Tmat$ is the transformation matrix (see Ch.~\ref{ch:transform}). Eq.~\eqref{eq10:c} can be derived by using the contragredient principle and the congruent transformation. It can also be derived by premultiplying Eq.~\eqref{eq10:b} by $\Tmat^\tr$ and by using the relation that $\bs{\Delta}_l = \Tmat\bs{\Delta}_g$.
+
+The stiffness equation for a structural system, obtained by assembling Eq.~\eqref{eq10:c}, takes the form
+\begin{equation}
+  \Kmat\mat{U} - \Pvec_{eq} = \F \tag{d}\label{eq10:d}
+\end{equation}
+where $\Kmat =$ assemblage of $\kmat_g$, $\mat{U} =$ collection of $\bs{\Delta}_g$, $\Pvec_{eq} =$ assemblage of $\Tmat^\tr\mat{f}_{eq}$, and $\F =$ assemblage of $\mat{f}_g$.
+
+The \emph{nodal equilibrium equation} (considering the free body of a joint) states that
+\begin{equation}
+  \F = \Pvec_c \tag{e}\label{eq10:e}
+\end{equation}
+which means the nodal internal forces equal the external forces since $\Pvec_c =$ the applied nodal concentrated load vector. From Eqs.~\eqref{eq10:d} and \eqref{eq10:e}, we have
+\begin{equation}
+  \Kmat\mat{U} = \Pvec_c + \Pvec_{eq} \tag{f}\label{eq10:f}
+\end{equation}
+Once $\mat{U}$ is solved from Eq.~\eqref{eq10:f}, the member end forces, referred to the member coordinate system, can then be calculated according to the member stiffness equation, i.e.\ $\kmat\bs{\Delta}_l + \mat{f}_{fef} = \mat{f}$. To this end, we need to find $\bs{\Delta}_g$ first, which is a subset of $\mat{U}$, and then calculate $\bs{\Delta}_l$ by using $\bs{\Delta}_l = \Tmat\bs{\Delta}_g$.
+
+From the above discussions, clearly the determination of $\mat{f}_{fef}$ or $\mat{f}_{eq}$ is the key element when dealing with members with intermediate loads or distributed loads. Table~5.1, on page 111 of the textbook, has listed fixed-end forces for some commonly encountered load types.
+\begin{figure}[H]
+  \centering
+  \input{figures/ch10_fef_table}
+  \caption{Fixed-end forces for common load types (after Table~5.1 of the textbook).}
+  \label{fig:fef-table}
+\end{figure}
+
+In general, we can determine $\mat{f}_{eq}$ using the principle of virtual displacements. In this way, we let the virtual work done by $\mat{f}_{eq}$ be equal to that done by the intermediate concentrated loads (can be expressed as delta functions) or distributed loads. That is,
+\begin{gather}
+  \delta\bs{\Delta}_l^\tr\mat{f}_{eq} = \int_0^L \delta v(x)^\tr q(x)\,dx = \int_0^L (\NN\delta\bs{\Delta}_l)^\tr q(x)\,dx
+  \;\rightarrow\; \delta\bs{\Delta}_l^\tr\mat{f}_{eq} = \delta\bs{\Delta}_l^\tr\int_0^L \NN^\tr q(x)\,dx\\
+  \rightarrow\quad \mat{f}_{eq} = \int_0^L \NN^\tr q(x)\,dx
+\end{gather}
+where $\NN = \langle N_1, N_2, \dots\rangle$ are shape functions. Written in component form,
+\begin{equation}
+  (\mat{f}_{eq})_i = \int_0^L N_i\,q(x)\,dx
+\end{equation}
+Examples illustrating the above equation (will be done in class).
+
+\begin{example}
+Consider the beam shown below with the properties: $E = 28$~GPa, $I = 5.8\times10^9$~mm$^4$.
+\begin{fig}
+  \input{figures/ch10_beam_example}
+\end{fig}
+\begin{fig}
+  \input{figures/ch10_beam_example_fef}
+\end{fig}
+\begin{fig}
+  \input{figures/ch10_beam_example_feq}
+\end{fig}
+Note that in the program, the fixed end forces \texttt{FEF} shall be input as follows:
+\begin{lstlisting}[language={},numbers=none,basicstyle=\small\ttfamily]
+*FEF
+1   63    54    27   -36
+2    0     0     0     0
+3   75   187.5  75  -187.5
+\end{lstlisting}
+After assembling, we obtain the final nodal loads:
+\begin{fig}
+  \input{figures/ch10_beam_example_final}
+\end{fig}
+\begin{equation*}
+  \Longrightarrow\quad \Pvec = \Pvec_c + \Pvec_{eq} = \Bmat{-200\\ 0\\ -90\\ 0} + \Bmat{-27\\ 36\\ -187.5\\ 187.5}
+  = \Bmat{-227\text{ kN}\\ 36\text{ kN}\cdot\text{m}\\ -277.5\text{ kN}\cdot\text{m}\\ 187.5\text{ kN}\cdot\text{m}}
+\end{equation*}
+\begin{equation*}
+  \Kmat = \bmat{43983 & 20300 & 60900 & 0\\ 20300 & 324800 & 81200 & 0\\ 60900 & 81200 & 227360 & 32480\\ 0 & 0 & 32480 & 64960}\quad\text{(with appropriate units)}
+\end{equation*}
+Then,
+\begin{equation*}
+  \bs{\Delta} = \Bmat{-4.4729\text{ m}\\ 0.56143\text{ rad}\\ -0.68415\text{ rad}\\ 3.2285\text{ rad}}\times10^{-3}
+\end{equation*}
+
+\topic{Force recovery (element one)}
+\begin{fig}
+  \input{figures/ch10_force_recovery_el1}
+\end{fig}
+Fixed end forces $\mat{f}_{fef} = \Bmat{63\\ 54\\ 27\\ -36}$, and local displacement vector $\bs{\Delta}_l = \Bmat{0\\ 0\\ \Delta_1\\ \Delta_2}$. Then from Eq.~\eqref{eq10:a},
+\begin{equation*}
+  \mat{f}_1 = \kmat\bs{\Delta}_l + \mat{f}_{fef} = \Bmat{146.3\text{ kN}\\ 281.19\text{ kN}\cdot\text{m}\\ -56.33\text{ kN}\\ 236.78\text{ kN}\cdot\text{m}}.
+\end{equation*}
+Similarly, we can obtain the member forces of elements 2 and 3 as follows:
+\begin{equation*}
+  \mat{f}_2 = \Bmat{-143.67\text{ kN}\\ -236.78\text{ kN}\cdot\text{m}\\ 143.67\text{ kN}\\ -337.92\text{ kN}\cdot\text{m}}
+  \quad\text{and}\quad
+  \mat{f}_3 = \Bmat{99.79\text{ kN}\\ 247.92\text{ kN}\cdot\text{m}\\ 50.21\text{ kN}\\ 0\text{ kN}\cdot\text{m}}
+\end{equation*}
+\end{example}
+
+\section{Self-straining problems}
+Self-straining problems include those dealing with temperature changes, fabrication errors (misfit), and support settlement. For these kinds of problems, the member stiffness equations can also be written as
+\begin{equation}
+  \kmat\bs{\Delta}_l + \mat{f}_{fef} = \mat{f}\qquad\text{or}\qquad \kmat\bs{\Delta}_l = \mat{f} + \mat{f}_{eq}
+\end{equation}
+where $\mat{f}_{eq} = -\mat{f}_{fef}$ are defined as the forces that need to be applied to the member so that all nodal displacements are equal to zero, or equivalently defined as the forces that counterbalance the initial strains. For example, if an axial member is subjected to a temperature rise $\Delta T$, then obviously a compressive force with the magnitude of $AE\alpha\Delta T$ needs to be applied to the ends of the member in order not to induce deformations or forces for the other members, where $\alpha =$ thermal expansion coefficient, a material constant. Actually, this compressive force produces an axial strain $= -\alpha\Delta T$, which counterbalances the initial strain due to the temperature rise $= \alpha\Delta T$. In summary, if $\eps_i = \alpha\Delta T$ represents the initial strain, then the fixed-force $f_{fef} = -EA\eps_i$ and therefore the equivalent force $f_{eq} = -f_{fef} = EA\eps_i$.
+
+Similarly, if an axial bar has the fabrication error $\Delta L$, then it has the initial strain $\eps_i = \Delta L/L$. The fixed-end force $f_{fef} = -EA\eps_i$, and the equivalent force $f_{eq} = EA\eps_i = EA\Delta L/L$.
+
+In general, from the principle of virtual work, we have, for an axial bar, that
+\begin{equation}
+  f_{eq} = EA\frac1L\int_0^L \eps_i(x)\,dx
+\end{equation}
+For beams, the fixed-end forces corresponding to support settlement or temperature changes can be determined similarly as we discuss in class.
+\begin{fig}
+  \input{figures/ch10_thermal_truss}
+\end{fig}
+
+\begin{example}[Example 5.10 in the textbook]
+Member $ad$ of the truss is 3~mm fabricated too short and $E = 200{,}000$~MPa.
+\begin{fig}
+  \input{figures/ch10_truss_ex510}
+\end{fig}
+DOFs and fixed end forces:
+\begin{fig}
+  \input{figures/ch10_truss_ex510_dof}
+\end{fig}
+\begin{fig}
+  \input{figures/ch10_truss_ex510_fef}
+\end{fig}
+\begin{equation*}
+  F^F_{xa} = -F^F_{xd} = \Bigl(\frac{EA}{L}\Bigr)_{ad}\cdot\Delta L_{ad} = 577.37\times3 = 1732.1\text{ kN}
+\end{equation*}
+Obviously, the fixed end force is zero except member $ad$.
+
+Q: $\mat{f}^{ad}_{fef} = \langle -1732.1, 1732.1\rangle$~kN or $\mat{f}^{ad}_{fef} = \langle 1732.1, -1732.1\rangle$~kN? Why?
+
+Load vector:
+\begin{equation*}
+  \Pvec = \Pvec_c + \Pvec_{eq} = \Bmat{0\\ 0\\ 0} + \Bmat{-1732.1\\ 0\\ 0}\text{ kN}
+\end{equation*}
+Stiffness equations:
+\begin{equation*}
+  10^2\bmat{12.122 & -1.912 & -3.536\\ & 4.473 & 3.536\\ & & 6.830}\Bmat{\Delta_1\\ \Delta_2\\ \Delta_3} = \Bmat{-1732.1\\ 0\\ 0}
+\end{equation*}
+Displacement: $\langle\Delta_1, \Delta_2, \Delta_3\rangle = \langle -1.683, -0.0158, -8.448\rangle$~mm.
+\end{example}
+
+\begin{example}[Example 5.11 in the textbook]
+The support at $b$ settles 15~mm; analyze the problem.
+\begin{fig}
+  \input{figures/ch10_beam_ex511}
+\end{fig}
+Fixed end forces (note that $\theta_{zb} = 0$ in the figure below):
+\begin{fig}
+  \input{figures/ch10_beam_ex511_settle}
+\end{fig}
+\begin{fig}
+  \input{figures/ch10_beam_ex511_fef}
+\end{fig}
+\begin{minipage}{0.5\linewidth}
+\begin{align*}
+  M^F_{za} = M^F_{zb} &= 200(-18.75)(-15)\\ &= 56.25\times10^3\text{ kNmm}\\
+  F^F_{ya} = -F^F_{yb} &= 200(-0.00469)(-15)\\ &= 14.07\text{ kN}
+\end{align*}
+\end{minipage}\hfill
+\begin{minipage}{0.48\linewidth}
+\begin{align*}
+  M^F_{zb} = M^F_{zc} &= 200(12.00)(-15)\\ &= -36.0\times10^3\text{ kNmm}\\
+  F^F_{yb} = -F^F_{yc} &= 200(0.00480)(-15)\\ &= -14.40\text{ kN}
+\end{align*}
+\end{minipage}
+\begin{equation*}
+  \mat{f}^{ab}_{fef} = \langle 14.07, 56250, -14.07, 56250\rangle^\tr;\qquad
+  \mat{f}^{bc}_{fef} = \langle -14.4, -36000, 14.4, -36000\rangle^\tr
+\end{equation*}
+Load vector:
+\begin{equation*}
+  \Pvec = \Pvec_c + \Pvec_{eq} = \Bmat{0\\ 0} + \Bmat{-56.25\times10^3\\ -56.25\times10^3 + 36\times10^3}\text{ kN}\cdot\text{mm}
+  = \Bmat{-56.25\times10^3\\ -20.25\times10^3}\text{ kN}\cdot\text{mm}
+\end{equation*}
+Stiffness equations:
+\begin{equation*}
+  200\times10^5\bmat{1 & 0.5\\ 0.5 & 1.4}\Bmat{\theta_{za}\\ \theta_{zb}} = \Bmat{-56.25\times10^3\\ -20.25\times10^3}
+\end{equation*}
+Displacement: $\langle\theta_{za}, \theta_{zb}\rangle = \langle -0.002984, 0.000342\rangle$~rad.
+
+\topic{Comparison: the slope-deflection method}
+\begin{fig}
+  \input{figures/ch10_slope_deflection}
+\end{fig}
+\begin{equation*}
+  \Kmat = \begin{bmatrix}\dfrac{4E_1I_1}{L_1} & \dfrac{2E_1I_1}{L_1}\\[8pt] \dfrac{2E_1I_1}{L_1} & \dfrac{4E_1I_1}{L_1}+\dfrac{4E_2I_2}{L_2}\end{bmatrix}
+  \qquad\qquad
+  k = \frac{3E_1I_1}{L_1} + \frac{4E_2I_2}{L_2},\quad M_b = k\cdot\theta_b
+\end{equation*}
+\end{example}
+
+\section{Thermal load problem of beam}
+\begin{fig}
+  \input{figures/ch10_thermal_beam}
+\end{fig}
+Referring to the above figure, the fixed end moment can be written as $EI\dfrac{\alpha\Delta T}{h}$.

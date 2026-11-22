@@ -1,0 +1,355 @@
+\chapter{Principle of Virtual Forces}
+\label{ch:pvf}
+
+\section{Principle of virtual forces (PVF) and related principles or theorems}
+The virtual force system should be ``statically admissible'' (the virtual displacements should be ``kinematically admissible''); this means that the external virtual forces and the internal forces are in equilibrium.
+
+For an admissible virtual force system, the principle of virtual forces is stated as
+\begin{equation}
+  \dW^* = \dU_i^* \quad\Longleftrightarrow\quad \text{Compatibility Equations}
+\end{equation}
+where $\dW^* =$ the complementary virtual work done by the external virtual forces through the ``real displacements'' (or the external complementary virtual work), and $\dU_i^* =$ the complementary virtual internal energy (or the internal complementary virtual work). They are defined, respectively, by
+\begin{align}
+  \dW^* &= \int_S\delta t_iu_i\,dS + \int_V\delta f_iu_i\,dV\\
+  \dU_i^* &= \int_V\delta\sigma_{ij}\eps_{ij}\,dV
+\end{align}
+The statically admissible conditions consist of the following two equilibrium conditions.
+\begin{gather*}
+  \delta\sigma_{ij,j} + \delta f_i = 0\ \text{ in } V\\
+  \delta\sigma_{ij}n_j = \delta t_i\ \text{ on } S\ (\text{not } S_t)
+\end{gather*}
+For an (linearly or nonlinearly) elastic body, there exists a function of stresses (internal forces), called complementary strain energy $U^*$, such that $\dU^* = \dU_i^*$. If the external forces are conservative, then there exists a complementary load potential $V^*$ such that
+\begin{equation*}
+  \delta V^* = -\dW^*
+\end{equation*}
+Therefore, for a conservative system because the material is elastic and the external forces are conservative, there exists the complementary total potential energy defined by
+\begin{equation*}
+  \Pi^* = U^* + V^*
+\end{equation*}
+The PVF then becomes
+\begin{equation}
+  \delta\Pi^* = 0 \quad\Longleftrightarrow\quad \text{Compatibility Equations}
+\end{equation}
+which is often referred to as the \emph{principle of stationary (minimum) total complementary potential energy}.
+
+If the external forces acting on a conservative system are point (concentrated) loads, then
+\begin{equation*}
+  \Pi^* = U^* + V^* = U^*(\Pvec) - \Pvec^\tr\bs{\Delta} = U^*(\Pvec) - \sum_{i=1}^nP_i\Delta_i
+\end{equation*}
+Therefore,
+\begin{equation*}
+  \delta\Pi^* = 0 \;\Rightarrow\; \sum_{i=1}^n\Bigl(\pd{U^*}{P_i} - \Delta_i\Bigr)\delta P_i = 0
+\end{equation*}
+As $\delta P_i$'s are independent, we can conclude that
+\begin{equation}
+  \pd{U^*}{P_i} = \Delta_i,\quad i = 1, n
+\end{equation}
+This is often referred to as \emph{Engesser's first theorem}. Note that for \emph{linearly} elastic bodies, $U^*$ is a \emph{quadratic} function of $\Pvec$ and its value is the same as $U$. Therefore, in this case we often use the notation $U(\Pvec)$, i.e.\ the strain energy, instead of $U^*(\Pvec)$. The above relation then becomes
+\begin{equation}
+  \pd{U}{P_i} = \Delta_i,\quad i = 1, n
+\end{equation}
+This is often referred to as \emph{Castigliano's second theorem}.
+
+For a statically indeterminate conservative structural system, the total complementary potential energy can be written as
+\begin{equation*}
+  \Pi^* = U^* + V^* = U^*(\Pvec, \mat{R}) - \Pvec^\tr\bs{\Delta} - \mat{R}^\tr\mat{r} = U^*(\Pvec, \mat{R}) - \sum_{i=1}^nP_i\Delta_i - \sum_{i=1}^rR_ir_i
+\end{equation*}
+The principle of stationary (minimum) total complementary potential energy states that
+\begin{equation}
+  \pd{U^*}{P_i} = \Delta_i,\quad i = 1, n
+\end{equation}
+and
+\begin{equation}
+  \pd{U^*}{R_i} = r_i = 0,\quad i = 1, r
+\end{equation}
+The condition $r_i = 0$ is very obvious if the associated $R_i$ is a reaction because no movement is allowed at the corresponding support. If $R_i$ is an internal force, the condition means consistency of deformation (no gap, continuous slope, etc.). \emph{The second set of equations is often referred to as the theorem of least work or Engesser's second theorem.}
+
+In matrix form, the above two sets of equations can be written as
+\begin{equation}
+  \Bmat{\dfrac{\partial U^*}{\partial\Pvec}\\[8pt] \dfrac{\partial U^*}{\partial\mat{R}}} = \Bmat{\bs{\Delta}\\ \mat{0}}
+\end{equation}
+Having obtained the above equations, we can solve for $\mat{R}$ from the second set of equations. Finally, substitute $\mat{R}$ into the first set of equations to obtain $\bs{\Delta}$.
+
+\section{Complementary strain energy and the unit-load method}
+The complementary strain energy for a \emph{linearly} elastic structural member:
+\begin{enumerate}[label=(\alph*)]
+  \item due to axial deformation,
+    \begin{equation*}
+      U^* = \int\frac{N^2}{2EA}\,dx = \frac{N^2L}{2EA}\ \text{ if } \frac{N}{EA} = \text{constant, where } N = \text{axial force.}
+    \end{equation*}
+  \item due to flexural deformation,
+    \begin{equation*}
+      U^* = \int\frac{M^2}{2EI}\,dx,\ \text{ where } M = \text{bending moment}
+    \end{equation*}
+  \item due to torsional deformation,
+    \begin{equation*}
+      U^* = \int\frac{T^2}{2GJ}\,dx = \frac{T^2L}{2GJ}\ \text{ if } \frac{T}{GJ} = \text{constant, where } T = \text{torsion.}
+    \end{equation*}
+\end{enumerate}
+The unit-load method is an application of the principle of virtual forces. Consider a structural system consisting of \emph{linearly elastic} members, for which we like to find the displacement $\Delta_i$. Define a virtual force system that consists of only one virtual force $\delta P_i$ acting on the structural system and along the direction of $\Delta_i$. According to the PVF,
+\begin{equation}
+  \delta P_i\Delta_i = \int\frac{Nn}{EA}\,dx + \int\frac{Mm}{EI}\,dx + \int\frac{Tt}{GJ}\,dx
+\end{equation}
+where $N$, $M$, and $T =$ axial force, bending moment, and torsion due to the real external loads, and $n$, $m$, and $t =$ axial force, bending moment, and torsion due to the virtual force $\delta P_i$. As the virtual internal forces $n$, $m$, and $t$ depend on $\delta P_i$ linearly, without loss of generality we could let $\delta P_i = 1$; this results in
+\begin{equation}
+  \Delta_i = \int\frac{Nn}{EA}\,dx + \int\frac{Mm}{EI}\,dx + \int\frac{Tt}{GJ}\,dx
+\end{equation}
+where $n$, $m$, and $t =$ axial force, bending moment, and torsion due to $\delta P_i = 1$. This is the so-called \emph{unit load method}.
+\begin{fig}
+  \input{figures/ch15_real_virtual_body}
+\end{fig}
+\noindent$***$ Support conditions can be different!
+
+\section{Nonlinear system}
+How can we use the unit load method to deal with nonlinear systems? Assume that
+\begin{equation*}
+  U^* = \int\frac{aM^b}{EI}\,dx
+\end{equation*}
+where $a$ and $b$ are constants. Then, $\dU^* = \int\dfrac{abM^{b-1}}{EI}\delta M\,dx$. Therefore the unit-load method takes the following form:
+\begin{equation}
+  \Delta_i = \int\frac{abM^{b-1}}{EI}m\,dx.
+\end{equation}
+
+\begin{example}[Application of P.V.F.]
+\leavevmode
+\begin{fig}
+  \input{figures/ch15_pvf_example}
+\end{fig}
+For real system: $M(x) = P(L-x)$
+
+\emph{Case 1: virtual system 1}
+
+\emph{The boundary conditions for the real system and the virtual system are totally different, but the P.V.F.\ still works as we shall show below.}
+
+The virtual internal moment distribution is
+\begin{align*}
+  m(x) &= -\frac{\delta P}{2}x,\quad 0 < x < \frac L2\\
+       &= -\frac{\delta P}{2}(L-x),\quad \frac L2 < x < L
+\end{align*}
+The complementary virtual work and the complementary virtual strain energy are given respectively by
+\begin{gather*}
+  \dW^* = -\frac{\delta P}{2}\times0 + \delta P\times v_c - \frac{\delta P}{2}\times v_B\\
+  \begin{aligned}
+    \dU^* &= \int_0^L\frac{M(x)m(x)}{EI}\,dx\\
+          &= \frac{1}{EI}\int_0^{L/2}\Bigl[P(L-x)\Bigl(-\frac{\delta P}{2}x\Bigr)\Bigr]dx + \frac{1}{EI}\int_{L/2}^LP(L-x)\Bigl(-\frac{\delta P}{2}\Bigr)(L-x)\,dx\\
+          &= -\frac{\delta P}{16}\frac{PL^3}{EI}
+  \end{aligned}
+\end{gather*}
+Then, by the P.V.F.\ $\dW^* = \dU^*$, the following ``compatibility equation'' can be obtained.
+\begin{equation*}
+  v_C - \frac{v_B}{2} = -\frac{1}{16}\frac{PL^3}{EI}
+\end{equation*}
+Although this relation may not be useful, it is valid since the exact values are $v_B = \dfrac{PL^3}{3EI}$ and $v_C = \dfrac{5PL^3}{48EI}$.
+
+\emph{Case 2: virtual system 2}
+\begin{fig}
+  \input{figures/ch15_virtual_system2}
+\end{fig}
+\begin{gather*}
+  m(x) = \delta P\cdot x\\
+  \dW^* = \delta P\cdot L\times\theta_B - \delta P\times v_B\\
+  \dU^* = \int_0^L\frac{M(x)m(x)}{EI}\,dx = \frac{\delta P}{6}\frac{PL^3}{EI}
+\end{gather*}
+Then, by P.V.F.\ $\dW^* = \dU^*$, the following compatibility equation can be obtained.
+\begin{equation*}
+  -v_B + \theta_BL = \frac16\frac{PL^3}{EI}
+\end{equation*}
+which is true (but may not be so much useful) since $v_B = \dfrac{PL^3}{3EI}$ and $\theta_B = \dfrac{PL^2}{2EI}$.
+
+\emph{Case 3: virtual system 3: solve the vertical displacement of $B$}
+\begin{fig}
+  \input{figures/ch15_virtual_system3}
+\end{fig}
+\begin{gather*}
+  m(x) = \delta P(L-x)\\
+  \dW^* = \delta P\times v_B\\
+  \dU^* = \int_0^L\frac{M(x)m(x)}{EI}\,dx = \frac{\delta P}{3}\frac{PL^3}{EI}
+\end{gather*}
+Then, by P.V.F.\ $\dW^* = \dU^*$, the vertical displacement of $B$ can be obtained as
+\begin{equation*}
+  v_B = \frac13\frac{PL^3}{EI}
+\end{equation*}
+
+\emph{Case 4: virtual system 4: solve the vertical displacement of $C$}
+\begin{fig}
+  \input{figures/ch15_virtual_system4}
+\end{fig}
+The virtual force system shall be chosen as that shown.
+
+Note that the following formula is very useful when carrying out the integration of $\int_0^LM(x)m(x)\,dx$. Some other specific cases can be seen in the last page of this chapter (Table~\ref{tab:integral}), which can be considered special cases of this formula.
+\begin{fig}
+  \input{figures/ch15_simpson}
+\end{fig}
+\begin{equation}
+  \int_0^LM(x)m(x)\,dx = \frac L6\bigl(a_1b_1 + 4a_2b_2 + a_3b_3\bigr)
+\end{equation}
+\end{example}
+
+\begin{example}[Application of the unit load method]
+\leavevmode
+
+\begin{minipage}{0.55\linewidth}\centering\input{figures/ch15_unit_load_beam}\end{minipage}\hfill
+\begin{minipage}{0.42\linewidth}
+  $EI =$ constant
+  \begin{align*}
+    M(x) &= -45 + ax,\quad 0\leq x\leq 6\\
+         &= c - bx,\quad 6\leq x\leq 9
+  \end{align*}
+\end{minipage}
+\begin{enumerate}[label=(\alph*)]
+  \item Determine the values of the coefficients $a$, $b$ and $c$.
+  \item Determine $\theta_B$.
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+  \item The value of $b = 30$ is obvious since the slope in the moment diagram is equal to the shear force. Knowing that $b = 30$ and $M(9) = 0$, we obtain $c = 270$. Finally, the moment at $x = 6$ shall be continuous, i.e.
+    \begin{equation*}
+      M(6) = c - bx = 270 - 30\times6 = 90 = -45 + 6a
+    \end{equation*}
+    Therefore, $a = 22.5$.
+  \item Since the virtual system can be of any kind of boundary conditions, the simplest one (a cantilever) is
+    \begin{fig}
+      \input{figures/ch15_unit_load_beam_virtual}
+    \end{fig}
+    The virtual moment distribution is $m(x) = 1$. Then, $\dW^* = \dU^*$ becomes
+    \begin{equation*}
+      1\times\theta_B = \frac{1}{EI}\int_0^6(-45 + 22.5x)\,dx + \frac{1}{EI}\int_6^9(270 - 30x)\,dx = \frac{270}{EI}
+    \end{equation*}
+\end{enumerate}
+\end{solution}
+\end{example}
+
+\begin{example}[Application of the unit load method]
+\leavevmode
+\begin{fig}
+  \input{figures/ch15_unit_load_propped}
+\end{fig}
+Take the reaction at the roller as the redundant force. Then the moment distribution for the real system is
+\begin{align*}
+  M(x) &= R_B(L-x),\quad \frac L2 < x < L\\
+       &= R_B(L-x) - P\Bigl(\frac L2 - x\Bigr),\quad 0 < x < \frac L2
+\end{align*}
+From the virtual system, we have $m(x) = 1\times(L-x)$. According to the unit load method
+\begin{equation*}
+  v_B = \int_0^L\frac{Mm}{EI}\,dx = 0 \;\Rightarrow\; 0 = \frac{5PL^3}{48EI} - \frac{R_BL^3}{3EI} \;\Rightarrow\; R_B = \frac{5}{16}P
+\end{equation*}
+\begin{fig}
+  \input{figures/ch15_propped_result}
+\end{fig}
+\end{example}
+
+\begin{example}[Application of Engesser's 1st theorem]
+\leavevmode
+\begin{fig}
+  \input{figures/ch15_engesser_truss}
+\end{fig}
+The complementary strain energy for a member:
+\begin{equation*}
+  U^*(F) = \int_0^F\delta(f)\,df = \int_0^F(K_1f + K_2f^2)\,df = \tfrac12K_1F^2 + \tfrac13K_2F^3\quad\text{(the shaded area)}
+\end{equation*}
+The structure is statically determinate and the member forces are already shown in the left figure. The complementary strain energy of the system is
+\begin{equation*}
+  U^* = \sum U^*_j = \tfrac12K_1\bigl(P^2 + (-P)^2 + P^2\bigr) + \tfrac13K_2\bigl(P^3 + (-P)^3 + P^3\bigr) = \tfrac32K_1P^2 + \tfrac13K_2P^3
+\end{equation*}
+By Engesser's 1st theorem, the horizontal displacement ($\leftarrow$) at the loaded point is
+\begin{equation*}
+  \Delta_a = \pd{U^*}{P} = 3K_1P + K_2P^2\quad(\leftarrow)
+\end{equation*}
+\end{example}
+
+\begin{example}[3D structure]
+\leavevmode
+\begin{fig}
+  \input{figures/ch15_3d_structure}
+\end{fig}
+Determine the vertical displacement at node $C$.
+\begin{solution}
+\leavevmode
+\begin{fig}
+  \input{figures/ch15_3d_members}
+\end{fig}
+Member $AB$: $M(x') = Px'$ (w.r.t.\ the $y'$ axis), $T(x') = 2PL$.\\
+Member $BC$: $M(x') = Px'$ (w.r.t.\ the $y'$ axis), $T(x') = 0$.
+
+According to the unit load method
+\begin{equation*}
+  1\cdot v_C = \int_0^L\frac{(Px)x}{EI_1}\,dx + \int_0^L\frac{(2PL)2L}{GJ}\,dx + \int_0^{2L}\frac{(Px)x}{EI_1}\,dx = 3\frac{PL^3}{EI_1} + 4\frac{PL^3}{GJ}
+\end{equation*}
+\end{solution}
+\end{example}
+
+\begin{example}[Deflection of truss due to external loads]
+Calculate the horizontal displacement of node $C$, $D_1$, and the \emph{relative displacement} of nodes $B$ and $E$, $D_2$. Note that the cross section for members 6 and 7 $= 1.25A$ and that for other members is $A$. (Ghali and Neville 1997, \emph{Structural Analysis})
+\begin{fig}
+  \input{figures/ch15_truss_ghali}
+\end{fig}
+\begin{gather*}
+  \dU^* = \sum_{i=1}^{elem}n_i\delta_i\quad\text{where } \delta_i = \frac{N_i}{(EA/L)_i} = \frac{N_iL_i}{E_iA_i}\ \text{(real axial deformation)}\\
+  \dW^* = \delta P_i\Delta_i\ \text{(no summation)}\\
+  \text{PVF: } \dW^* = \dU^*
+\end{gather*}
+Calculation of $D_1$:
+\begin{align*}
+  (1)D_1 &= (-1)\frac{1.167P(L)}{EA} + (-1)\frac{1.167P(L)}{EA} + (0)(0) + (0)(0) + (0)\frac{-P(L)}{EA}\\
+         &\quad + (0)\frac{-1.458P(1.25L)}{E(1.25A)} + (0)\frac{-0.208P(1.25L)}{E(1.25A)} = -2.334\frac{PL}{EA}
+  \;\rightarrow\; D_1 = -2.334\frac{PL}{EA}
+\end{align*}
+Calculation of $D_2$:
+\begin{align*}
+  (1)D_2 &= (-0.8)\frac{1.167P(L)}{EA} + (0)\frac{1.167P(L)}{EA} + (-0.6)(0) + (-0.6)(0) + (-0.8)\frac{-P(L)}{EA}\\
+         &\quad + (0)\frac{-1.458P(1.25L)}{E(1.25A)} + (1)\frac{-0.208P(1.25L)}{E(1.25A)} = -0.342\frac{PL}{EA}
+  \;\rightarrow\; D_2 = -0.342\frac{PL}{EA}
+\end{align*}
+\end{example}
+
+\begin{example}[Deflection of truss due to temperature/fabrication errors]
+Consider the above truss but \emph{without applied loads}. Assume member 2 has a temperature rise of 30 degrees and members 5 and 6 have a temperature rise of 20 degrees. Also, assume the coefficient of thermal expansion $\alpha = 0.5\times10^{-6}/{}^\circ C$. Calculate the displacements $D_1$ and $D_2$.
+\begin{gather*}
+  \text{PVF: } \dW^* = \dU^*\\
+  \dW^* = \delta P_i\Delta_i\quad\text{and}\quad \dU^* = \sum_{i=1}^{elem}n_i\delta_i
+\end{gather*}
+where $\delta = \Delta L = (\alpha\Delta T)L$ for temperature change and $\delta = \Delta L =$ fabrication error. Therefore, in this example
+\begin{align*}
+  \delta_2 &= \alpha\Delta T_2L_2 = (0.5\times10^{-5})(30)(L) = 15\times10^{-5}L\\
+  \delta_5 &= \alpha\Delta T_5L_5 = (0.5\times10^{-5})(20)(L) = 10\times10^{-5}L\\
+  \delta_6 &= \alpha\Delta T_6L_6 = (0.5\times10^{-5})(20)(1.25L) = 12.5\times10^{-5}L
+\end{align*}
+Calculation of $D_1$:
+\begin{gather*}
+  (1)(D_1) = n_2\delta_2 + n_5\delta_5 + n_6\delta_6 = (-1)(15\times10^{-5}L) + (0)(10\times10^{-5}L) + (0)(12.5\times10^{-5}L)\\
+  \rightarrow\; D_1 = -15\times10^{-5}L
+\end{gather*}
+Calculation of $D_2$:
+\begin{gather*}
+  (1)(D_2) = n_2\delta_2 + n_5\delta_5 + n_6\delta_6 = (0)(15\times10^{-5}L) + (-0.8)(10\times10^{-5}L) + (0)(12.5\times10^{-5}L)\\
+  \rightarrow\; D_2 = -8\times10^{-5}L
+\end{gather*}
+(The virtual forces $n_i$ due to $\delta P_{D1} = 1$ and $\delta P_{D2} = 1$ are those shown in (c) and (d) of the previous figure.)
+\end{example}
+
+\begin{example}[Deflection of frame due to support settlement]
+\begin{equation*}
+  \dW^* = (\delta P)(\Delta) + \sum_{Support}(\delta R_x\Delta_x + \delta R_y\Delta_y + \delta M\theta)
+\end{equation*}
+Consider the following frame with $E = 2\times10^8$~kN/m$^2$ and $I = 6\times10^{-4}$~m$^4$. Assume node $E$ has a horizontal settlement of 0.02~m to the right and node $A$ has a downward settlement of 0.03~m. Calculate the horizontal displacement of node $B$.
+\begin{fig}
+  \input{figures/ch15_frame_settlement}
+\end{fig}
+\begin{fig}
+  \input{figures/ch15_frame_moments}
+\end{fig}
+\begin{gather*}
+  \dW^* = 1\cdot u_B + (-0.5)(-0.03) + (-0.5)(0.02) = u_B + 0.005\\
+  \dU^* = \int\frac{Mm\,dx}{EI} = \frac{1041.67}{EI} + \frac{2083.33}{EI} + \frac{1041.67}{EI} = \frac{4166.7}{EI} = \frac{4166.7}{12\times10^4} = 0.0347\\
+  \text{(can be calculated using Table~\ref{tab:integral})}\\
+  \dW^* = \dU^* \;\Rightarrow\; u_B = 0.0297\text{ m}
+\end{gather*}
+\end{example}
+
+\clearpage
+\begin{table}[H]
+  \centering
+  \caption{Values of the integral $\int M_uM\,dl$ (Ghali and Neville 1997, \emph{Structural Analysis}).}
+  \label{tab:integral}
+  \input{figures/ch15_integral_table}
+\end{table}

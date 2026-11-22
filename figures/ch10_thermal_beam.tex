@@ -1,0 +1,54 @@
+% Thermal load problem of a beam (after the textbook)
+\begin{tikzpicture}[scale=0.8,font=\scriptsize]
+  % ---- (a) beam with temperature gradient ----
+  \begin{scope}
+    \draw (0,0) rectangle (7,0.9);
+    \pic at (0,0) {pin}; \pic at (7,0) {roller};
+    \node[left] at (0,0.45) {1}; \node[right] at (7,0.45) {2};
+    \draw[->] (7.4,0.45) -- (8.8,0.45) node[right] {$x$};
+    \draw[->] (0,1.2) -- (0,2.4) node[above] {$y$};
+    \draw (3.0,0) -- (3.0,0.9); \draw (3.2,0) -- (3.2,0.9); \node[above] at (3.1,0.95) {$dx$};
+    \draw[dim] (0.4,0.45) -- (0.4,0.9); \node[right] at (0.45,0.6) {$h$};
+    \node[below right] at (0.3,-0.05) {$EI_z = $ constant};
+    % temperature profile
+    \draw (5.0,0.9) -- (5.0,0); \draw (5.0,0.9) -- (6.0,0.9) -- (5.0,0) -- cycle;
+    \node[above] at (6.0,0.95) {$T_u$}; \node[below] at (5.5,-0.05) {$T_l$};
+    \draw[dim] (0,-0.9) -- (7,-0.9) node[midway,fill=white,inner sep=1pt] {$L$};
+    \node at (3.5,-1.5) {(a)};
+    % I section
+    \draw (8.9,1.6) -- (9.5,1.6) -- (9.5,1.5) -- (9.25,1.5) -- (9.25,0.9) -- (9.5,0.9) -- (9.5,0.8) -- (8.9,0.8) -- (8.9,0.9) -- (9.15,0.9) -- (9.15,1.5) -- (8.9,1.5) -- cycle;
+  \end{scope}
+  % ---- (b) deformed beam ----
+  \begin{scope}[yshift=-4.6cm]
+    \draw (0,0.9) .. controls (2.3,0.0) and (4.7,0.0) .. (7,0.9);
+    \draw (0,1.7) .. controls (2.3,0.9) and (4.7,0.9) .. (7,1.7);
+    \draw (0,0.9) -- (0,1.7); \draw (7,0.9) -- (7,1.7);
+    \fill[hatch] (3.35,0.32) rectangle (3.65,1.12);
+    \pic at (0,0.9) {pin}; \pic at (7,0.9) {roller};
+    \draw[dim] (3.35,2.1) -- (3.65,2.1); \node[right] at (3.7,2.1) {$dx+\alpha T_u dx$};
+    \draw[dim] (3.35,-0.2) -- (3.65,-0.2); \node[right] at (3.7,-0.2) {$dx+\alpha T_l dx$};
+    \node at (3.5,-0.9) {(b)};
+  \end{scope}
+  % ---- (d) fixed-end moments ----
+  \begin{scope}[yshift=-8.4cm]
+    \draw (0,0) rectangle (7,0.7);
+    \pic at (0,0) {pin}; \pic at (7,0) {roller};
+    \node[below left] at (0,0) {1}; \node[below right] at (7,0) {2};
+    \draw[->,thick] (-0.3,-0.4) arc (-100:120:0.55); \node[above left,align=right] at (-0.2,0.9) {$M^F_{z1} = \dfrac{EI_z\alpha(T_l-T_u)}{h}$};
+    \draw[->,thick] (7.3,-0.4) arc (280:60:0.55); \node[above right,align=left] at (7.2,0.9) {$M^F_{z2} = \dfrac{EI_z\alpha(T_l-T_u)}{h}$};
+    \node at (3.5,-1.2) {(d)};
+  \end{scope}
+  % ---- (c) differential element ----
+  \begin{scope}[xshift=11.5cm,yshift=-5.5cm]
+    \coordinate (O) at (0,5.2);
+    \draw (O) -- (-1.0,0); \draw (O) -- (1.0,0);
+    \draw[thick] (-0.35,1.6) -- (0.35,1.6) -- (0.6,0.3) -- (-0.6,0.3) -- cycle;
+    \draw (-0.2,1.6) rectangle (0.2,1.9);
+    \draw[dim] (-0.8,1.6) -- (-0.8,0.3) node[midway,left] {$h$};
+    \draw[dim] (-1.4,5.2) -- (-1.4,0.3); \node[left] at (-1.4,2.8) {$\rho$};
+    \draw[->] (-0.35,4.3) arc (250:290:1.0); \node[below] at (0,3.9) {$d\theta$};
+    \node[right] at (0.4,1.75) {$(1+\alpha T_u)dx$};
+    \draw[dim] (-0.6,-0.3) -- (0.6,-0.3); \node[right] at (0.7,-0.3) {$(1+\alpha T_l)dx$};
+    \node at (0,-0.9) {(c)};
+  \end{scope}
+\end{tikzpicture}

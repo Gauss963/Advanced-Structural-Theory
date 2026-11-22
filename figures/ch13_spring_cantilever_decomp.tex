@@ -1,0 +1,15 @@
+% Elastic cantilever + rigid bar with a rotational spring
+\begin{tikzpicture}[scale=0.85,font=\small]
+  \begin{scope}
+    \pic at (0,0) {wallL}; \draw[thinmember] (0,0) -- (6,0);
+    \draw[load] (6,1.2) -- (6,0.1) node[pos=0,above left] {$P$};
+    \node[below] at (3,-0.3) {$EI, L$};
+  \end{scope}
+  \node at (7.2,0.3) {\large $+$};
+  \begin{scope}[xshift=8.4cm]
+    \pic at (0,0) {wallL}; \draw[thick] (0.2,0) circle (0.2); \draw[thick] (0.2,0) circle (0.1);
+    \draw[member] (0.4,0) -- (6,0);
+    \draw[load] (6,1.2) -- (6,0.1) node[pos=0,above left] {$P$};
+    \node[below] at (0.4,-0.3) {$k_\theta$}; \node[below] at (3.2,-0.3) {\itshape rigid};
+  \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,8 @@
+% 2D frame: the three member DOFs (axial + two end rotations) of the left column
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \draw[member] (0,0) -- (0,4) -- (4,4) -- (4,0);
+  \pic at (0,0) {pin}; \pic at (4,0) {fixed}; \node[node dot] at (0,0) {};
+  \draw[load] (0,4.1) -- (0,5.2);
+  \draw[->,thick] (-0.5,4.4) arc (150:-30:0.5);
+  \draw[->,thick] (0.5,0.4) arc (30:210:0.5);
+\end{tikzpicture}

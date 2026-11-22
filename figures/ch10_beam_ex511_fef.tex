@@ -1,0 +1,19 @@
+% Example 5.11: fixed-end forces of members ab and bc
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \begin{scope}
+    \draw[member] (0,0) -- (7,0); \fill (0,0) circle (0.06); \fill (7,0) circle (0.06);
+    \node[above right] at (0,0) {$a$}; \node[above left] at (7,0) {$b$};
+    \draw[->,thick] (-0.1,-0.6) arc (-100:100:0.6); \node[above left] at (-0.1,0.5) {$M^F_{za}$};
+    \draw[->,thick] (7.1,-0.6) arc (280:80:0.6); \node[above right] at (7.1,0.5) {$M^F_{zb}$};
+    \draw[load] (0,-1.3) -- (0,-0.1) node[pos=0,below] {$F^F_{ya}$};
+    \draw[load] (7,-1.3) -- (7,-0.1) node[pos=0,below] {$F^F_{yb}$};
+  \end{scope}
+  \begin{scope}[xshift=10cm]
+    \draw[member] (0,0) -- (6,0); \fill (0,0) circle (0.06); \fill (6,0) circle (0.06);
+    \node[above right] at (0,0) {$b$}; \node[above left] at (6,0) {$c$};
+    \draw[->,thick] (-0.1,-0.6) arc (-100:100:0.6); \node[above left] at (-0.1,0.5) {$M^F_{zb}$};
+    \draw[->,thick] (6.1,-0.6) arc (280:80:0.6); \node[above right] at (6.1,0.5) {$M^F_{zc}$};
+    \draw[load] (0,-1.3) -- (0,-0.1) node[pos=0,below] {$F^F_{yb}$};
+    \draw[load] (6,-1.3) -- (6,-0.1) node[pos=0,below] {$F^F_{yc}$};
+  \end{scope}
+\end{tikzpicture}

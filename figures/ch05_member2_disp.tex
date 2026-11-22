@@ -1,0 +1,21 @@
+% Member 2: global nodal displacements -> local displacements
+\begin{tikzpicture}[scale=0.85,font=\small]
+  \def\ang{126.87}
+  \begin{scope}
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3);
+    \draw[member] (A) -- (B);
+    \node[below] at (A) {1}; \node[left] at (B) {2};
+    \node[circle,draw,inner sep=1pt] at ($(A)!0.5!(B)+(-0.45,0)$) {\scriptsize 2};
+    \draw[load] (A) -- ++(1.0,0) node[right] {$u_2$}; \draw[load] (A) -- ++(0,1.0) node[right] {$v_2$};
+    \draw[load] (B) -- ++(1.0,0) node[right] {$u_3=0$}; \draw[load] (B) -- ++(0,1.0) node[left] {$v_3$};
+  \end{scope}
+  \node at (4.2,1.2) {$\Longrightarrow$};
+  \begin{scope}[xshift=8.5cm]
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3);
+    \draw[member] (A) -- (B);
+    \draw[load] ($(A)+(\ang+180:1.0)$) -- ($(A)+(\ang+180:0.05)$) node[pos=0,right] {$u_1'$};
+    \draw[load] (A) -- ++(\ang+90:1.0) node[left] {$v_1'$};
+    \draw[load] (B) -- ++(\ang:1.0) node[above] {$u_2'$};
+    \draw[load] (B) -- ++(\ang+90:1.0) node[below left] {$v_2'$};
+  \end{scope}
+\end{tikzpicture}

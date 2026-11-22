@@ -1,0 +1,19 @@
+% Compatible rigid-body mode of the three-bar chain (paper Fig. 4)
+\begin{tikzpicture}[scale=0.48,font=\small]
+  \coordinate (n0) at (0,3); \coordinate (n1) at (4,0); \coordinate (n2) at (8,0); \coordinate (n3) at (12,3);
+  \coordinate (a) at (6,-1.5);
+  \draw[member] (n0) -- (n1) -- (n2) -- (n3);
+  \pic[rotate=-36.87] at (n0) {wallL};
+  \pic[rotate=36.87] at (n3) {wallR};
+  \foreach \p in {n1,n2}{\node[node dot] at (\p) {};}
+  \node[below right] at (n0) {0}; \node[above right] at (n1) {1}; \node[above left] at (n2) {2}; \node[below left] at (n3) {3};
+  % axes of bars 1 and 3 meet at a
+  \draw[dashed] (n1) -- (a) -- (n2);
+  \fill (a) circle (0.08); \node[below] at (a) {$a$};
+  % normal displacements
+  \draw[load] (n1) -- ++(53.13:1.8) node[above] {$\delta_{n1}\mat{n}_1$};
+  \draw[load] (n2) -- ++(-53.13:1.8) node[right] {$\delta_{n2}\mat{n}_2$};
+  % moment arms
+  \draw[dim] ($(n1)+(-0.9,-0.9)$) -- ($(a)+(-0.9,-0.9)$) node[midway,below left] {$d_1$};
+  \draw[dim] ($(a)+(0.9,-0.9)$) -- ($(n2)+(0.9,-0.9)$) node[midway,below right] {$d_2$};
+\end{tikzpicture}

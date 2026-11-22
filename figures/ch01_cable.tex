@@ -1,0 +1,30 @@
+% Pretensioned cable with a concentrated load at midspan
+\begin{tikzpicture}[scale=1.0,>=Latex]
+  \def\L{4.0} \def\v{0.8}
+  \coordinate (A) at (0,0); \coordinate (B) at (2*\L,0); \coordinate (C) at (\L,-\v);
+  % undeformed cable (dotted)
+  \draw[densely dotted] (A) -- (B);
+  % deformed cable (double line)
+  \draw[double,double distance=1.5pt] (A) -- (C) -- (B);
+  % supports
+  \foreach \p in {A,B} {
+    \draw[fill=black!60] (\p) -- ++(-0.25,-0.4) -- ++(0.5,0) -- cycle;
+    \fill[black!25] ($(\p)+(-0.4,-0.4)$) rectangle ($(\p)+(0.4,-0.55)$);
+    \fill[white,draw=black] (\p) circle (0.06);
+  }
+  \draw[fill=white] (C) circle (0.12); \fill (C) circle (0.05);
+  % tension arrows (cut)
+  \draw[->,very thick] ($(A)+(-0.3,0)$) -- ++(-1.1,0) node[left] {$T$};
+  \draw[->,very thick] ($(B)+(0.3,0)$) -- ++(1.1,0) node[right] {$T$};
+  % load
+  \draw[->,very thick] (C) -- ++(0,-1.0) node[right] {$P$};
+  % labels
+  \node[below left] at ($(A)!0.5!(C)$) {$L'$};
+  \draw[->] ($(A)+(2.2,0)$) arc (0:{-atan(\v/\L)}:2.2);
+  \node[right] at ($(A)+(2.25,-0.2)$) {$\theta$};
+  % dimensions
+  \draw[<->] (-0.7,0) -- (-0.7,-\v) node[midway,left] {$v$};
+  \draw[thin] (-0.45,0) -- (-0.9,0); \draw[thin] (C) -- (-0.9,-\v);
+  \draw[<->] (0,-1.4) -- (\L,-1.4) node[midway,fill=white,inner sep=1pt] {$L$};
+  \draw[thin] (0,-1.2) -- (0,-1.6); \draw[thin] (\L,-1.2) -- (\L,-1.6);
+\end{tikzpicture}

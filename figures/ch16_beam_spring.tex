@@ -1,0 +1,8 @@
+% Propped cantilever with an internal rotational spring at the loaded point
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \pic at (0,0) {wallL}; \draw[member] (0,0) -- (6,0); \pic at (6,0) {roller}; \node[node dot] at (6,0) {};
+  \draw[thick] (2,0) circle (0.18); \draw[thick] (2,0) circle (0.09);
+  \node[above right] at (0,0.05) {$a$}; \node[above right] at (2.1,0.1) {$b$}; \node[above left] at (6,0.05) {$C$};
+  \draw[load] (2,0.2) -- (2,1.3) node[above] {$P$};
+  \draw[dim] (0,-1.0) -- (2,-1.0) node[midway,fill=white,inner sep=1pt] {$L$}; \draw[dim] (2,-1.0) -- (6,-1.0) node[midway,fill=white,inner sep=1pt] {$2L$};
+\end{tikzpicture}

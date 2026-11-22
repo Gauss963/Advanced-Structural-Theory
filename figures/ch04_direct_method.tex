@@ -1,0 +1,17 @@
+% Direct method: impose delta_1 = 1, delta_2 = 0
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \def\L{5}
+  % undeformed bar
+  \draw[thick] (0,0.35) rectangle (\L,0.65);
+  % wall at the right end
+  \fill[left color=black!15,right color=black!60] (\L,-0.5) rectangle (\L+0.3,1.0);
+  % deformed bar (dotted), shifted 1 to the right at the left end
+  \draw[densely dotted,thick] (0.6,-0.15) rectangle (\L,0.15);
+  \draw[dim] (0,-0.15) -- (0.6,-0.15); \node[below] at (0.3,-0.2) {1};
+  \draw (0,-0.3) -- (0,0.3);
+  % end forces
+  \draw[->,thick] (-2.0,0) -- (-0.1,0);
+  \node[left] at (-2.1,0) {$k_{11}=\dfrac{EA}{L}$};
+  \draw[->,thick] (\L+0.4,0) -- (\L+1.9,0);
+  \node[right] at (\L+2.0,0) {$k_{21}=-\dfrac{EA}{L}$};
+\end{tikzpicture}

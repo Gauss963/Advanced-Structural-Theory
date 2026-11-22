@@ -1,0 +1,12 @@
+% 2-D truss example for IDMAT (6 nodes, 9 members)
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \coordinate (n1) at (0,0); \coordinate (n2) at (0,3); \coordinate (n3) at (3.5,0); \coordinate (n4) at (3.5,3);
+  \coordinate (n5) at (7,0); \coordinate (n6) at (7,3);
+  \draw[member] (n1) -- (n2) -- (n4) -- (n3) -- (n1); \draw[member] (n2) -- (n3); \draw[member] (n3) -- (n5) -- (n6) -- (n4); \draw[member] (n3) -- (n6);
+  \foreach \p in {n1,...,n6}{\node[node dot] at (\p) {};}
+  \pic[rotate=90] at (n2) {pin}; \pic[rotate=90] at (n1) {roller};
+  \node[below right] at (n1) {1}; \node[above right] at (n2) {2}; \node[below] at (n3) {3}; \node[above] at (n4) {4}; \node[below] at (n5) {5}; \node[above] at (n6) {6};
+  \newcommand{\mem}[2]{\node[circle,draw,fill=white,inner sep=1.5pt,font=\scriptsize] at #1 {#2};}
+  \mem{(-0.5,1.5)}{1} \mem{(1.75,-0.5)}{2} \mem{(2.3,1.8)}{3} \mem{(1.75,3.5)}{4}
+  \mem{(4.0,1.5)}{5} \mem{(5.25,-0.5)}{6} \mem{(5.8,1.2)}{7} \mem{(5.25,3.5)}{8} \mem{(7.5,1.5)}{9}
+\end{tikzpicture}

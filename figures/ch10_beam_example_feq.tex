@@ -1,0 +1,22 @@
+% Equivalent nodal loads (solid) and concentrated nodal loads (dashed)
+\begin{tikzpicture}[scale=0.62,font=\small]
+  \draw[member] (0,0) -- (20,0);
+  \foreach \x/\n in {0/1,6/2,10/3,20/4}{\node[below,inner sep=3pt] at (\x,0) {\n};}
+  % node 1
+  \draw[load] (0,0.2) -- (0,1.6) node[above] {$-63$};
+  \draw[->,thick] (0.6,0.4) arc (30:180:0.6); \node[left] at (-0.5,0.4) {$-54$};
+  % node 2
+  \draw[load] (6,0.2) -- (6,1.6) node[above right] {$-27$};
+  \draw[load,dashed] (6,1.7) -- (6,3.2) node[above] {$-200$};
+  \draw[->,thick] (6.6,0.4) arc (30:180:0.6); \node[left] at (5.5,0.6) {36};
+  % node 3
+  \draw[load] (10,0.2) -- (10,1.6) node[above] {$-75$};
+  \draw[->,thick] (10.6,0.4) arc (30:180:0.6); \node[right] at (10.6,0.7) {$-187.5$};
+  \draw[->,thick,dashed] (10.9,0.9) arc (20:180:1.0); \node[right] at (11.0,1.4) {$-90$};
+  % node 4
+  \draw[load] (20,0.2) -- (20,1.6) node[above] {$-75$};
+  \draw[->,thick] (20.6,0.4) arc (30:180:0.6); \node[right] at (20.6,0.7) {187.5};
+  % legend
+  \draw (22.5,1.6) -- (24,1.6) node[right] {$\mat{f}_{eq}$};
+  \draw[dashed] (22.5,0.6) -- (24,0.6) node[right] {$\Pvec_c$};
+\end{tikzpicture}

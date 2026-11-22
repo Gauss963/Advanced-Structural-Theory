@@ -1,0 +1,64 @@
+% Levels of analysis (after McGuire, Gallagher & Ziemian, Fig. 8.1)
+\begin{tikzpicture}[>=Latex,font=\footnotesize]
+  \begin{axis}[
+    width=13.5cm,height=9.5cm,
+    axis lines=left,
+    xlabel={Lateral deflection, $\Delta$},
+    ylabel={Lateral load, $H$},
+    xmin=0,xmax=10,ymin=0,ymax=10,
+    xtick=\empty,
+    ytick={8.6,7.6,5.2,3.9,2.8},
+    yticklabels={$H_{ec}$,$H_{es}$,$H_{ic}$,$H_p$,$H_{is}$},
+    clip=false,
+  ]
+    % horizontal limit lines
+    \draw[dashed] (axis cs:0,8.6) -- (axis cs:9.6,8.6);
+    \node[above right,inner sep=1pt] at (axis cs:6.2,8.6) {Elastic critical load};
+    \draw[dashed] (axis cs:0,7.6) -- (axis cs:9.6,7.6);
+    \node[above right,inner sep=1pt] at (axis cs:6.2,7.6) {Elastic stability limit};
+    \draw[dashed] (axis cs:0,5.2) -- (axis cs:9.6,5.2);
+    \node[above right,inner sep=1pt] at (axis cs:6.2,5.2) {Inelastic critical load};
+    \draw[dashed] (axis cs:0,3.9) -- (axis cs:9.6,3.9);
+    \node[above right,inner sep=1pt] at (axis cs:6.2,3.9) {Plastic limit load};
+    \draw[dashed] (axis cs:0,2.8) -- (axis cs:9.6,2.8);
+    \node[above right,inner sep=1pt] at (axis cs:6.2,2.8) {Inelastic stability limit};
+    % first-order elastic: straight line
+    \draw[thick] (axis cs:0,0) -- (axis cs:3.4,10);
+    \node[right,align=left,fill=white,inner sep=1pt] at (axis cs:3.5,9.4) {First-order\\elastic analysis};
+    % second-order elastic: softening, asymptote to elastic stability limit
+    \draw[thick] (axis cs:0,0) .. controls (axis cs:1.4,4.2) and (axis cs:3.0,7.4) .. (axis cs:6.2,7.6)
+                 .. controls (axis cs:7.0,7.6) .. (axis cs:7.6,7.3);
+    % bifurcation branch at H_ec (elastic)
+    \draw[thick] (axis cs:0.9,8.6) -- (axis cs:3.7,8.6);
+    \node[left] at (axis cs:2.6,8.95) {Bifurcation};
+    % bifurcation on 2nd-order elastic curve
+    \draw[thick] (axis cs:3.9,6.6) .. controls (axis cs:4.6,6.4) .. (axis cs:5.4,6.1);
+    \node[right] at (axis cs:4.0,6.95) {Bifurcation};
+    \node[right,align=left,fill=white,inner sep=1pt] at (axis cs:4.3,5.4) {Second-order\\elastic analysis};
+    % first-order inelastic: follows first-order elastic then flattens to H_p
+    \draw[thick] (axis cs:0,0) -- (axis cs:1.05,3.1) .. controls (axis cs:1.6,3.8) .. (axis cs:2.6,3.9)
+                 -- (axis cs:5.8,3.9);
+    \node[right,align=left,fill=white,inner sep=1pt] at (axis cs:3.2,4.5) {First-order\\inelastic analysis};
+    % bifurcation at H_ic (inelastic)
+    \draw[thick] (axis cs:0.6,5.2) -- (axis cs:2.6,5.2);
+    \node[left] at (axis cs:1.6,5.5) {Bifurcation};
+    % second-order inelastic: peaks at H_is then descends
+    \draw[thick] (axis cs:0,0) -- (axis cs:0.85,2.5) .. controls (axis cs:1.2,2.8) and (axis cs:1.8,2.9) .. (axis cs:2.6,2.8)
+                 .. controls (axis cs:3.4,2.6) .. (axis cs:4.4,1.7);
+    \node[right,align=left] at (axis cs:1.7,1.5) {Second-order\\inelastic analysis};
+    % small inset frame
+    \begin{scope}[shift={(axis cs:7.4,0.4)},x=0.22cm,y=0.22cm]
+      \draw[thick] (0,0) -- (0,7) -- (5,7) -- (5,0);
+      \draw[thick] (0,3.5) -- (5,3.5);
+      \fill[pattern={Lines[angle=45,distance=2pt]}] (-0.6,-0.5) rectangle (0.6,0);
+      \fill[pattern={Lines[angle=45,distance=2pt]}] (4.4,-0.5) rectangle (5.6,0);
+      \draw[->] (-1.8,7) -- (-0.1,7) node[pos=0,left] {\tiny $H=\alpha P$};
+      \draw[->] (-1.8,3.5) -- (-0.1,3.5) node[pos=0,left] {\tiny $H=\alpha P$};
+      \draw[->] (0.6,8.6) -- (0.6,7.2) node[pos=0,above] {\tiny $P$};
+      \draw[->] (4.4,8.6) -- (4.4,7.2);
+      \draw[->] (0.6,5.1) -- (0.6,3.7) node[pos=0,above] {\tiny $P$};
+      \draw[->] (4.4,5.1) -- (4.4,3.7);
+      \draw[<->] (5.3,0.2) -- (5.3,7) ; \node[right] at (5.3,3.5) {\tiny $\Delta$};
+    \end{scope}
+  \end{axis}
+\end{tikzpicture}

@@ -1,0 +1,229 @@
+\chapter{Solution of Linear Algebraic Equations}
+\label{ch:solve}
+
+\section{Methods for solving linear algebraic equations \texorpdfstring{$\mat{A}\mat{x}=\mat{b}$}{Ax=b}}
+\begin{enumerate}
+  \item Gauss elimination
+  \item Decomposition methods
+  \item Iterative methods: such as Gauss--Seidel and Jacobi methods and conjugate gradient method (Sec.~11.3 of textbook).
+\end{enumerate}
+We shall discuss only the first two methods because they are the most commonly used methods.
+
+\section{Gauss elimination method}
+The main idea of Gauss elimination is to reduce the original system $\mat{A}\mat{x} = \mat{b}$ to an upper triangular system through appropriate \emph{row operations}; that is, the desired result is
+\begin{equation*}
+  \mat{U}\mat{x} = \mat{c}
+\end{equation*}
+where $\mat{U}$ is an upper triangular matrix. This system can then be solved to obtain $\mat{x}$ using the backward substitution. Before explaining the algorithm, let's consider the following simple example.
+
+\begin{example}
+Solving the linear system with Gauss elimination.
+\begin{alignat*}{2}
+  3x_1 - 6x_2 + 7x_3 &= 3 &\qquad&\text{(a)}\\
+  9x_1 + 0 - 5x_3 &= 3 &&\text{(b)}\\
+  5x_1 - 8x_2 + 6x_3 &= -4 &&\text{(c)}
+\end{alignat*}
+First, from (a): $x_1 = (6x_2-7x_3+3)/3 \;\rightarrow\;$ (b), (c). Then, we have
+\begin{alignat*}{2}
+  18x_2 - 26x_3 &= -6 &\qquad&\text{(b$'$)}\\
+  2x_2 - \tfrac{17}{3}x_3 &= -9 &&\text{(c$'$)}
+\end{alignat*}
+Second, from (b$'$): $x_2 = \frac19(-3+13x_3) \;\rightarrow\;$ (c$'$). Then, we have
+\begin{alignat*}{2}
+  -\tfrac{25}{9}x_3 &= -\tfrac{25}{3} &\qquad&\text{(c$''$)}
+\end{alignat*}
+Rewrite these results [(a), (b$'$), and (c$''$)] in matrix form:
+\begin{equation*}
+  \bmat{3 & -6 & 7\\ 0 & 18 & -26\\ 0 & 0 & -\frac{25}{9}}\Bmat{x_1\\ x_2\\ x_3} = \Bmat{3\\ -6\\ -\frac{25}{3}}
+\end{equation*}
+The above procedure is called \emph{forward elimination}, which results in an upper triangular system $\mat{U}\mat{x} = \mat{c}$.
+
+The upper triangular system can be solved easily using the \emph{backward substitution} as described below. First, obtain $x_3 = 3$ from (c$''$). Then substituting $x_3 = 3$ into (b$'$) gives $x_2 = 4$. Finally, substitute $x_3 = 3$ and $x_2 = 4$ into (a) to obtain $x_1 = 2$.
+\end{example}
+
+\topic{Algorithm for upper triangularization: $\mat{A}\mat{x}=\mat{b}\ \rightarrow\ \mat{U}\mat{x}=\mat{c}$.}
+\begin{lstlisting}[language=Fortran,numbers=none,basicstyle=\small\ttfamily\itshape,mathescape=true]
+do m=1, n-1
+    do i=m+1, n
+        r=$a_{im}/a_{mm}$
+        $b_i$=$b_i$-r$b_m$
+        do j=m, n
+            $a_{ij}$=$a_{ij}$ - r $a_{mj}$
+        end do
+    end do
+end do
+\end{lstlisting}
+It can be represented by the following graph.
+\begin{fig}
+  \input{figures/ch09_gauss_elimination}
+\end{fig}
+
+\topic{Algorithm for backward substitution: $\mat{U}\mat{x}=\mat{c}\ \rightarrow\ \mat{x}$}
+\begin{lstlisting}[language=Fortran,numbers=none,basicstyle=\small\ttfamily\itshape,mathescape=true]
+$b_n$= $b_n/a_{nn}$
+do i=n-1, 1, -1
+    $b_i$=($b_i$- $\sum_{j=i+1}^{n} a_{ij}b_j$ )/$a_{ii}$
+end do
+\end{lstlisting}
+
+If $\mat{A}$ is symmetric and assume that only its upper triangular coefficients $a_{ij}$ ($j\geq i$) are stored, then the above algorithm for upper triangularization needs to be modified to be of the form:
+\begin{lstlisting}[language=Fortran,numbers=none,basicstyle=\small\ttfamily\itshape,mathescape=true]
+do m=1, n-1
+    do i=m+1, n
+        r=$\boldsymbol{a_{mi}}$/$a_{mm}$
+        $b_i$= $b_i$-r$b_m$
+        do j=$\boldsymbol{i}$, n
+            $a_{ij}$=$a_{ij}$ - r $a_{mj}$
+        end do
+    end do
+end do
+\end{lstlisting}
+Actually, there are only two slight changes; the reasons for these two changes are as follows:
+\begin{enumerate}
+  \item $a_{im}\ \rightarrow\ a_{mi}$ because $\mat{A}$ is symmetric and its coefficients are available for the upper triangular part.
+  \item \texttt{do j=m,n} $\rightarrow$ \texttt{do j=i,n} because $a_{ij} = a_{ji}$, ($j = m, i-1$) when $\mat{A}$ is symmetric even during the upper triangularization process; you may verify this by carrying out an example.
+\end{enumerate}
+Note that in the process of upper triangularization, if $a_{mm} = 0$, then the above algorithms will fail obviously. In this case, we need to interchange the $m$-th row and a certain row after it, say the $i$-th row, where $a_{im}\neq 0$; there are several ways to do it and this process is called \emph{pivoting}.
+
+\section{Some widely used solvers}
+\begin{enumerate}
+  \item Banded solver, which is discussed in class and used in our program.
+  \item Skyline solver, which will be introduced in the course of Finite Element Methods next semester.
+  \item Frontal solver (see Sec.~11.5 of textbook).
+\end{enumerate}
+
+\section{Condition number}
+$\operatorname{Cond}(\mat{A}) =$ condition number of $\mat{A} = \|\mat{A}^{-1}\|\,\|\mat{A}\|$; when $\mat{A}$ is symmetric such as the structural stiffness matrix $\Kmat$ and $\|\ \| = L_2$ norm, then it can be shown that
+\begin{equation}
+  \operatorname{cond}(\Kmat) = \frac{\max|\lambda_i|}{\min|\lambda_i|}
+\end{equation}
+where $\lambda_i$ are eigenvalues of $\Kmat$.
+
+The significance of $\operatorname{cond}(\Kmat)$ lies in the fact that it is an indicator for estimating the relative error of $\bs{\Delta}$ from those of $\Kmat$ and $\Pvec$. Specifically,
+\begin{equation}
+  \frac{\|\delta\bs{\Delta}\|}{\|\bs{\Delta}\|} \leq
+  \frac{\operatorname{cond}(\Kmat)}{1-\operatorname{cond}(\Kmat)\dfrac{\|\delta\Kmat\|}{\|\Kmat\|}}
+  \left(\frac{\|\delta\Kmat\|}{\|\Kmat\|} + \frac{\|\delta\Pvec\|}{\|\Pvec\|}\right)
+\end{equation}
+If $\operatorname{cond}(\Kmat)\|\delta\Kmat\|/\|\Kmat\|$ is much less than 1, the above equation can be simplified to
+\begin{equation}
+  \frac{\|\delta\bs{\Delta}\|}{\|\bs{\Delta}\|} \leq \operatorname{cond}(\Kmat)\left(\frac{\|\delta\Kmat\|}{\|\Kmat\|} + \frac{\|\delta\Pvec\|}{\|\Pvec\|}\right)
+\end{equation}
+Notice that $\operatorname{cond}(\Kmat)\geq 1$. When $\operatorname{cond}(\Kmat)$ is very large, say larger than 10000, the system is called \emph{ill-conditioned}. In this case, the accuracy of $\bs{\Delta}$ is usually much less than that of $\Pvec$ and $\Kmat$.
+
+A main cause of ill-conditioning is large differences in the stiffnesses of parts of the structure. For example, a stiff structure on flexible supports can give problems in this direction. However, a flexible structure on stiff supports tends not to suffer from such difficulties. For more examples on ill-conditioned structures, refer to Macleod (1990)\footnote{Macleod, I.A. (1990), \emph{Analytical Modelling of Structural Systems}, Ellis Horwood, London.}, page 117.
+
+\section{Decomposition methods}
+If $\mat{A}$ is symmetric (all eigenvalues are real), the two commonly used methods for solving $\mat{A}\mat{x}=\mat{b}$ are the \emph{Cholesky method} (appropriate for only positive definite matrix) and the \emph{triple-factoring method} (called root-free Cholesky method in the textbook). Their algorithms are given in Sec.~\ref{sec:cholesky-triple}.
+
+\begin{example}[Cholesky decomposition]
+\begin{equation*}
+  \Kmat = \bmat{4 & 6 & 10 & 4\\ 6 & 13 & 13 & 6\\ 10 & 13 & 27 & 2\\ 4 & 6 & 2 & 72}
+  = \bmat{L_{11} & 0 & 0 & 0\\ L_{21} & L_{22} & 0 & 0\\ L_{31} & L_{32} & L_{33} & 0\\ L_{41} & L_{42} & L_{43} & L_{44}}
+    \bmat{L_{11} & L_{21} & L_{31} & L_{41}\\ 0 & L_{22} & L_{32} & L_{42}\\ 0 & 0 & L_{33} & L_{43}\\ 0 & 0 & 0 & L_{44}} = \mat{L}\mat{L}^\tr
+\end{equation*}
+\begin{align*}
+  4 &= L_{11}^2 \rightarrow L_{11} = 2\\
+  6 &= L_{11}L_{21} \rightarrow L_{21} = 3\\
+  10 &= L_{11}L_{31} \rightarrow L_{31} = 5\\
+  4 &= L_{11}L_{41} \rightarrow L_{41} = 2\\
+  13 &= L_{21}^2 + L_{22}^2 \rightarrow L_{22} = 2\\
+  13 &= L_{21}L_{31} + L_{22}L_{32} \rightarrow L_{32} = -1\\
+  6 &= L_{21}L_{41} + L_{22}L_{42} \rightarrow L_{42} = 0\\
+  27 &= L_{31}^2 + L_{32}^2 + L_{33}^2 \rightarrow L_{33} = 1\\
+  2 &= L_{31}L_{41} + L_{32}L_{42} + L_{33}L_{43} \rightarrow L_{43} = -8\\
+  72 &= L_{41}^2 + L_{42}^2 + L_{43}^2 + L_{44}^2 \rightarrow L_{44} = 2
+\end{align*}
+Therefore, $\mat{L} = \bmat{2 & 0 & 0 & 0\\ 3 & 2 & 0 & 0\\ 5 & -1 & 1 & 0\\ 2 & 0 & -8 & 2}$.
+\end{example}
+
+\begin{example}[Triple-factoring decomposition]
+\begin{equation*}
+  \Kmat = \bmat{1 & 2 & 3\\ 2 & 2 & 2\\ 3 & 2 & 5} = \mat{L}_1\mat{D}\mat{L}_1^\tr
+\end{equation*}
+\begin{equation*}
+  \mat{D}\mat{L}_1^\tr = \bmat{D_1 & 0 & 0\\ 0 & D_2 & 0\\ 0 & 0 & D_3}\bmat{1 & L_{21} & L_{31}\\ 0 & 1 & L_{32}\\ 0 & 0 & 1}
+  = \bmat{D_1 & D_1L_{21} & D_1L_{31}\\ 0 & D_2 & D_2L_{32}\\ 0 & 0 & D_3}
+\end{equation*}
+\begin{equation*}
+  \Kmat = \bmat{1 & 2 & 3\\ 2 & 2 & 2\\ 3 & 2 & 5} = \mat{L}_1(\mat{D}\mat{L}_1^\tr)
+  = \bmat{1 & 0 & 0\\ L_{21} & 1 & 0\\ L_{31} & L_{32} & 1}\bmat{D_1 & D_1L_{21} & D_1L_{31}\\ 0 & D_2 & D_2L_{32}\\ 0 & 0 & D_3}
+\end{equation*}
+\begin{align*}
+  1 &= D_1\\
+  2 &= D_1L_{21} \rightarrow L_{21} = 2\\
+  3 &= D_1L_{31} \rightarrow L_{31} = 3\\
+  2 &= D_1L_{21}^2 + D_2 \rightarrow D_2 = -2\\
+  2 &= L_{21}D_1L_{31} + D_2L_{32} \rightarrow L_{32} = 2\\
+  5 &= D_1L_{31}^2 + D_2L_{32}^2 + D_3 \rightarrow D_3 = 4
+\end{align*}
+Therefore $\mat{L}_1 = \bmat{1 & 0 & 0\\ 2 & 1 & 0\\ 3 & 2 & 1}$ and $\mat{D} = \bmat{1 & 0 & 0\\ 0 & -2 & 0\\ 0 & 0 & 4}$; $\Kmat$ is indefinite.
+\end{example}
+
+\section{Cholesky and triple-factoring methods}
+\label{sec:cholesky-triple}
+\textbf{Subroutines}: \texttt{DECOM} and \texttt{SOLVER}; solve $\Kmat\mat{U} = \Pvec$ for $\mat{U}$.
+
+\topic{Factorization of $\Kmat$ (\texttt{DECOM}):}
+\begin{equation}
+  \Kmat = \mat{L}\mat{D}\mat{L}^\tr
+\end{equation}
+where $\mat{L}$ is a lower triangular matrix, and $\mat{D}$ a diagonal matrix; i.e.,
+\begin{equation}
+  \mat{L} = \bmat{L_{11} & & & \\ L_{21} & L_{22} & & \\ \vdots & & & \\ L_{n1} & L_{n2} & \cdots & L_{nn}}
+  \quad\text{and}\quad
+  \mat{D} = \bmat{D_1 & & & \\ & D_2 & & \\ & & \ddots & \\ & & & D_n}
+\end{equation}
+\begin{equation}
+  \Kmat\mat{U} = \mat{L}\underline{\mat{D}\mat{L}^\tr\mat{U}} = \mat{L}\underline{\mat{c}} = \Pvec
+\end{equation}
+
+\topic{Two-step solution process (\texttt{SOLVER}):}
+\begin{enumerate}
+  \item First solve $\mat{L}\mat{c} = \Pvec$ for $\mat{c}$ by forward substitution, i.e.
+    \begin{align}
+      c_1 &= \frac{1}{L_{11}}P_1\\
+      c_i &= \frac{1}{L_{ii}}\Bigl(P_i - \sum_{j=1}^{i-1}L_{ij}c_j\Bigr)\quad(i = 2,\cdots,n)
+    \end{align}
+  \item Then, solve $\mat{D}\mat{L}^\tr\mat{U} = \mat{c}$ or equivalently $\mat{L}^\tr\mat{U} = \mat{D}^{-1}\mat{c}$ for $\mat{U}$ by backward substitution, i.e.
+    \begin{align}
+      U_n &= \frac{1}{L_{nn}}\Bigl(\frac{c_n}{D_n}\Bigr)\\
+      U_i &= \frac{1}{L_{ii}}\Bigl(\frac{c_i}{D_i} - \sum_{j=i+1}^{n}L_{ji}U_j\Bigr)\quad(i = n-1, n-2,\cdots,1)
+    \end{align}
+\end{enumerate}
+
+\topic{Methods for obtaining $\mat{L}$ and $\mat{D}$:}
+\begin{itemize}
+  \item Unknowns: $\frac{n(n+1)}{2}$ entries of $\mat{L}$ and $n$ entries of $\mat{D}$.
+  \item Equations: $\frac{n(n+1)}{2}$ equations from $\Kmat = \mat{L}\mat{D}\mat{L}^\tr$ (note that $\Kmat$ is symmetric).
+\end{itemize}
+We therefore have at least $n$ free choices in assigning the values of $\mat{L}$ and $\mat{D}$. We introduce two commonly used methods herein.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Cholesky method}\\
+    Set $D_i = 1$ ($i = 1,2,\cdots,n$); we can then determine $\mat{L}$ column by column using the formula:
+    \begin{align}
+      L_{jj} &= \Bigl(K_{jj} - \sum_{l=1}^{j-1}L_{jl}L_{jl}\Bigr)^{\frac12}\\
+      L_{ij} &= \frac{1}{L_{jj}}\Bigl(K_{ij} - \sum_{l=1}^{j-1}L_{il}L_{jl}\Bigr)\quad(i = j+1, j+2,\cdots,n)
+    \end{align}
+    Note that for $j = 1$ set the summation terms to zero.
+
+    Drawbacks:
+    \begin{enumerate}[label=(\alph*)]
+      \item Works efficiently for \textbf{positive definite} matrix only, because otherwise some of the $L_{ij}$ will be imaginary.
+      \item Square root requires more computational efforts.
+    \end{enumerate}
+
+  \item \textbf{Triple-factoring method}\\
+    Set $L_{ii} = 1$ ($i = 1,2,\cdots,n$); we can determine $D_j$ and then $L_{ij}$ columnwise by the formula:
+    \begin{align}
+      D_j &= K_{jj} - \sum_{l=1}^{j-1}L_{jl}D_lL_{jl}\\
+      L_{ij} &= \frac{1}{D_j}\Bigl(K_{ij} - \sum_{l=1}^{j-1}L_{il}D_lL_{jl}\Bigr)\quad(i = j+1, j+2,\cdots,n)
+    \end{align}
+    Note that:
+    \begin{enumerate}[label=(\alph*)]
+      \item Works even for $\Kmat$ that is not positive definite.
+      \item Determinant of $\Kmat$: $\operatorname{Det}(\Kmat) = \operatorname{Det}(\mat{L}\mat{D}\mat{L}) = D_1D_2\cdots D_n$.
+      \item Operation counts including multiplication and division: $O(n^3/6)$ if $\Kmat$ is full, which is the same as that of the Cholesky method. For a banded $\Kmat$ with $\text{MHB} = m$, the operation counts are of $O(m^2n/2)$.
+    \end{enumerate}
+\end{enumerate}

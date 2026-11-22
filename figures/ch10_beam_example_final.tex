@@ -1,0 +1,10 @@
+% Final nodal loads after assembling
+\begin{tikzpicture}[scale=0.7,font=\small]
+  \draw[member] (0,0) -- (20,0);
+  \pic at (0,0) {wallL}; \pic at (10,0) {roller}; \pic at (20,0) {roller};
+  \foreach \x/\n in {0/1,6/2,10/3,20/4}{\node[below right,inner sep=3pt] at (\x,0) {\n};}
+  \draw[load] (6,0.2) -- (6,2.2) node[above] {$-227$\,kN};
+  \draw[->,thick] (6.6,0.5) arc (30:180:0.7); \node[left] at (5.6,0.9) {36\,kNm};
+  \draw[->,thick] (10.8,0.5) arc (30:180:0.9); \node[right] at (10.6,1.1) {$-277.5$\,kNm};
+  \draw[->,thick] (20.8,0.5) arc (30:180:0.9); \node[above] at (20,1.3) {187.5\,kNm};
+\end{tikzpicture}

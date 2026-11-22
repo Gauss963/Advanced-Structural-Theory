@@ -1,0 +1,11 @@
+% Example 5.10: fixed-end forces of member ad (3 mm too short)
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \draw[member] (0,0) -- (6.928,0);
+  \draw (6.928,-0.4) -- (6.928,0.9); \draw (7.3,-0.4) -- (7.3,0.9);
+  \draw[dim] (7.3,0.7) -- (8.6,0.7); \node[right] at (8.6,0.7) {3 mm};
+  \draw[<-] (6.928,0.7) -- (5.8,0.7);
+  \node[below right] at (0,0) {$d$}; \node[above left] at (6.928,0) {$a$};
+  \draw[load] (-1.6,0) -- (-0.1,0) node[pos=0,below] {$F^F_{xd}$};
+  \draw[load] (8.6,0) -- (7.4,0) node[pos=0,right] {$F^F_{xa}$};
+  \draw[dim] (0,-0.8) -- (6.928,-0.8) node[midway,fill=white,inner sep=1pt] {6.928 m};
+\end{tikzpicture}

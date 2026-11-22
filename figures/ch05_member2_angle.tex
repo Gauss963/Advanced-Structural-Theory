@@ -1,0 +1,9 @@
+% Member 2 of the example truss: phi = 126.9 degrees
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \coordinate (A) at (0,0); \coordinate (B) at (126.87:2.5);
+  \draw[member] (A) -- (B);
+  \draw[dashed] (A) -- (2.0,0);
+  \draw[->] (1.0,0) arc (0:126.87:1.0);
+  \node at (0.55,1.05) {$\phi$};
+  \node[below] at (A) {1}; \node[above left] at (B) {2};
+\end{tikzpicture}

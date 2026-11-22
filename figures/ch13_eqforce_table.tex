@@ -1,0 +1,75 @@
+% Equivalent forces for uniformly distributed loads and centre point load (B1-B3, C1-C3)
+\begin{tikzpicture}[scale=0.72,font=\scriptsize]
+  \newcommand{\udl}{\foreach \x in {0.3,0.8,...,4.8}{\draw[->] (\x,1.0) -- (\x,0.15);} \draw (0.3,1.0) -- (4.8,1.0);}
+  \newcommand{\hudl}{\foreach \y in {0.3,0.8,...,3.8}{\draw[->] (-1.0,\y) -- (-0.15,\y);} \draw (-1.0,0.3) -- (-1.0,3.8);}
+  % ================= beams =================
+  % B1
+  \begin{scope}
+    \node[left] at (-0.5,0) {B1};
+    \draw[thinmember] (0,0) -- (5,0); \udl
+    \draw[->,thick] (0.6,-0.1) arc (30:170:0.5); \node[left] at (-0.2,-0.2) {$\frac{wL^2}{12}$};
+    \draw[->,thick] (4.4,-0.4) arc (200:20:0.5); \node[right] at (5.2,-0.2) {$\frac{wL^2}{12}$};
+  \end{scope}
+  \begin{scope}[xshift=9cm]
+    \draw[thinmember] (0,0) -- (5,0); \draw[load] (2.5,1.2) -- (2.5,0.15) node[pos=0,above] {$P$};
+    \draw[->,thick] (0.6,-0.1) arc (30:170:0.5); \node[left] at (-0.2,-0.2) {$\frac{PL}{8}$};
+    \draw[->,thick] (4.4,-0.4) arc (200:20:0.5); \node[right] at (5.2,-0.2) {$\frac{PL}{8}$};
+  \end{scope}
+  % B2
+  \begin{scope}[yshift=-2.8cm]
+    \node[left] at (-0.5,0) {B2};
+    \draw[thinmember] (0,0) -- (5,0); \node[node dot] at (0,0) {}; \udl
+    \draw[->,thick] (4.4,-0.4) arc (200:20:0.5); \node[right] at (5.2,-0.2) {$\frac{wL^2}{8}$};
+  \end{scope}
+  \begin{scope}[xshift=9cm,yshift=-2.8cm]
+    \draw[thinmember] (0,0) -- (5,0); \node[node dot] at (0,0) {}; \draw[load] (2.5,1.2) -- (2.5,0.15) node[pos=0,above] {$P$};
+    \draw[->,thick] (4.4,-0.4) arc (200:20:0.5); \node[right] at (5.2,-0.2) {$\frac{3PL}{16}$};
+  \end{scope}
+  % B3
+  \begin{scope}[yshift=-5.6cm]
+    \node[left] at (-0.5,0) {B3};
+    \draw[thinmember] (0,0) -- (5,0); \node[node dot] at (5,0) {}; \udl
+    \draw[->,thick] (0.6,-0.1) arc (30:170:0.5); \node[left] at (-0.2,-0.2) {$\frac{wL^2}{8}$};
+  \end{scope}
+  \begin{scope}[xshift=9cm,yshift=-5.6cm]
+    \draw[thinmember] (0,0) -- (5,0); \node[node dot] at (5,0) {}; \draw[load] (2.5,1.2) -- (2.5,0.15) node[pos=0,above] {$P$};
+    \draw[->,thick] (0.6,-0.1) arc (30:170:0.5); \node[left] at (-0.2,-0.2) {$\frac{3PL}{16}$};
+  \end{scope}
+  % ================= columns =================
+  % C1
+  \begin{scope}[yshift=-12.5cm]
+    \node[left] at (-1.6,2) {C1};
+    \draw[thinmember] (0,0) -- (0,4); \hudl
+    \draw[load] (0.1,4) -- (1.0,4) node[right] {$\frac{wL}{2}$}; \draw[->,thick] (0.5,4.35) arc (30:170:0.45); \node[above right] at (0.5,4.4) {$\frac{wL^2}{12}$};
+    \draw[load] (0.1,0) -- (1.0,0) node[right] {$\frac{wL}{2}$}; \draw[->,thick] (0.5,0.35) arc (30:170:0.45); \node[above right] at (0.5,0.4) {$\frac{wL^2}{12}$};
+  \end{scope}
+  \begin{scope}[xshift=9cm,yshift=-12.5cm]
+    \draw[thinmember] (0,0) -- (0,4); \draw[load] (-1.2,2) -- (-0.15,2) node[pos=0,above] {$P$};
+    \draw[load] (0.1,4) -- (1.0,4) node[right] {$\frac P2$}; \draw[->,thick] (0.5,4.35) arc (30:170:0.45); \node[above right] at (0.5,4.4) {$\frac{PL}{8}$};
+    \draw[load] (0.1,0) -- (1.0,0) node[right] {$\frac P2$}; \draw[->,thick] (0.5,0.35) arc (30:170:0.45); \node[above right] at (0.5,0.4) {$\frac{PL}{8}$};
+  \end{scope}
+  % C2 (hinge at top)
+  \begin{scope}[yshift=-18.5cm]
+    \node[left] at (-1.6,2) {C2};
+    \draw[thinmember] (0,0) -- (0,4); \node[node dot] at (0,4) {}; \hudl
+    \draw[load] (0.15,4) -- (1.0,4) node[right] {$\frac38wL$};
+    \draw[load] (0.1,0) -- (1.0,0) node[right] {$\frac58wL$}; \draw[->,thick] (0.5,0.35) arc (30:170:0.45); \node[above right] at (0.5,0.4) {$\frac{wL^2}{8}$};
+  \end{scope}
+  \begin{scope}[xshift=9cm,yshift=-18.5cm]
+    \draw[thinmember] (0,0) -- (0,4); \node[node dot] at (0,4) {}; \draw[load] (-1.2,2) -- (-0.15,2) node[pos=0,above] {$P$};
+    \draw[load] (0.15,4) -- (1.0,4) node[right] {$\frac{5}{16}P$};
+    \draw[load] (0.1,0) -- (1.0,0) node[right] {$\frac{11}{16}P$}; \draw[->,thick] (0.5,0.35) arc (30:170:0.45); \node[above right] at (0.5,0.4) {$\frac{3}{16}PL$};
+  \end{scope}
+  % C3 (hinge at bottom)
+  \begin{scope}[yshift=-24.5cm]
+    \node[left] at (-1.6,2) {C3};
+    \draw[thinmember] (0,0) -- (0,4); \node[node dot] at (0,0) {}; \hudl
+    \draw[load] (0.1,4) -- (1.0,4) node[right] {$\frac58wL$}; \draw[->,thick] (0.5,4.35) arc (30:170:0.45); \node[above right] at (0.5,4.4) {$\frac{wL^2}{8}$};
+    \draw[load] (0.15,0) -- (1.0,0) node[right] {$\frac38wL$};
+  \end{scope}
+  \begin{scope}[xshift=9cm,yshift=-24.5cm]
+    \draw[thinmember] (0,0) -- (0,4); \node[node dot] at (0,0) {}; \draw[load] (-1.2,2) -- (-0.15,2) node[pos=0,above] {$P$};
+    \draw[load] (0.1,4) -- (1.0,4) node[right] {$\frac{11}{16}P$}; \draw[->,thick] (0.5,4.35) arc (30:170:0.45); \node[above right] at (0.5,4.4) {$\frac{3}{16}PL$};
+    \draw[load] (0.15,0) -- (1.0,0) node[right] {$\frac{5}{16}P$};
+  \end{scope}
+\end{tikzpicture}

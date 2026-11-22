@@ -1,0 +1,15 @@
+% Comparison with the slope-deflection method
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \begin{scope}
+    \draw[member] (0,0) -- (10,0); \pic at (0,0) {pin}; \pic at (4,0) {roller}; \pic at (10,0) {wallR};
+    \draw[->,thick] (0.6,0.5) arc (20:170:0.6); \node[above] at (-0.1,0.9) {$\theta_a$};
+    \draw[->,thick] (4.6,0.5) arc (20:170:0.6); \node[above] at (3.9,0.9) {$\theta_b$};
+    \node[below] at (2,-0.6) {$EI_1, L_1$}; \node[below] at (7,-0.6) {$EI_2, L_2$};
+  \end{scope}
+  \begin{scope}[yshift=-3.6cm]
+    \draw[member] (0,0) -- (10,0); \pic at (0,0) {pin}; \pic at (4,0) {roller}; \pic at (10,0) {wallR};
+    \node[above] at (0,0.6) {$M_a = 0$};
+    \draw[->,thick] (4.6,0.5) arc (20:170:0.6); \node[above] at (3.9,0.9) {$\theta_b$};
+    \node[below] at (2,-0.6) {$EI_1, L_1$}; \node[below] at (7,-0.6) {$EI_2, L_2$};
+  \end{scope}
+\end{tikzpicture}

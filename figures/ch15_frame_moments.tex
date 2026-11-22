@@ -1,0 +1,16 @@
+% Real moments M (100 kN) and virtual moments m (unit load) for the portal frame
+\begin{tikzpicture}[scale=0.48,font=\scriptsize]
+  \newcommand{\framemom}[5]{% #1 load label, #2 corner moment, #3 mid moment label, #4 reaction H, #5 reaction V
+    \draw[thinmember] (0,0) -- (0,5) -- (10,5) -- (10,0);
+    % column AB: triangular from 0 at A to #2 at B (drawn to the left)
+    \draw (0,0) -- (-1.5,5) -- (0,5);
+    \draw (0,5) -- (0,6.5) -- (10,3.5) -- (10,5);
+    \draw (10,0) -- (11.5,5) -- (10,5);
+    \node[above] at (-0.2,6.5) {#2}; \node[left] at (-1.5,4.7) {#2}; \node[right] at (10.4,3.5) {#2}; \node[right] at (11.5,4.7) {#2};
+    \draw[load] (-3.0,5) -- (-1.6,5) node[pos=0,left] {#1};
+    \draw[load] (-0.3,-0.9) -- (-1.5,-0.9) node[pos=0.5,below] {#4}; \draw[load] (0,-1.3) -- (0,-2.3) node[below] {#4};
+    \draw[load] (11.5,-0.9) -- (10.3,-0.9) node[pos=0.5,below] {#4}; \draw[load] (10,-2.3) -- (10,-1.3) node[pos=0,below] {#4};
+    \node at (5,2.5) {\large #3};}
+  \begin{scope} \framemom{100}{250}{$M$}{50}{50} \node[below] at (5,-3.2) {(a) real moments}; \end{scope}
+  \begin{scope}[xshift=17cm] \framemom{1}{2.5}{$m$}{0.5}{0.5} \node[below] at (5,-3.2) {(b) virtual moments due to $\delta P = 1$}; \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,20 @@
+% Paper Fig. 4: beam with an internal rotational spring and its conjugate beam
+\begin{tikzpicture}[scale=0.8,font=\scriptsize]
+  \begin{scope}
+    \draw[member] (0,0) -- (7.5,0); \pic at (0,0) {pin}; \pic at (7.5,0) {roller};
+    \draw[thick] (2.5,0) circle (0.14); \draw[thick] (2.5,0) circle (0.07);
+    \node[above] at (0,0.1) {a}; \node[above left] at (2.4,0.15) {b}; \node[above right] at (2.6,0.15) {$k_\theta$}; \node[above] at (7.5,0.1) {c};
+    \draw[->,thick] (8.0,0.5) arc (60:200:0.5); \node[right] at (8.0,0.5) {$M_c$};
+    \draw[dim] (0,-1.0) -- (2.5,-1.0) node[midway,fill=white,inner sep=1pt] {$L_1$}; \draw[dim] (2.5,-1.0) -- (7.5,-1.0) node[midway,fill=white,inner sep=1pt] {$L_2$};
+    \node[below] at (3.75,-1.5) {Fig.~4(a) Beam with internal rotational spring};
+  \end{scope}
+  \begin{scope}[xshift=10cm]
+    \draw[member] (0,0) -- (7.5,0); \pic at (0,0) {pin}; \pic at (7.5,0) {roller};
+    \draw (0,0) -- (7.5,1.4); \foreach \x in {0.8,1.6,...,7.2}{\draw[->] (\x,0.05) -- (\x,{1.4*\x/7.5-0.05});}
+    \node[right] at (7.5,1.4) {$\frac{M_c}{EI}$};
+    \draw[load] (2.5,0.1) -- (2.5,1.6) node[right] {$P$};
+    \node[above] at (0,0.1) {a}; \node[below] at (2.5,-0.05) {b}; \node[above] at (7.5,0.1) {c};
+    \draw[dim] (0,-1.0) -- (2.5,-1.0) node[midway,fill=white,inner sep=1pt] {$L_1$}; \draw[dim] (2.5,-1.0) -- (7.5,-1.0) node[midway,fill=white,inner sep=1pt] {$L_2$};
+    \node[below] at (3.75,-1.5) {Fig.~4(b) Conjugate beam of Fig.~4(a)};
+  \end{scope}
+\end{tikzpicture}

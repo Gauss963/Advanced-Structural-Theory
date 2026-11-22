@@ -1,0 +1,67 @@
+% Typical beam-to-column connections (schematic, after Chen & Toma 1994, Fig. 1.7)
+\begin{tikzpicture}[scale=0.55,font=\scriptsize]
+  % column flange (vertical) + beam (horizontal) template
+  \newcommand{\colbeam}{%
+    \draw[thick] (0,-2.2) -- (0,2.2); \draw[thick] (-0.5,-2.2) -- (-0.5,2.2);   % column flanges
+    \draw (0.6,0.9) -- (3.4,0.9); \draw (0.6,-0.9) -- (3.4,-0.9);            % beam flanges
+    \draw (0.6,0.9) -- (0.6,-0.9); \draw[dashed] (3.4,0.9) -- (3.4,-0.9);}
+  \newcommand{\bolt}[1]{\fill #1 circle (0.08);}
+  % 1 single/double web angle
+  \begin{scope}
+    \colbeam
+    \draw[thick] (0,0.6) -- (0.6,0.6) -- (0.6,-0.6) -- (0,-0.6); \bolt{(0.25,0.3)} \bolt{(0.25,-0.3)} \bolt{(0.9,0.3)} \bolt{(0.9,-0.3)}
+    \node[below,align=center] at (1.7,-2.3) {Single web angle\\or double web angle};
+  \end{scope}
+  % 2 top and seat angle
+  \begin{scope}[xshift=6cm]
+    \colbeam
+    \draw[thick] (0,1.6) -- (0,0.9) -- (1.4,0.9); \draw[thick] (0,-1.6) -- (0,-0.9) -- (1.4,-0.9);
+    \bolt{(0.3,1.3)} \bolt{(1.0,1.1)} \bolt{(0.3,-1.3)} \bolt{(1.0,-1.1)}
+    \node[below] at (1.7,-2.3) {Top and seat angle};
+  \end{scope}
+  % 3 header plate
+  \begin{scope}[xshift=12cm]
+    \colbeam
+    \draw[thick] (0,0.7) rectangle (0.25,-0.7); \bolt{(0.12,0.4)} \bolt{(0.12,-0.4)} \draw (0.25,0.7) -- (0.6,0.7); \draw (0.25,-0.7) -- (0.6,-0.7);
+    \node[below] at (1.7,-2.3) {Header plate};
+  \end{scope}
+  % 4 bottom flange and web angle
+  \begin{scope}[xshift=18cm]
+    \colbeam
+    \draw[thick] (0,0.6) -- (0.6,0.6) -- (0.6,-0.6) -- (0,-0.6); \bolt{(0.25,0.2)} \bolt{(0.9,0.2)}
+    \draw[thick] (0,-1.6) -- (0,-0.9) -- (1.4,-0.9); \bolt{(0.3,-1.3)} \bolt{(1.0,-1.1)}
+    \node[below,align=center] at (1.7,-2.3) {Bottom flange and\\web angle};
+  \end{scope}
+  % 5 T-stub
+  \begin{scope}[yshift=-6.5cm]
+    \colbeam
+    \draw[thick] (0,1.7) -- (0.25,1.7) -- (0.25,0.9) -- (1.4,0.9); \draw[thick] (0,0.2) -- (0.25,0.2); \draw[thick] (0.25,0.2) -- (0.25,0.9);
+    \draw[thick] (0,-1.7) -- (0.25,-1.7) -- (0.25,-0.9) -- (1.4,-0.9); \draw[thick] (0,-0.2) -- (0.25,-0.2); \draw[thick] (0.25,-0.2) -- (0.25,-0.9);
+    \bolt{(0.12,1.4)} \bolt{(0.12,0.45)} \bolt{(0.12,-1.4)} \bolt{(0.12,-0.45)} \bolt{(1.0,1.1)} \bolt{(1.0,-1.1)}
+    \node[below] at (1.7,-2.3) {T-stub};
+  \end{scope}
+  % 6 top and seat angle with double web angle
+  \begin{scope}[xshift=6cm,yshift=-6.5cm]
+    \colbeam
+    \draw[thick] (0,1.6) -- (0,0.9) -- (1.4,0.9); \draw[thick] (0,-1.6) -- (0,-0.9) -- (1.4,-0.9);
+    \draw[thick] (0,0.6) -- (0.6,0.6) -- (0.6,-0.6) -- (0,-0.6);
+    \bolt{(0.3,1.3)} \bolt{(1.0,1.1)} \bolt{(0.3,-1.3)} \bolt{(1.0,-1.1)} \bolt{(0.25,0.25)} \bolt{(0.25,-0.25)} \bolt{(0.9,0.25)} \bolt{(0.9,-0.25)}
+    \node[below,align=center] at (1.7,-2.3) {Top and seat angle\\with double web angle};
+  \end{scope}
+  % 7 flush end plate
+  \begin{scope}[xshift=12cm,yshift=-6.5cm]
+    \colbeam
+    \draw[thick] (0,1.0) rectangle (0.25,-1.0); \draw (0.25,0.9) -- (0.6,0.9); \draw (0.25,-0.9) -- (0.6,-0.9);
+    \bolt{(0.12,0.6)} \bolt{(0.12,0.2)} \bolt{(0.12,-0.2)} \bolt{(0.12,-0.6)}
+    \node[below] at (1.7,-2.3) {Flush end plate};
+  \end{scope}
+  % 8 extended end plate
+  \begin{scope}[xshift=18cm,yshift=-6.5cm]
+    \colbeam
+    \draw[thick] (0,1.6) rectangle (0.25,-1.6); \draw (0.25,0.9) -- (0.6,0.9); \draw (0.25,-0.9) -- (0.6,-0.9);
+    \bolt{(0.12,1.3)} \bolt{(0.12,0.55)} \bolt{(0.12,-0.55)} \bolt{(0.12,-1.3)}
+    \fill[hatch] (-0.5,0.85) rectangle (0,1.0); \fill[hatch] (-0.5,-1.0) rectangle (0,-0.85);
+    \draw (-0.25,-1.0) -- (-0.9,-1.9) node[left] {Stiffeners};
+    \node[below] at (1.7,-2.3) {Extended end plate};
+  \end{scope}
+\end{tikzpicture}

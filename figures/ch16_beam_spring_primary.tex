@@ -1,0 +1,19 @@
+% Primary structure (redundant R at the roller) and element end moments incl. the spring moment
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \begin{scope}
+    \pic at (0,0) {wallL}; \draw[member] (0,0) -- (6,0);
+    \draw[thick] (2,0) circle (0.18); \draw[thick] (2,0) circle (0.09);
+    \node[above right] at (0,0.05) {$a$}; \node[above right] at (2.1,0.1) {$b$}; \node[above left] at (6,0.05) {$C$};
+    \draw[load] (2,0.2) -- (2,1.3) node[above] {$P$};
+    \draw[load] (6,-1.2) -- (6,-0.1) node[pos=0,left] {$R$};
+  \end{scope}
+  \begin{scope}[xshift=7.5cm]
+    \draw[thinmember] (0,0) -- (2.2,0); \draw[thick] (3.1,0) circle (0.16); \draw[thick] (3.1,0) circle (0.08); \draw[thinmember] (4.0,0) -- (8.0,0);
+    \node[above right] at (0.05,0) {$a$}; \node[above left] at (2.2,0) {$b$}; \node[above right] at (4.05,0) {$b$}; \node[above left] at (8.0,0) {$C$};
+    \draw[->,thick] (-0.15,0.45) arc (110:-110:0.45); \node[above] at (-0.2,0.6) {$M_1^{ab}$};
+    \draw[->,thick] (2.35,0.45) arc (70:290:0.45); \node[above] at (2.4,0.6) {$M_2^{ab}$};
+    \draw[->,thick] (3.6,0.45) arc (70:290:0.45); \node[above] at (3.4,0.6) {$M_s$};
+    \draw[->,thick] (3.85,0.45) arc (110:-110:0.45); \node[above] at (4.4,0.6) {$M_1^{bc}$};
+    \draw[->,thick] (8.15,0.45) arc (70:290:0.45); \node[above] at (8.2,0.6) {$M_2^{bc}$};
+  \end{scope}
+\end{tikzpicture}

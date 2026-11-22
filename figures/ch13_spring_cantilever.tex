@@ -1,0 +1,8 @@
+% Cantilever with a rotational spring at the fixed end, loaded by P at the tip
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \pic at (0,0) {wallL};
+  \draw[thick] (0.2,0) circle (0.2); \draw[thick] (0.2,0) circle (0.1);
+  \draw[thinmember] (0.4,0) -- (6,0);
+  \draw[load] (6,1.2) -- (6,0.1) node[pos=0,above left] {$P$};
+  \node[below] at (0.4,-0.3) {$k_\theta$}; \node[below] at (3.2,-0.3) {$EI, L$};
+\end{tikzpicture}

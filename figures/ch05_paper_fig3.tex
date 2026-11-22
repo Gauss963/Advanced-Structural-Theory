@@ -1,0 +1,10 @@
+% A typical bar (paper Fig. 3)
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \coordinate (A) at (0,0); \coordinate (B) at (40:2.6);
+  \draw[member] (A) -- (B);
+  \draw[load] (A) -- ++(1.3,0) node[below] {$u_{i-1}$};
+  \draw[load] (A) -- ++(0,1.3) node[left] {$v_{i-1}$};
+  \draw[load] (B) -- ++(1.3,0) node[right] {$u_i$};
+  \draw[load] (B) -- ++(0,1.3) node[left] {$v_i$};
+  \draw[->] ($(A)+(0.8,0)$) arc (0:40:0.8); \node at ($(A)+(1.05,0.35)$) {$\theta_i$};
+\end{tikzpicture}

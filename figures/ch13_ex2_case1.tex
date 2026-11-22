@@ -1,0 +1,7 @@
+\begin{tikzpicture}[scale=0.5,font=\scriptsize,baseline=(current bounding box.center)]
+  \draw[member] (0,0) -- (0,4) -- (4,4) -- (4,0); \pic at (0,0) {fixed}; \pic at (4,0) {fixed};
+  \node[node dot] at (0,4) {};
+  \draw[load] (4.1,4) -- (5.3,4) node[right] {$u_1$};
+  \draw[->,thick] (4.45,4.35) arc (30:170:0.45); \node[above left,inner sep=1pt] at (3.9,4.4) {$\theta_2$};
+  \draw[->,thick] (0.45,4.35) arc (30:170:0.45); \node[above left,inner sep=1pt] at (-0.1,4.4) {$\theta_1$};
+\end{tikzpicture}

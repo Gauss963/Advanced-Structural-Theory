@@ -1,0 +1,234 @@
+% =====================================================================
+%  Advanced Structural Theory -- Lecture Note (LaTeX edition)
+%  Compile:  tectonic main.tex
+% =====================================================================
+\documentclass[a4paper,12pt,oneside]{book}
+
+% ---------- encoding & fonts ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[english]{babel}
+
+% ---------- layout ----------
+\usepackage[a4paper,scale=0.8]{geometry}
+\usepackage{fancyhdr}
+\setlength{\headheight}{15pt}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.35em}
+\setstretch{1.08}
+
+% ---------- math ----------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{siunitx}
+\usepackage{cancel}
+\allowdisplaybreaks
+\setcounter{MaxMatrixCols}{20}
+
+% ---------- tables / lists ----------
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{longtable}
+\usepackage{diagbox}
+\usepackage{enumitem}
+\setlist{itemsep=0.15em,topsep=0.3em}
+\setlist[itemize]{label=\textbullet}
+
+% ---------- figures ----------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,calc,patterns,patterns.meta,positioning,
+  decorations.pathmorphing,decorations.markings,decorations.pathreplacing,
+  shapes.misc,shapes.geometric,angles,quotes,matrix,fit,backgrounds,intersections,
+  bending,shadings}
+\captionsetup{font=small,labelfont=bf}
+
+% ---------- common TikZ styles & pics for structural sketches ----------
+\tikzset{
+  >=Latex,
+  member/.style={line width=1.6pt,black!75},
+  thinmember/.style={line width=1.0pt,black!75},
+  dim/.style={<->,thin},
+  load/.style={->,thick},
+  hatch/.style={pattern={Lines[angle=45,distance=3pt]},pattern color=black!70},
+  ground/.style={pattern={Lines[angle=45,distance=3pt]},pattern color=black!70},
+  node dot/.style={circle,fill=white,draw=black,inner sep=0pt,minimum size=4pt},
+  % pin support at the pic origin (member attaches at origin)
+  pics/pin/.style={code={
+    \draw[fill=black!60] (0,0) -- (-0.22,-0.35) -- (0.22,-0.35) -- cycle;
+    \fill[black!25] (-0.35,-0.35) rectangle (0.35,-0.47);
+    \fill[white,draw=black] (0,0) circle (0.05);}},
+  % roller support
+  pics/roller/.style={code={
+    \draw[fill=black!60] (0,0) -- (-0.22,-0.35) -- (0.22,-0.35) -- cycle;
+    \draw[fill=white] (-0.13,-0.43) circle (0.07); \draw[fill=white] (0.13,-0.43) circle (0.07);
+    \fill[black!25] (-0.35,-0.5) rectangle (0.35,-0.62);
+    \fill[white,draw=black] (0,0) circle (0.05);}},
+  % fixed support: a small hatched block under the origin
+  pics/fixed/.style={code={
+    \fill[hatch] (-0.35,-0.25) -- (0.35,-0.25) -- (0.35,0) -- (-0.35,0) -- cycle; \draw[thick] (-0.35,0) -- (0.35,0);}},
+  % fixed wall support on the left (member goes to the right); polygons so that they rotate properly
+  pics/wallL/.style={code={
+    \fill[hatch] (-0.25,-0.4) -- (0,-0.4) -- (0,0.4) -- (-0.25,0.4) -- cycle; \draw[thick] (0,-0.4) -- (0,0.4);}},
+  pics/wallR/.style={code={
+    \fill[hatch] (0,-0.4) -- (0.25,-0.4) -- (0.25,0.4) -- (0,0.4) -- cycle; \draw[thick] (0,-0.4) -- (0,0.4);}},
+  % counter-clockwise moment arrow of given radius
+  pics/ccw/.style={code={\draw[->,thick] (-30:#1) arc (-30:210:#1);}},
+  pics/cw/.style={code={\draw[->,thick] (210:#1) arc (210:-30:#1);}},
+}
+
+% ---------- boxes ----------
+\usepackage[most]{tcolorbox}
+\tcbset{
+  notebox/.style={colback=black!3,colframe=black!60,boxrule=0.5pt,arc=1.5pt,
+    left=6pt,right=6pt,top=4pt,bottom=4pt,fonttitle=\bfseries,breakable},
+}
+\newtcolorbox{remark}[1][]{notebox,title={Remark},#1}
+\newtcolorbox{keypoint}[1][]{notebox,colframe=blue!50!black,colback=blue!3,title={Key point},#1}
+
+% ---------- code ----------
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.5,0}
+\definecolor{mgray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=single,language=Fortran,aboveskip=3mm,belowskip=3mm,
+  showstringspaces=false,columns=flexible,basicstyle={\small\ttfamily},
+  numbers=left,numberstyle=\tiny\color{mgray},keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},stringstyle=\color{mauve},breaklines=true,
+  breakatwhitespace=true,tabsize=4}
+
+% ---------- table of contents: wider number boxes ----------
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{3.0em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{4.5em}{3.6em}}
+\makeatother
+
+% ---------- hyperref (last) ----------
+\usepackage[hidelinks,bookmarksnumbered]{hyperref}
+
+% ---------- headers ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\textsc{Advanced Structural Theory}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.8pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+% ---------- theorem-like ----------
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+\theoremstyle{remark}
+\newtheorem*{note}{Note}
+\newtheorem*{solution}{Solution}
+
+% =====================================================================
+%  Macros
+% =====================================================================
+\newcommand{\HRule}{\rule{\linewidth}{2pt}}
+\newcommand{\mat}[1]{\mathbf{#1}}                 % matrix
+\newcommand{\vect}[1]{\mathbf{#1}}                % vector
+\newcommand{\bs}[1]{\bm{#1}}                      % bold symbol (greek)
+\newcommand{\tr}{\mathsf{T}}                      % transpose
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\od}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\bmat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\pmat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\Bmat}[1]{\begin{Bmatrix}#1\end{Bmatrix}}   % column vector with braces
+\newcommand{\vmat}[1]{\begin{vmatrix}#1\end{vmatrix}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\sym}{\text{sym.}}
+\newcommand{\F}{\mat{F}}
+\newcommand{\Kmat}{\mat{K}}
+\newcommand{\kmat}{\mat{k}}
+\newcommand{\Tmat}{\mat{T}}
+\newcommand{\dvec}{\mat{d}}
+\newcommand{\Dvec}{\mat{D}}
+\newcommand{\Pvec}{\mat{P}}
+\newcommand{\pvec}{\mat{p}}
+\newcommand{\evec}{\mat{e}}
+\newcommand{\dW}{\delta W}
+\newcommand{\dU}{\delta U}
+\newcommand{\Dl}{\Delta}
+\newcommand{\lb}{\left}
+\newcommand{\rb}{\right}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\NN}{\mathbf{N}}
+\newcommand{\Bm}{\mathbf{B}}
+
+% run-in style headings (safe before figures)
+\newcommand{\topic}[1]{\par\medskip\noindent\textbf{#1}\par\nopagebreak\smallskip\noindent\ignorespaces}
+\newcommand{\topicnote}[2]{\par\medskip\noindent\textbf{#1}\ #2\par\nopagebreak\smallskip\noindent\ignorespaces}
+% non-floating centered figure
+\newenvironment{fig}{\par\medskip\begin{center}}{\end{center}\par\medskip}
+
+\graphicspath{{./}{./figures/}}
+
+% =====================================================================
+\begin{document}
+
+% ---------------------------- Title page ----------------------------
+\begin{titlepage}
+\begin{center}
+\includegraphics[width=0.25\textwidth]{logo.pdf}\\[1cm]
+\textsc{\LARGE National Taiwan University}\\[1.5cm]
+\textsc{\Large Advanced Structural Theory}\\[0.5cm]
+\HRule\\[0.5cm]
+{\huge\bfseries Lecture Note}\\[0.5cm]
+\HRule\\[2.5cm]
+\begin{minipage}{0.45\textwidth}
+\begin{flushleft}\large
+\emph{Author:}\\
+Chun-Yu Ke
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+\begin{flushright}\large
+\emph{Typeset in \LaTeX{} by:}\\
+Gauss Chang
+\end{flushright}
+\end{minipage}
+\vfill
+{\large\today}
+\end{center}
+\end{titlepage}
+
+\frontmatter
+\tableofcontents
+
+\mainmatter
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+\include{chapter6}
+\include{chapter7}
+\include{chapter8}
+\include{chapter9}
+\include{chapter10}
+\include{chapter11}
+\include{chapter12}
+\include{chapter13}
+\include{chapter14}
+\include{chapter15}
+\include{chapter16}
+
+\end{document}

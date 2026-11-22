@@ -1,0 +1,29 @@
+% Joint stiffness matrix for a continuous beam (after Weaver & Gere, Fig. 4-9)
+\begin{tikzpicture}[scale=0.38,font=\scriptsize]
+  % ---- (a) beam with DOF numbering: translation odd, rotation even ----
+  \begin{scope}[yshift=2cm,xscale=1.0]
+    \draw[member] (0,0) -- (18,0);
+    \foreach \i in {0,...,6}{
+      \pgfmathtruncatemacro{\t}{2*\i+1}\pgfmathtruncatemacro{\r}{2*\i+2}
+      \draw[fill=black!50] (3*\i,0) -- ++(-0.3,-0.55) -- ++(0.6,0) -- cycle;
+      \draw[->,thick] (3*\i,0.1) -- (3*\i,1.6) node[above] {\t};
+      \draw[->,thick] (3*\i-1.3,-1.1) -- (3*\i-0.1,-0.1) node[pos=0,below left] {\r};}
+    \foreach \i in {1,...,6}{\node[above] at (3*\i-1.5,0.05) {\i};}
+    \node at (9,-2.6) {(a)};
+  \end{scope}
+  % ---- (b) matrix pattern ----
+  \begin{scope}[yshift=-19cm]
+    \foreach \m in {1,...,6}{
+      \pgfmathsetmacro{\x}{2*(\m-1)} \pgfmathsetmacro{\y}{14-2*(\m-1)}
+      \fill[pattern={Lines[angle=45,distance=2.5pt]},pattern color=black!70] (\x,\y-4) rectangle (\x+4,\y);
+      \node[fill=white,inner sep=0.5pt] at (\x+3.5,\y-0.5) {\m};}
+    \draw[step=1,black!60,thin] (0,0) grid (14,14);
+    \draw[thick] (0,0) rectangle (14,14);
+    \foreach \i in {1,...,14}{
+      \node[above] at (\i-0.5,14) {\i}; \node[left] at (0,14.5-\i) {\i};}
+    % alternate numbering shown on the right and bottom
+    \foreach \i/\n in {1/8,2/1,3/9,4/2,5/10,6/3,7/11,8/4,9/12,10/5,11/13,12/6,13/14,14/7}{
+      \node[right] at (14,14.5-\i) {\n}; \node[below] at (\i-0.5,0) {\n};}
+    \node at (7,-1.6) {(b)};
+  \end{scope}
+\end{tikzpicture}

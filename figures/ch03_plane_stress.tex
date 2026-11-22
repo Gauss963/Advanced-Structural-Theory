@@ -1,0 +1,12 @@
+% Plane stress: thin plate loaded in its own plane
+\begin{tikzpicture}[scale=1.0,font=\small]
+  % thin disc
+  \fill[black!8] (0,0) ellipse (1.6 and 0.45);
+  \draw (0,0) ellipse (1.6 and 0.45);
+  \draw (-1.6,0) -- (-1.6,-0.22) arc (180:360:1.6 and 0.45) -- (1.6,0);
+  \fill[black!15] (-1.6,-0.22) arc (180:360:1.6 and 0.45) -- (1.6,0) arc (360:180:1.6 and 0.45) -- cycle;
+  % axes
+  \draw[->,thick] (0,0) -- (0,2.4) node[above] {$z$};
+  \draw[->,thick] (0,0) -- (-2.3,-0.9) node[left] {$x$};
+  \draw[->,thick] (0,0) -- (2.3,-0.9) node[right] {$y$};
+\end{tikzpicture}

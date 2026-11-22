@@ -1,0 +1,23 @@
+% Self-straining: temperature rise in two bars of a three-bar truss = locked + unlocked
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \newcommand{\truss}{%
+    \draw[member] (-2,0) -- (0,3) -- (2,0); \draw[member] (0,0) -- (0,3);
+    \pic at (-2,0) {pin}; \pic at (0,0) {pin}; \pic at (2,0) {pin}; \node[node dot] at (0,3) {};}
+  \begin{scope}
+    \truss
+    \node[above left] at (-1.2,1.8) {$\uparrow\Delta T_1$}; \node[above right] at (1.2,1.8) {$\downarrow\Delta T_2$};
+    \node at (-1.2,3.9) {$\Delta T_1 > 0$}; \node at (1.2,3.9) {$\Delta T_2 > 0$};
+  \end{scope}
+  \node at (3.6,1.5) {$=$};
+  \begin{scope}[xshift=7.2cm]
+    \truss \node at (0,4.6) {\itshape locked};
+    \draw[load] ($(0,3)+(-1.4,2.1)$) -- ($(0,3)+(-0.15,0.22)$) node[pos=0,above left] {$EA\alpha\Delta T_2$};
+    \draw[load] ($(0,3)+(1.4,2.1)$) -- ($(0,3)+(0.15,0.22)$) node[pos=0,above right] {$EA\alpha\Delta T_1$};
+  \end{scope}
+  \node at (10.8,1.5) {$+$};
+  \begin{scope}[xshift=14.4cm]
+    \truss \node at (0,4.6) {\itshape unlocked};
+    \draw[load] ($(0,3)+(-0.15,0.22)$) -- ($(0,3)+(-1.4,2.1)$) node[above left] {$EA\alpha\Delta T_2$};
+    \draw[load] ($(0,3)+(0.15,0.22)$) -- ($(0,3)+(1.4,2.1)$) node[above right] {$EA\alpha\Delta T_1$};
+  \end{scope}
+\end{tikzpicture}

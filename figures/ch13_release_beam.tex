@@ -1,0 +1,7 @@
+% Beam element with moment release at the left end (M1 = 0)
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \draw[thinmember] (0,0) -- (6,0); \node[node dot] at (0,0) {};
+  \draw[load] (0,0.15) -- (0,1.0); \draw[load] (6,0.1) -- (6,1.0);
+  \draw[->,thick] (6.05,-0.4) arc (280:80:0.4);
+  \node[below] at (0,-0.2) {$M_1 = 0$};
+\end{tikzpicture}

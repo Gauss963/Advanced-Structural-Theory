@@ -1,0 +1,86 @@
+% Conjugate beams for beams with springs and the corresponding force conditions (paper Fig. 2)
+\begin{tikzpicture}[scale=0.68,font=\scriptsize,
+  tspring/.pic={\draw[thick,decorate,decoration={zigzag,segment length=4pt,amplitude=2.5pt,pre length=2pt,post length=2pt}] (0,0) -- (0,-1.0); \pic at (0,-1.0) {fixed};},
+  rspring/.pic={\draw[thick] (0,0) circle (0.16); \draw[thick] (0,0) circle (0.08);},
+  cut/.pic={\draw (0,-0.25) -- (0,0.25);},
+  slide/.pic={\draw[fill=white] (-0.12,-0.35) rectangle (0.12,0.35); \draw (-0.12,-0.2) -- (0.12,-0.2); \draw (-0.12,0) -- (0.12,0); \draw (-0.12,0.2) -- (0.12,0.2);}]
+  \newcommand{\seg}{\draw[member] (0,0) -- (3,0); \pic at (0,0) {cut}; \pic at (3,0) {cut};}
+  % header
+  \node at (-0.8,1.5) {Case}; \node[align=center] at (1.5,1.5) {Actual Beam\\$(V,M)^*$}; \node at (7.0,1.5) {Conjugate Beam}; \node at (12.5,1.5) {Conjugate Beam};
+  \draw (-1.4,0.9) -- (14.8,0.9);
+  % ---------- case 1 ----------
+  \begin{scope}[yshift=-1.4cm]
+    \node at (-0.8,0) {1};
+    \seg \pic at (1.5,0) {tspring}; \node[right] at (1.6,-0.5) {$k$};
+    \draw[<->] (4.0,0) -- (4.8,0);
+    \begin{scope}[xshift=5.5cm] \seg \pic at (1.5,0) {rspring}; \end{scope}
+    \draw[->] (9.5,0) -- (10.3,0);
+    \begin{scope}[xshift=11cm] \draw[member] (0,0) -- (1.3,0); \draw[member] (1.7,0) -- (3,0); \pic at (0,0) {cut}; \pic at (3,0) {cut};
+      \draw[->,thick] (1.05,-0.4) arc (-100:100:0.4); \draw[->,thick] (1.95,-0.4) arc (280:80:0.4);
+      \node[above] at (1.5,0.6) {$\overline M = -\dfrac{\Delta V}{k}$}; \end{scope}
+  \end{scope}
+  \draw (-1.4,-3.1) -- (14.8,-3.1);
+  % ---------- case 2 ----------
+  \begin{scope}[yshift=-4.9cm]
+    \node at (-0.8,0) {2};
+    \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {tspring}; \pic at (3,0) {tspring}; \node[right] at (0.1,-0.5) {$k_1$}; \node[right] at (3.1,-0.5) {$k_2$};
+    \draw[<->] (4.0,0) -- (4.8,0);
+    \begin{scope}[xshift=5.5cm,yshift=0.5cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {pin}; \pic at (3,0) {pin}; \pic at (0,0.1) {rspring}; \pic at (3,0.1) {rspring}; \end{scope}
+    \begin{scope}[xshift=5.5cm,yshift=-0.7cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {wallL}; \pic at (3,0) {wallR}; \pic at (0.25,0) {rspring}; \pic at (2.75,0) {rspring}; \end{scope}
+    \draw[->] (9.5,0) -- (10.3,0);
+    \begin{scope}[xshift=11cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {pin}; \pic at (3,0) {pin};
+      \draw[->,thick] (-0.4,0.6) arc (110:-40:0.5); \draw[->,thick] (3.4,0.6) arc (70:220:0.5);
+      \node[above] at (0.4,0.7) {$\overline M_1 = -\dfrac{V_1}{k_1}$}; \node[above] at (2.7,0.7) {$\overline M_2 = \dfrac{V_2}{k_2}$}; \end{scope}
+  \end{scope}
+  \draw (-1.4,-6.6) -- (14.8,-6.6);
+  % ---------- case 3 ----------
+  \begin{scope}[yshift=-8.3cm]
+    \node at (-0.8,0) {3};
+    \seg \pic at (1.5,0) {rspring}; \node[below] at (1.5,-0.3) {$k_\theta$};
+    \draw[<->] (4.0,0) -- (4.8,0);
+    \begin{scope}[xshift=5.5cm] \seg \pic at (1.5,0) {tspring}; \end{scope}
+    \draw[->] (9.5,0) -- (10.3,0);
+    \begin{scope}[xshift=11cm] \seg \draw[load] (1.5,0.1) -- (1.5,1.0); \node[right] at (1.6,0.7) {$\Delta\overline V = \dfrac{M}{k_\theta}$}; \end{scope}
+  \end{scope}
+  \draw (-1.4,-9.9) -- (14.8,-9.9);
+  % ---------- case 4 ----------
+  \begin{scope}[yshift=-11.8cm]
+    \node at (-0.8,0) {4};
+    \begin{scope}[yshift=0.5cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {pin}; \pic at (3,0) {pin}; \pic at (0,0.1) {rspring}; \pic at (3,0.1) {rspring}; \node[above] at (0.6,0.2) {$k_{\theta1}$}; \node[above] at (2.4,0.2) {$k_{\theta2}$}; \end{scope}
+    \begin{scope}[yshift=-1.4cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {wallL}; \pic at (3,0) {wallR}; \pic at (0.25,0) {rspring}; \pic at (2.75,0) {rspring}; \node[below] at (0.6,-0.2) {$k_{\theta1}$}; \node[below] at (2.4,-0.2) {$k_{\theta2}$}; \end{scope}
+    \draw[<->] (4.0,0) -- (4.8,0);
+    \begin{scope}[xshift=5.5cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {tspring}; \pic at (3,0) {tspring}; \end{scope}
+    \draw[->] (9.5,0) -- (10.3,0);
+    \begin{scope}[xshift=11cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut};
+      \draw[load] (0,-0.9) -- (0,-0.1) node[pos=0,below] {$\overline V_1 = \dfrac{M_1}{k_{\theta1}}$};
+      \draw[load] (3,0.9) -- (3,0.1) node[pos=0,above] {$\overline V_2 = -\dfrac{M_2}{k_{\theta2}}$}; \end{scope}
+  \end{scope}
+  \draw (-1.4,-13.7) -- (14.8,-13.7);
+  % ---------- case 5 ----------
+  \begin{scope}[yshift=-15.4cm]
+    \node at (-0.8,0) {5};
+    \seg \pic at (1.5,0) {rspring}; \draw[thin] (1.5,-0.16) -- (1.5,-0.6); \pic at (1.5,-0.6) {fixed}; \node[left] at (1.3,-0.4) {$k_\theta$};
+    \draw[<->] (4.0,0) -- (4.8,0);
+    \begin{scope}[xshift=5.5cm] \seg \pic at (1.5,0) {slide}; \end{scope}
+    \draw[->] (9.5,0) -- (10.3,0);
+    \begin{scope}[xshift=11cm] \draw[member] (0,0) -- (1.3,0); \draw[member] (1.7,0) -- (3,0); \pic at (0,0) {cut}; \pic at (3,0) {cut};
+      \draw[load] (1.3,0.7) -- (1.3,-0.1); \draw[load] (1.7,-0.7) -- (1.7,0.1);
+      \node[right] at (3.2,-0.3) {$\overline V = \dfrac{\Delta M}{k_\theta}$}; \end{scope}
+  \end{scope}
+  \draw (-1.4,-17.0) -- (14.8,-17.0);
+  % ---------- case 6 ----------
+  \begin{scope}[yshift=-18.6cm]
+    \node at (-1.1,0) {6};
+    \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {rspring}; \pic at (3,0) {rspring};
+    \draw[thin] (-0.16,0) -- (-0.6,0.35); \pic[rotate=-40] at (-0.7,0.42) {wallR}; \draw[thin] (3.16,0) -- (3.6,0.35); \pic[rotate=40] at (3.7,0.42) {wallL};
+    \node[above] at (0.6,0.2) {$k_{\theta1}$}; \node[above] at (2.4,0.2) {$k_{\theta2}$};
+    \draw[<->] (4.0,0) -- (4.8,0);
+    \begin{scope}[xshift=5.5cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut}; \pic at (0,0) {slide}; \pic at (3,0) {slide}; \pic at (0,-0.35) {fixed}; \pic at (3,-0.35) {fixed}; \end{scope}
+    \draw[->] (9.5,0) -- (10.3,0);
+    \begin{scope}[xshift=11cm] \draw[member] (0,0) -- (3,0); \pic at (1.5,0) {cut};
+      \draw[load] (0,-0.9) -- (0,-0.1) node[pos=0,below] {$\overline V_1 = \dfrac{M_1}{k_{\theta1}}$};
+      \draw[load] (3,0.9) -- (3,0.1) node[pos=0,above] {$\overline V_2 = -\dfrac{M_2}{k_{\theta2}}$}; \end{scope}
+  \end{scope}
+  \draw (-1.4,-20.4) -- (14.8,-20.4);
+  \node[below] at (6.7,-20.5) {$*$ Internal forces of beam at the location of spring};
+\end{tikzpicture}

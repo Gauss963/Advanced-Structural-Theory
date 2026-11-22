@@ -1,0 +1,18 @@
+% Truss with an inclined support (after McGuire et al., 2000, p. 390)
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \coordinate (c) at (0,0); \coordinate (b) at (8,0); \coordinate (a) at (5,2.6);
+  \draw[thinmember] (c) -- (a) -- (b) -- (c);
+  \pic at (c) {pin}; \node[node dot] at (b) {};
+  \node[left] at (c) {c}; \node[above left] at (a) {a}; \node[above] at ($(b)+(0.15,0.1)$) {b};
+  \draw[load] (a) -- ++(0,1.4) node[right] {$P_{ya} = 321.4$ kN};
+  \draw[load] (a) -- ++(1.6,0) node[right] {$P_{xa} = 383$ kN};
+  % inclined support at b (30 deg)
+  \draw[thick] ($(b)+(-0.9,-0.52)$) -- ($(b)+(0.9,0.52)$);
+  \foreach \t in {-0.8,-0.5,...,0.8}{\draw ($(b)+(\t,{\t*0.577})+(0,-0.05)$) -- ($(b)+(\t,{\t*0.577})+(-0.3,-0.45)$);}
+  \draw[->,thick] (b) -- ++(30:1.8) node[right] {$x''$};
+  \draw[->,thick] (b) -- ++(120:1.4) node[above] {$y''$};
+  \draw[dashed] (b) -- ++(2.4,0);
+  \draw[->] ($(b)+(2.0,0)$) arc (0:30:2.0); \node[right] at ($(b)+(2.05,0.55)$) {$30^\circ$};
+  \draw[->,thick] ($(b)+(2.4,0)$) -- ++(1.2,0) node[below] {$x$};
+  \draw[->,thick] (c) ++(0,0.3) -- ++(0,1.6) node[above] {$y$};
+\end{tikzpicture}

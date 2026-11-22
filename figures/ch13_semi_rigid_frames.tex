@@ -1,0 +1,17 @@
+% Idealized rigid / pinned connection systems and the real system
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \newcommand{\frameshape}{\draw[thinmember] (0,0) -- (0,4) -- (4,4) -- (4,0); \pic at (0,0) {fixed}; \pic at (4,0) {fixed};}
+  \begin{scope}
+    \frameshape
+    \node[below,align=center] at (2,-0.5) {idealized rigid connection\\system};
+  \end{scope}
+  \begin{scope}[xshift=6.5cm]
+    \frameshape \node[node dot] at (0,4) {}; \node[node dot] at (4,4) {};
+    \node[below,align=center] at (2,-0.5) {idealized pinned connection\\system};
+  \end{scope}
+  \begin{scope}[xshift=13cm]
+    \frameshape
+    \foreach \x in {0,4}{\draw[thick] (\x,4) circle (0.18); \draw[thick] (\x,4) circle (0.09);}
+    \node[below] at (2,-0.5) {real system};
+  \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,11 @@
+% Beam with external rotational springs at both ends
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \draw[thinmember] (0,0) -- (7,0); \node[node dot] at (0,0) {}; \node[node dot] at (7,0) {};
+  \pic at (0,0) {roller}; \pic at (7,0) {pin};
+  % spiral springs to inclined walls
+  \draw[thick] (0,0) .. controls (-0.2,0.6) and (0.5,0.9) .. (0.3,0.4) .. controls (0.1,0.1) and (-0.4,0.5) .. (-0.6,0.8);
+  \pic[rotate=-40] at (-0.7,0.9) {wallR};
+  \draw[thick] (7,0) .. controls (7.2,0.6) and (6.5,0.9) .. (6.7,0.4) .. controls (6.9,0.1) and (7.4,0.5) .. (7.6,0.8);
+  \pic[rotate=40] at (7.7,0.9) {wallL};
+  \node[above] at (-0.4,1.1) {$k_{\theta1}$}; \node[above] at (7.4,1.1) {$k_{\theta2}$};
+\end{tikzpicture}

@@ -1,0 +1,625 @@
+\chapter{Direct Stiffness Method}
+\label{ch:dsm}
+
+\section{Direct stiffness method}
+The equilibrium equations for a structural system can be written as
+\begin{equation}
+  \Kmat\bs{\Delta} = \Pvec
+\end{equation}
+where $\Kmat =$ structural stiffness matrix, $\bs{\Delta} =$ displacement vector, and $\Pvec =$ load vector. The stiffness matrix $\Kmat$ can be obtained by assembling the element stiffness matrices using the member degree-of-freedom table (the \texttt{LM} matrix in our program).
+
+In carrying out the assembling procedure, compatibility conditions of nodes need to be taken into account. For example, for a rigid joint, the members sharing this joint all have the same degrees of freedom; however, for an internal hinge, the members sharing this joint have the same translational degrees of freedom but have different rotational degrees of freedom.
+
+The meaning of $\Kmat\bs{\Delta} = \Pvec$ is nothing but \emph{summation of internal forces $=$ external forces at nodes}, because
+\begin{equation*}
+  \Kmat\bs{\Delta} = \sum_{i=1}^{n}\kmat_i\bs{\Delta}_i = \sum_{i=1}^{n}\F_i = \text{summation of internal forces},
+\end{equation*}
+where $\kmat_i =$ element stiffness matrix, and $\bs{\Delta}_i =$ element displacement vector of the $i$-th element, both being referred to the global axes.
+\begin{fig}
+  \input{figures/ch05_nodal_equilibrium}
+\end{fig}
+
+\begin{figure}[tb]
+  \centering
+  \begin{subfigure}[b]{0.52\textwidth}\centering\input{figures/ch05_truss_joint}
+    \caption{Representative interior joint of a plane truss.}\end{subfigure}\hfill
+  \begin{subfigure}[b]{0.44\textwidth}\centering\input{figures/ch05_truss_joint_equilibrium}
+    \caption{Study of equilibrium in the $P_i$--$\Delta_i$ directions.}\end{subfigure}\\[1em]
+  \begin{subfigure}[b]{0.52\textwidth}\centering\input{figures/ch05_truss_joint_added}
+    \caption{Effect of adding a member to a joint.}\end{subfigure}\hfill
+  \begin{subfigure}[b]{0.44\textwidth}\centering\input{figures/ch05_truss_joint_added_eq}
+    \caption{Equilibrium in the $P_i$--$\Delta_i$ direction, member added.}\end{subfigure}
+  \caption{Assembly of the global stiffness equation at a joint (after Figs.~3.1--3.4 of the textbook).}
+  \label{fig:mcguire-joint}
+\end{figure}
+
+With reference to Fig.~\ref{fig:mcguire-joint}, equilibrium at joint $q$ in the $\Delta_i$ direction requires
+\begin{equation}
+  P_i = F_i^A + F_i^B + F_i^C + F_i^D. \tag{3.2}
+\end{equation}
+Writing each bar force in terms of the bar's own stiffness coefficients and displacements,
+\begin{equation}
+  \begin{aligned}
+    P_i ={}& (k_{ii}^A\Delta_i^A + k_{i2}^A\Delta_2^A + k_{i3}^A\Delta_3^A + k_{i4}^A\Delta_4^A)\\
+          &+ (k_{ii}^B\Delta_i^B + k_{i2}^B\Delta_2^B + k_{i5}^B\Delta_5^B + k_{i6}^B\Delta_6^B)\\
+          &+ (k_{ii}^C\Delta_i^C + k_{i2}^C\Delta_2^C + k_{i7}^C\Delta_7^C + k_{i8}^C\Delta_8^C)\\
+          &+ (k_{ii}^D\Delta_i^D + k_{i1}^D\Delta_1^D + k_{i2}^D\Delta_2^D + k_{i9}^D\Delta_9^D).
+  \end{aligned} \tag{3.3}
+\end{equation}
+Since compatibility requires $\Delta_i^A = \Delta_i^B = \Delta_i^C = \Delta_i^D = \Delta_i$, it follows that
+\begin{equation}
+  \begin{aligned}
+    P_i ={}& (k_{ii}^A + k_{ii}^B + k_{ii}^C + k_{ii}^D)\Delta_i + k_{i1}^D\Delta_1\\
+          &+ (k_{i2}^A + k_{i2}^B + k_{i2}^C + k_{i2}^D)\Delta_2 + k_{i3}^A\Delta_3 + \cdots + k_{i9}^D\Delta_9
+  \end{aligned} \tag{3.4}
+\end{equation}
+or
+\begin{equation}
+  P_i = K_{ii}\Delta_i + K_{i1}\Delta_1 + K_{i2}\Delta_2 + K_{i3}\Delta_3 + \cdots + K_{i9}\Delta_9. \tag{3.5}
+\end{equation}
+This is the final form of the desired equations. The capitalized terms $K_{ii}, K_{i1}, K_{i2},\dots,K_{i9}$ are \emph{global stiffness coefficients} and Equation~(3.5) is a \emph{global stiffness equation}.
+
+\section{System equations for supported structures}
+The system equations of $\Kmat\bs{\Delta} = \Pvec$ can be rewritten as
+\begin{equation}
+  \bmat{\Kmat_{ff} & \Kmat_{fs}\\ \Kmat_{sf} & \Kmat_{ss}}\Bmat{\bs{\Delta}_f\\ \bs{\Delta}_s} = \Bmat{\Pvec_f\\ \Pvec_s}
+\end{equation}
+where all quantities pertinent to the supports are assigned the subscript $s$ and those relating to the remaining degrees of freedom have the subscript $f$. Note that $\Kmat_{fs} = \Kmat_{sf}^\tr$.
+
+For the case where $\bs{\Delta}_s = \mat{0}$, we have
+\begin{align}
+  \Kmat_{ff}\bs{\Delta}_f &= \Pvec_f\\
+  \Kmat_{sf}\bs{\Delta}_f &= \Pvec_s
+\end{align}
+We can solve the first equation to obtain $\bs{\Delta}_f$, and substitute $\bs{\Delta}_f$ into the second equation to obtain the reaction vector $\Pvec_s$.
+
+For the case where $\bs{\Delta}_s = \overline{\bs{\Delta}}_s$, a given vector, we have
+\begin{align}
+  \Kmat_{ff}\bs{\Delta}_f &= \Pvec_f - \Kmat_{fs}\overline{\bs{\Delta}}_s\\
+  \Kmat_{sf}\bs{\Delta}_f + \Kmat_{ss}\overline{\bs{\Delta}}_s &= \Pvec_s
+\end{align}
+Similarly, we can solve the first equation to obtain $\bs{\Delta}_f$, and substitute $\bs{\Delta}_f$ and $\overline{\bs{\Delta}}_s$ into the second equation to obtain the reaction vector $\Pvec_s$.
+
+In our program, we only formulate $\Kmat_{ff}$ and we use the fixed-end forces to calculate the equivalent nodal forces, which are exactly the same as $(-\Kmat_{fs}\overline{\bs{\Delta}}_s)$ of the first equation. By doing so, we can still obtain the same $\bs{\Delta}_f$.
+
+After obtaining $\bs{\Delta}_f$, the member (element) forces can be calculated by $\kmat_i\bs{\Delta}_i = \F_i$ for the $i$-th element, where note that $\F_i$ is referred to the global (local) axes if $\kmat_i$ and $\bs{\Delta}_i$ are referred to the global (local) axes. Of course, when talking about internal forces such as axial and shear forces, and bending moment, $\F_i$ should always be referred to the local (member) axes.
+
+\section{Example: assembling of stiffness matrix}
+\begin{fig}
+  \input{figures/ch05_example_truss}
+\end{fig}
+For all elements, $\dfrac{EA}{L} = 40{,}000$~kN/m.
+\begin{fig}
+  \input{figures/ch05_global_local_dof}
+\end{fig}
+\begin{equation}
+  \boxed{\kmat = \Tmat^\tr\kmat'\Tmat}
+\end{equation}
+where
+\begin{equation}
+  \Tmat = \bmat{c & s & & \\ -s & c & & \\ & & c & s\\ & & -s & c}, \qquad c = \cos\phi,\quad s = \sin\phi
+\end{equation}
+and
+\begin{equation}
+  \kmat' = \frac{EA}{L}\;
+  \begin{array}{c}
+    \begin{array}{cccc} u_1' & v_1' & u_2' & v_2' \end{array}\\
+    \left[\begin{array}{@{\;}r@{\quad}r@{\quad}r@{\quad}r@{\;}}
+      1 & 0 & -1 & 0\\ 0 & 0 & 0 & 0\\ -1 & 0 & 1 & 0\\ 0 & 0 & 0 & 0
+    \end{array}\right]
+  \end{array}
+\end{equation}
+Therefore, the element stiffness matrices in the global coordinate system can be obtained as:
+
+\noindent\textbf{Mem \textcircled{\scriptsize 1}:} $\phi = 0^\circ$, $c = 1.0$, $s = 0.0$
+\begin{equation}
+  \kmat_1 = \kmat' = 40{,}000\;
+  \begin{array}{c}
+    \begin{array}{cccc} \;u_1\; & \;v_1\; & \;u_2\; & \;v_2\; \end{array}\\
+    \left[\begin{array}{@{\;}r@{\quad}r@{\quad}r@{\quad}r@{\;}}
+      1 & 0 & -1 & 0\\ & 0 & 0 & 0\\ & & 1 & 0\\ \multicolumn{2}{l}{\textit{Sym.}} & & 0
+    \end{array}\right]
+  \end{array}\;\text{kN/m}
+\end{equation}
+
+\noindent\textbf{Mem \textcircled{\scriptsize 2}:} $\phi = 126.9^\circ$, $c = -0.6$, $s = 0.8$
+\begin{fig}
+  \input{figures/ch05_member2_angle}
+\end{fig}
+\begin{equation}
+  \kmat_2 = 40{,}000\;
+  \begin{array}{c}
+    \begin{array}{cccc} \;\;u_2\;\; & \;\;v_2\;\; & \;\;u_3\;\; & \;\;v_3\;\; \end{array}\\
+    \left[\begin{array}{@{\;}r@{\quad}r@{\quad}r@{\quad}r@{\;}}
+      0.36 & -0.48 & -0.36 & 0.48\\ & 0.64 & 0.48 & -0.64\\ & & 0.36 & -0.48\\ \multicolumn{2}{l}{\textit{Sym.}} & & 0.64
+    \end{array}\right]
+  \end{array}\;\text{kN/m}
+\end{equation}
+
+\noindent\textbf{Mem \textcircled{\scriptsize 3}:} $\phi = 90^\circ$, $c = 0.0$, $s = 1.0$
+\begin{equation}
+  \kmat_3 = 40{,}000\;
+  \begin{array}{c}
+    \begin{array}{cccc} \;u_1\; & \;v_1\; & \;u_3\; & \;v_3\; \end{array}\\
+    \left[\begin{array}{@{\;}r@{\quad}r@{\quad}r@{\quad}r@{\;}}
+      0 & 0 & 0 & 0\\ & 1 & 0 & -1\\ & & 0 & 0\\ \multicolumn{2}{l}{\textit{Sym.}} & & 1
+    \end{array}\right]
+  \end{array}\;\text{kN/m}
+\end{equation}
+
+After assembling,
+\begin{equation}
+  \Kmat = 40{,}000\;
+  \begin{array}{c}
+    \begin{array}{cccccc} \;u_1\; & \;\;v_1\;\; & \;\;u_2\;\; & \;\;v_2\;\; & \;\;u_3\;\; & \;\;v_3\;\; \end{array}\\
+    \left[\begin{array}{@{\;}r@{\quad}r@{\quad}r@{\quad}r@{\quad}r@{\quad}r@{\;}}
+      1 & 0 & -1.00 & 0.00 & 0.00 & 0.00\\
+        & 1 &  0.00 & 0.00 & 0.00 & -1.00\\
+        &   &  1.36 & -0.48 & -0.36 & 0.48\\
+        &   &       & 0.64 & 0.48 & -0.64\\
+        &   &       &      & 0.36 & -0.48\\
+      \multicolumn{3}{l}{\textit{Sym.}} & & & 1.64
+    \end{array}\right]
+  \end{array}\;\text{kN/m}
+\end{equation}
+\begin{fig}
+  \input{figures/ch05_K_pattern}
+\end{fig}
+It can be found that the eigenvalues of $\Kmat$ are: $0, 0, 0, 40000, 80000$, and $120000$. The three zero eigenvalues correspond to the rigid body modes in the plane (two translations plus one rotation).
+
+\noindent$\Kmat\bs{\Delta}_r = \mat{0}$: find the rigid body modes
+\begin{equation}
+  \bs{\Delta}_{r1} = \Bmat{1\\0\\1\\0\\1\\0},\qquad
+  \bs{\Delta}_{r2} = \Bmat{0\\1\\0\\1\\0\\1},\qquad
+  \bs{\Delta}_{r3} = \Bmat{0\\0\\0\\3\\-4\\0}
+\end{equation}
+\begin{fig}
+  \input{figures/ch05_rigid_modes}
+\end{fig}
+
+Let's support the truss and apply two loads as shown below. Now we would like to solve for the displacements.
+\begin{fig}
+  \input{figures/ch05_supported_truss}
+\end{fig}
+Because $u_1 = v_1 = u_3 = 0$ $\Rightarrow$ delete the columns and rows corresponding to $u_1$, $v_1$ and $u_3$. Knowing that $P_{x2} = 72$~kN and $P_{y2} = 90$~kN, therefore
+\begin{equation}
+  40{,}000\;
+  \begin{array}{c}
+    \begin{array}{ccc} \;\;u_2\;\; & \;\;v_2\;\; & \;\;v_3\;\; \end{array}\\
+    \left[\begin{array}{@{\;}r@{\quad}r@{\quad}r@{\;}}
+      1.36 & -0.48 & 0.48\\ & 0.64 & -0.64\\ \textit{Sym.} & & 1.64
+    \end{array}\right]
+  \end{array}
+  \Bmat{u_2\\ v_2\\ v_3} = \Bmat{72\\ 90\\ 0}
+  \qquad (\Kmat\bs{\Delta} = \Pvec)
+\end{equation}
+\begin{equation}
+  \Longrightarrow\quad \bs{\Delta} = \Bmat{u_2\\ v_2\\ v_3} = 10^{-3}\Bmat{3.49\\ 8.38\\ 2.25}\text{ m} = \Bmat{3.49\\ 8.38\\ 2.25}\text{ mm}
+\end{equation}
+
+\subsection*{Calculation of member forces (force recovery)}
+Member \textcircled{\scriptsize 2}, for example.
+
+\topic{Member (local) displacements}
+\begin{fig}
+  \input{figures/ch05_member2_disp}
+\end{fig}
+\begin{equation}
+  \dvec' = \Tmat\dvec \quad\Longrightarrow\quad
+  \Bmat{u_1'\\ v_1'\\ u_2'\\ v_2'} =
+  \bmat{c & s & & \\ -s & c & & \\ & & c & s\\ & & -s & c}
+  \Bmat{u_2\\ v_2\\ u_3\\ v_3} = \Bmat{4.61\\ -7.82\\ 1.80\\ -1.35}\text{ mm}
+\end{equation}
+($c = -0.6$, $s = 0.8$ $\because$ $\phi = 126.9^\circ$)
+
+\topic{Member forces}
+\begin{equation}
+  \mat{f}' = \kmat'\dvec' = \frac{EA}{L}
+  \begin{array}{c}
+    \begin{array}{cccc} u_1' & v_1' & u_2' & v_2' \end{array}\\
+    \left[\begin{array}{@{\;}r@{\quad}r@{\quad}r@{\quad}r@{\;}}
+      1 & 0 & -1 & 0\\ 0 & 0 & 0 & 0\\ -1 & 0 & 1 & 0\\ 0 & 0 & 0 & 0
+    \end{array}\right]
+  \end{array}
+  \Bmat{4.61\\ -7.82\\ 1.80\\ -1.35}\times 10^{-3}\text{ m}
+  = \Bmat{112.4\\ 0.\\ -112.4\\ 0.}\text{ kN}
+\end{equation}
+$\bigl(\frac{EA}{L} = 40{,}000\text{ kN/m}\bigr)$
+\begin{fig}
+  \input{figures/ch05_member_forces}
+\end{fig}
+\noindent$***$ You can verify that the nodal equilibrium equations are satisfied.
+
+\section{Example: adding a member to a structure}
+\begin{minipage}[t]{0.5\textwidth}
+The truss shown is subjected to a force at node $d$; the cross-sectional areas of members are as follows:
+\begin{align*}
+  A_{ab} = A_{cd} &= 10\times10^3~\mathrm{mm^2}\\
+  A_{bc} = A_{bd} = A_{ac} &= 15\times10^3~\mathrm{mm^2}
+\end{align*}
+By the direct stiffness method described above, we can calculate the nodal displacements:
+\begin{equation*}
+  \{\Delta\} = \Bmat{u_b\\ u_c\\ v_c\\ u_d\\ v_d} = \Bmat{0\\ 2.2\\ -0.5\\ 2.45\\ -1.41}\text{ mm}
+\end{equation*}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\vspace{0pt}\centering
+\input{figures/ch05_truss_add_member_a}
+\end{minipage}
+
+\begin{minipage}[t]{0.5\textwidth}
+Now, add one member to the structure at node $d$; the same load of 100~N is applied at node $d$. If we want to determine the displacement at node $d$, there is a simple way to solve it.
+\begin{equation*}
+  A_{de} = 5\times10^3~\mathrm{mm^2}\ \text{(given)}
+\end{equation*}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\vspace{0pt}\centering
+\input{figures/ch05_truss_add_member_b}
+\end{minipage}
+
+This new structure is like two springs in parallel. The stiffness of the original structure is $k_1 = \dfrac{P_0}{u_d} = \dfrac{100}{2.45}$, and that of member $de$ is $k_2 = \dfrac{EA_{de}}{L_{de}}$. Then we have
+\begin{equation}
+  u_d = \frac{100}{k_1 + k_2}.
+\end{equation}
+
+\section{General features of the structural stiffness matrix}
+\begin{enumerate}[leftmargin=*]
+  \item The matrix is \textbf{singular if not supported}; the number of zero eigenvalues $=$ the number of rigid body modes plus the number of mechanisms. For example, the structural stiffness matrix of Example~3.1 of the textbook has three eigenvalues that are zero. They correspond to the translation along the $x$- and $y$-axes and the rotation about the $z$-axis.
+
+    \emph{Note: meaning of eigenvalues.}
+    \begin{equation}
+      \Kmat\bs{\varphi} = \lambda\bs{\varphi} \;\Rightarrow\; \bs{\varphi}^\tr\Kmat\bs{\varphi} = \lambda\bs{\varphi}^\tr\bs{\varphi}
+      \;\Rightarrow\; \bs{\varphi}^\tr\Kmat\bs{\varphi} = \lambda\bs{\varphi}^\tr\bs{\varphi}
+      \;\Rightarrow\; \bs{\varphi}^\tr\Kmat\bs{\varphi} = \lambda \quad\text{if } \bs{\varphi}^\tr\bs{\varphi} = 1
+    \end{equation}
+    This means that $\lambda_i =$ twice the strain energy associated with $\bs{\varphi}_i$ if $\bs{\varphi}_i$ is normalized. Therefore, $\lambda_i = 0$ corresponds to rigid body modes or mechanisms.
+
+    These eigenvalues also indicate whether the solution for $\Kmat\bs{\Delta} = \Pvec$ exists or not. If there is no eigenvalue that equals 0, $\Kmat$ is nonsingular. Then the solution exists and is unique undoubtedly. However, if there is any eigenvalue that equals 0, it does not mean that there is no solution. If $\bs{\varphi}$ is the eigenvector corresponding to $\lambda = 0$ and if $\bs{\varphi}\cdot\Pvec = 0$, then we will get an infinite number of solutions. Why? If $\bs{\varphi}\cdot\Pvec\neq 0$, there will be no solution at all. Problem~3.12 of McGuire et al.\ (2000) is a good example for the above discussion. Also, please refer to the paper reproduced at the end of this chapter (Sec.~\ref{sec:leu-paper}).
+
+  \item The $k$-th column of the structural stiffness matrix of an unsupported structure represents a set of forces in \textbf{equilibrium} due to $\Delta_k = 1$, and other $\Delta$'s $= 0$. For example, we can verify that each column of $\Kmat$ of Example~3.1 of the textbook satisfies the following three equilibrium equations:
+    \begin{equation*}
+      \sum F_x = 0,\qquad \sum F_y = 0,\qquad\text{and}\qquad \sum M_z = 0.
+    \end{equation*}
+
+  \item $\Kmat$ is \textbf{banded} if the nodes are properly numbered; usually we number the nodes along the side whose number of nodes is less than that of the other side(s). For the structure shown below (left), the stiffness matrix is full since nodes are not properly numbered.
+    \begin{fig}
+      \input{figures/ch05_node_numbering}
+    \end{fig}
+    \begin{fig}
+      \input{figures/ch05_beam_numbering_bad}
+    \end{fig}
+    \begin{equation*}
+      [\Kmat] =
+      \begin{array}{c}
+        \begin{array}{ccccccc} 1 & 2 & 3 & 4 & 5 & 6 & 7 \end{array}\\
+        \left[\begin{array}{ccccccc}
+          X & O & O & O & O & O & X\\
+          O & X & O & O & O & X & X\\
+          O & O & X & O & X & X & O\\
+          O & O & O & X & X & O & O\\
+          O & O & X & X & X & O & O\\
+          O & X & X & O & O & X & O\\
+          X & X & O & O & O & O & X
+        \end{array}\right]
+      \end{array}
+    \end{equation*}
+    However, if we number the nodes as shown below, $\Kmat$ is banded with the semi-band width $=2$.
+    \begin{fig}
+      \input{figures/ch05_beam_numbering_good}
+    \end{fig}
+    \begin{equation*}
+      [\Kmat] =
+      \begin{array}{c}
+        \begin{array}{ccccccc} 1 & 2 & 3 & 4 & 5 & 6 & 7 \end{array}\\
+        \left[\begin{array}{ccccccc}
+          X & X & O & O & O & O & O\\
+          X & X & X & O & O & O & O\\
+          O & X & X & X & O & O & O\\
+          O & O & X & X & X & O & O\\
+          O & O & O & X & X & X & O\\
+          O & O & O & O & X & X & X\\
+          O & O & O & O & O & X & X
+        \end{array}\right]
+      \end{array}
+    \end{equation*}
+    \begin{figure}[H]
+      \centering
+      \begin{subfigure}[t]{0.48\textwidth}\centering\input{figures/ch05_weaver_fig49}
+        \caption{Joint stiffness matrix for a continuous beam (Fig.~4-9).}\end{subfigure}\hfill
+      \begin{subfigure}[t]{0.48\textwidth}\centering\input{figures/ch05_weaver_fig410}
+        \caption{Rearranged joint stiffness matrix for a continuous beam (Fig.~4-10).}\end{subfigure}
+      \caption{After Weaver, Jr.\ and Gere (1990), \emph{Matrix Analysis of Framed Structures}.}
+    \end{figure}
+\end{enumerate}
+
+\section{Generalized stiffness and loads}
+\topic{Original system:}
+\begin{equation}
+  \Kmat_{n\times n}\bs{\Delta}_{n\times 1} = \Pvec_{n\times 1} \qquad\text{(assume properly supported; w/o rigid body modes)}
+\end{equation}
+\topic{Eigenvalues and eigenvectors:} $(\lambda_i,\bs{\varphi}_i)$, $i = 1\sim n$
+\begin{equation}
+  \Kmat\bs{\varphi}_i = \lambda_i\bs{\varphi}_i
+\end{equation}
+\topic{Property of $\bs{\varphi}_i$ (orthogonality):}
+\begin{equation}
+  \begin{cases}
+    i\neq j:\; \bs{\varphi}_j^\tr\Kmat\bs{\varphi}_i = \lambda_i\bs{\varphi}_j^\tr\bs{\varphi}_i = 0\\[4pt]
+    i = j:\; \bs{\varphi}_i^\tr\Kmat\bs{\varphi}_i = \lambda_i\bs{\varphi}_i^\tr\bs{\varphi}_i = \lambda_i\|\bs{\varphi}_i\|^2 = \lambda_i \quad\text{if } \|\bs{\varphi}_i\| = 1
+  \end{cases}
+\end{equation}
+Without loss of generality, we let $\|\bs{\varphi}_i\| = 1$, $i = 1\sim n$.
+
+The above orthogonal condition can be written in the following matrix form
+\begin{equation}
+  \bs{\Phi}^\tr\Kmat\bs{\Phi} = \bs{\Lambda}
+\end{equation}
+where
+\begin{equation}
+  \bs{\Phi}_{n\times n} = [\bs{\varphi}_1,\bs{\varphi}_2,\bs{\varphi}_3,\dots,\bs{\varphi}_n],\qquad
+  \bs{\Lambda} = \bmat{\lambda_1 & & & \\ & \lambda_2 & & \\ & & \ddots & \\ & & & \lambda_n},\ \text{a diagonal matrix}.
+\end{equation}
+Note: $\bs{\Phi}^\tr\bs{\Phi} = \mat{I}$ (i.e.\ $\bs{\varphi}_i^\tr\bs{\varphi}_i = 1$, $i = 1\sim n$; $\bs{\varphi}_i^\tr\bs{\varphi}_j = 0$, $i\neq j$), where $\mat{I}$ is an identity matrix.
+
+\topic{Stiffness equations in the eigenspace:}
+Write the displacement vector in terms of the eigenvectors:
+\begin{equation}
+  \bs{\Delta} = \sum_{i=1}^{n}c_i\bs{\varphi}_i = \bs{\Phi}\mat{c};\qquad\text{we would like to determine }\mat{c}.
+\end{equation}
+Express the load vector $\Pvec$ in the eigenspace:
+\begin{equation}
+  \Pvec = \sum_{i=1}^{n}d_i\bs{\varphi}_i = \bs{\Phi}\mat{d}
+\end{equation}
+where the generalized load coefficients $d_i$ can be obtained by premultiplying the above equation by $\bs{\Phi}^\tr$. Hence,
+\begin{gather}
+  \bs{\Phi}^\tr\Pvec = \bs{\Phi}^\tr\bs{\Phi}\mat{d} = \mat{d}\quad(\because\ \bs{\Phi}^\tr\bs{\Phi} = \mat{I})\\
+  \text{i.e.}\quad \bs{\varphi}_i^\tr\Pvec = d_i,\ i = 1\sim n\qquad(\bs{\varphi}_i^\tr\Pvec = \bs{\varphi}_i\bullet\Pvec)
+\end{gather}
+This means $d_i$ is the projection of $\Pvec$ on $\bs{\varphi}_i$; $d_i$ can be considered a generalized load.
+
+Substituting $\bs{\Delta} = \bs{\Phi}\mat{c}$ and $\Pvec = \bs{\Phi}\mat{d}$ into the equilibrium equations $\Kmat\bs{\Delta} = \Pvec$ yields
+\begin{equation}
+  \Kmat(\bs{\Phi}\mat{c}) = \bs{\Phi}\mat{d}
+\end{equation}
+Premultiply it by $\bs{\Phi}^\tr$: $\bs{\Phi}^\tr\Kmat\bs{\Phi}\mat{c} = \bs{\Phi}^\tr\bs{\Phi}\mat{d}$; $\because\ \bs{\Phi}^\tr\Kmat\bs{\Phi} = \bs{\Lambda}$ and $\bs{\Phi}^\tr\bs{\Phi} = \mat{I}$, we have
+\begin{equation}
+  \bs{\Lambda}\mat{c} = \mat{d},\quad\text{i.e.}\quad
+  \bmat{\lambda_1 & & & \\ & \lambda_2 & & \\ & & \ddots & \\ & & & \lambda_n}\Bmat{c_1\\ c_2\\ \vdots\\ c_n} = \Bmat{d_1\\ d_2\\ \vdots\\ d_n}
+\end{equation}
+$\Longrightarrow$ Uncoupled system; can be called the ``Generalized System''.
+\begin{itemize}
+  \item $\bs{\Lambda} =$ generalized stiffness matrix
+  \item $\mat{d} =$ generalized load vector
+\end{itemize}
+
+\topic{Existence of solutions}
+\begin{enumerate}[leftmargin=*]
+  \item All $\lambda_i\neq 0$ $\Leftrightarrow$ $\Kmat$ is nonsingular $\Leftrightarrow$ solution is unique:
+    \begin{equation*}
+      c_i = \frac{d_i}{\lambda_i},\ i = 1\sim n. \qquad\Bigl(\text{all }\lambda_i > 0,\text{ then }\Kmat = \text{positive definite}\Bigr)
+    \end{equation*}
+  \item Some $\lambda_i = 0$; say $\lambda_1 = 0$, $\lambda_2 = 0$, and other $\lambda_i\neq 0$
+    \begin{equation*}
+      \Longrightarrow\quad
+      \begin{cases}
+        (0)c_1 = d_1\\ (0)c_2 = d_2\\ \quad\vdots\\ \lambda_n c_n = d_n
+      \end{cases}
+    \end{equation*}
+    \begin{description}[leftmargin=3.5em,style=nextline]
+      \item[\fbox{2(a)}] If $d_1 = d_2 = 0$ (i.e.\ $\bs{\varphi}_1\bullet\Pvec = 0$, $\bs{\varphi}_2\bullet\Pvec = 0$)
+        $\ \Updownarrow\ $ infinite number of solutions; $c_1, c_2 =$ arbitrary, and other $c_i = d_i/\lambda_i$.
+      \item[\fbox{2(b)}] 1.~$d_1\neq 0$;\quad 2.~$d_2\neq 0$;\quad 3.~$d_1\neq 0$ and $d_2\neq 0$
+        $\quad\Leftrightarrow\quad$ no solution.
+    \end{description}
+\end{enumerate}
+
+\clearpage
+% =====================================================================
+\section[Appendix: Existence of a solution for a singular system (Leu, 2004)]{Appendix: Condition for existence of a solution and its physical interpretation for a singular structural system with applications to a bar chain}
+\label{sec:leu-paper}
+\begin{center}
+  \emph{Liang-Jenq Leu}\\
+  Department of Civil Engineering, National Taiwan University, Taipei 10617, Taiwan\\[2pt]
+  {\small The Seventeenth KKCNN Symposium on Civil Engineering, December 13--15, 2004, Thailand}
+\end{center}
+
+\subsection*{Abstract}
+This paper is concerned with the condition for the existence of a solution to a singular structural system and the corresponding physical meanings. A three-bar chain is discussed first. It is shown that this three-bar chain has one mechanism and the condition for the existence of a solution to this structure is such that the external load vector is orthogonal to the mechanism. Then, two methods are proposed to find the mechanism. A physical interpretation of the condition for the existence of a solution for the three-bar chain is also given. On the basis of the physical interpretation, a third method is proposed to obtain the mechanism. The advantage of the three proposed methods is that there is no need to form the structural stiffness matrix. Finally, it is shown that the proposed methods for finding a mechanism and the physical interpretation of the condition for the existence of a solution can be readily extended to the general case of an $N$-bar chain. To this end, a five-bar chain with three mechanisms is illustrated.
+
+\subsection*{Introduction}
+Structural systems taught in courses like matrix structural analysis usually have nonsingular stiffness matrices. However, singular stiffness matrices exist for some real problems. For example, the stiffness matrix for the three-bar chain shown in Fig.~\ref{fig:leu1} (McGuire et al.\ 2000) is singular. ``Can a useful solution be obtained when $P_b = P_c$?'' and ``what happens when $P_b\neq P_c$?'' were asked in McGuire et al.\ 2000. There are several ways to answer the above questions as discussed below. For the convenience of discussion, a more general loading case is considered as depicted in Fig.~\ref{fig:leu2}. Note that the effect of geometric nonlinearity is not considered in this study.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}\centering\input{figures/ch05_paper_fig1}
+    \caption{Three-bar chain subject to two loads.}\label{fig:leu1}\end{subfigure}\hfill
+  \begin{subfigure}[b]{0.48\textwidth}\centering\input{figures/ch05_paper_fig2}
+    \caption{Three-bar chain subject to four loads.}\label{fig:leu2}\end{subfigure}
+\end{figure}
+
+\subsection*{Mathematical background}
+First let's write the stiffness equations of a typical structural system in the usual way:
+\begin{equation}
+  \Kmat\mat{U} = \Pvec \tag{1}\label{leu:1}
+\end{equation}
+where $\Kmat_{n\times n}$ is the elastic stiffness matrix that is symmetric, $\mat{U}_{n\times 1}$ is the displacement vector, $\Pvec_{n\times 1}$ is the load vector, and $n$ is the number of degrees of freedom. It is well known that the solution of Eq.~\eqref{leu:1} exists and is unique when $\Kmat$ is nonsingular.
+
+This paper mainly investigates the existence of a solution for the case where $\Kmat$ is singular and more importantly the corresponding physical meanings. Mathematically, a solution to Eq.~\eqref{leu:1} exists if and only if the rank of $\Kmat$ is the same as that of the augmented matrix, which is obtained by adjoining the vector $\Pvec$ to the matrix $\Kmat$ as the $(n+1)$th column. If this rank condition is satisfied, the number of solutions is unique when $\Kmat$ is nonsingular and infinite when singular. It is also known that the rank of $\Kmat$ is $n$ when $\Kmat$ is nonsingular and less than $n$ when singular.
+
+Although the concept of rank is simple, it may not be convenient to use. The conditions for the existence of an infinite number of solutions can be stated in another way. According to Greenberg (1978), if the homogeneous form of Eq.~\eqref{leu:1} has a nontrivial solution, denoted as $\bs{\varphi}$, and in addition the solution is orthogonal to the load vector $\Pvec$, then there are an infinite number of solutions.
+\begin{equation}
+  \Kmat\bs{\varphi} = \mat{0}\ \text{ and }\ \bs{\varphi}^\tr\Pvec = 0 \quad\Longleftrightarrow\quad \text{infinitely many solutions} \tag{2}\label{leu:2}
+\end{equation}
+
+\subsection*{Generalized system}
+To appreciate the meaning of Eq.~\eqref{leu:2}, the concept of generalized systems is employed. The generalized system is defined here as a system written in the space spanned by the eigenvectors of $\Kmat$. The same idea is frequently used in structural dynamic analysis when carrying out a modal superposition to obtain the dynamic response. However, this idea is seldom used in static analysis.
+
+Let the eigenvalues and eigenvectors of $\Kmat$ be written as: $(\lambda_i,\bs{\varphi}_i)$, $i = 1,2,\dots,n$. Each eigenpair satisfies the equation:
+\begin{equation}
+  \Kmat\bs{\varphi}_i = \lambda_i\bs{\varphi}_i \tag{3}
+\end{equation}
+According to the orthogonality of eigenvectors, one has
+\begin{equation}
+  \begin{cases}
+    i\neq j:\; \bs{\varphi}_j^\tr\Kmat\bs{\varphi}_i = \lambda_i\bs{\varphi}_j^\tr\bs{\varphi}_i = 0\\[4pt]
+    i = j:\; \bs{\varphi}_i^\tr\Kmat\bs{\varphi}_i = \lambda_i\bs{\varphi}_i^\tr\bs{\varphi}_i = \lambda_i\|\bs{\varphi}_i\|^2 = \lambda_i\quad\text{if }\|\bs{\varphi}_i\|\equiv\sqrt{\bs{\varphi}_i^\tr\bs{\varphi}_i} = 1
+  \end{cases} \tag{4a,b}
+\end{equation}
+Note that without loss of generality, the eigenvectors in Eq.~(4b) have been normalized.
+
+Equations (4a,b) can be written in matrix form as
+\begin{equation}
+  \bs{\Phi}^\tr\Kmat\bs{\Phi} = \bs{\Lambda} \tag{5}\label{leu:5}
+\end{equation}
+where
+\begin{equation}
+  \bs{\Phi}_{n\times n} = [\bs{\varphi}_1,\bs{\varphi}_2,\dots,\bs{\varphi}_n]\quad\text{and}\quad
+  \bs{\Lambda} = \bmat{\lambda_1 & & & \\ & \lambda_2 & & \\ & & \ddots & \\ & & & \lambda_n}. \tag{6a,b}
+\end{equation}
+From Eqs.~(4a,b), one also obtains
+\begin{equation}
+  \bs{\Phi}^\tr\bs{\Phi} = \mat{I} \tag{7}
+\end{equation}
+Let the displacement vector $\mat{U}$ be expressed as
+\begin{equation}
+  \mat{U} = \sum_{i=1}^{n}c_i\bs{\varphi}_i = \bs{\Phi}\mat{c} \tag{8}\label{leu:8}
+\end{equation}
+Substituting Eq.~\eqref{leu:8} into \eqref{leu:1} results in
+\begin{equation}
+  \Kmat\bs{\Phi}\mat{c} = \Pvec \tag{9}\label{leu:9}
+\end{equation}
+Premultiplying Eq.~\eqref{leu:9} by $\bs{\Phi}^\tr$ and using Eq.~\eqref{leu:5}, one obtains
+\begin{equation}
+  \bs{\Lambda}\mat{c} = \bs{\Phi}^\tr\Pvec \tag{10}\label{leu:10}
+\end{equation}
+Note that the generalized system of Eq.~\eqref{leu:10} is uncoupled as expected. When written in component form, Eq.~\eqref{leu:10} becomes
+\begin{equation}
+  \lambda_i c_i = \overline{P}_i,\quad i = 1,2,\dots,n \tag{11}\label{leu:11}
+\end{equation}
+where the generalized loads are defined as
+\begin{equation}
+  \overline{P}_i = \bs{\varphi}_i^\tr\Pvec,\quad i = 1,2,\dots,n \tag{12}
+\end{equation}
+From Eq.~\eqref{leu:10} or \eqref{leu:11}, it can be seen that the eigenvalues $\lambda_i$'s can be interpreted as the generalized stiffnesses and the coefficients $c_i$'s generalized displacements.
+
+\subsection*{Existence of a solution}
+The generalized system of Eq.~\eqref{leu:11} can be used conveniently to discuss the existence of a solution to the original system of Eq.~\eqref{leu:1}. Obviously, if all $\lambda_i$'s are nonzero, the solution is unique since in this case $c_i = \overline{P}_i/\lambda_i$ and the solution $\mat{U}$ can be obtained using Eq.~\eqref{leu:8}.
+
+If some $\lambda_i$'s are zero, then there are an infinite number of solutions if the corresponding generalized loads $\overline{P}_i$ are also zero; this is exactly what Eq.~\eqref{leu:2} says. To prove this, without loss of generality, assume the first $r$ eigenvalues are zero. Then the generalized displacements $c_i$, $i = 1,2,\dots,r$ are arbitrary if $\overline{P}_i = 0$, $i = 1,2,\dots,r$ according to Eq.~\eqref{leu:11}. Also, because of $\Kmat\bs{\varphi}_i = \mat{0}$, $i = 1,2,\dots,r$ the linear combination of these eigenvectors satisfies the equation
+\begin{equation}
+  \Kmat\mat{U}_c = \mat{0} \tag{13}
+\end{equation}
+where
+\begin{equation}
+  \mat{U}_c = c_1\bs{\varphi}_1 + c_2\bs{\varphi}_2 + \dots + c_r\bs{\varphi}_r \tag{14}\label{leu:14}
+\end{equation}
+The complete solution to Eq.~\eqref{leu:1} is
+\begin{equation}
+  \mat{U} = \mat{U}_p + \mat{U}_c \tag{15}\label{leu:15}
+\end{equation}
+where $\mat{U}_p$ is a particular solution. It can be obtained from Eqs.~\eqref{leu:11} and \eqref{leu:8} as
+\begin{equation}
+  \mat{U}_p = \frac{\overline{P}_{r+1}}{\lambda_{r+1}}\bs{\varphi}_{r+1} + \frac{\overline{P}_{r+2}}{\lambda_{r+2}}\bs{\varphi}_{r+2} + \dots + \frac{\overline{P}_n}{\lambda_n}\bs{\varphi}_n \tag{16}
+\end{equation}
+The number of solutions given in Eq.~\eqref{leu:15} is infinite since the coefficients $c_i$ ($i = 1,2,\dots,r$) in Eq.~\eqref{leu:14} are arbitrary.
+
+What happens when an eigenvalue $\lambda_i = 0$ and its corresponding generalized load $\overline{P}_i$ is nonzero? From Eq.~\eqref{leu:11}, the generalized displacement $c_i$ will be infinity since its stiffness is zero and therefore the solution won't be meaningful. Mathematically speaking, the resulting equation is inconsistent since $0 = \overline{P}_i$ and hence there is no solution.
+
+\subsection*{Mechanism of three-bar chain}
+Given a properly supported structure (without rigid body modes) such as the one shown in Fig.~\ref{fig:leu2}, how does one find the eigenvector corresponding to a zero eigenvalue if its $\Kmat$ is singular? Of course, this can be done easily by using an eigen-solver if $\Kmat$ has been formed. However, the associated physical meaning may not be appreciated if done in this manner. A displacement vector that satisfies $\Kmat\bs{\varphi} = \mat{0}$ is actually a mechanism and therefore the eigenvector corresponding to a zero eigenvalue is a mechanism.
+
+Two methods are proposed in this section to find a mechanism for the three-bar chain shown in Fig.~\ref{fig:leu2}. The first method uses the condition that the axial deformation of each bar is zero since its axial force is zero. With reference to Fig.~\ref{fig:leu3}, the axial deformation of a typical bar can be calculated using
+\begin{equation}
+  \delta_i = (u_i\cos\theta_i + v_i\sin\theta_i) - (u_{i-1}\cos\theta_i + v_{i-1}\sin\theta_i) \tag{17}\label{leu:17}
+\end{equation}
+By making use of Eq.~\eqref{leu:17}, the condition of three zero axial deformations for the three-bar chain of Fig.~\ref{fig:leu2} can be expressed as
+\begin{equation}
+  \begin{aligned}
+    \delta_1 &= \tfrac45 u_1 - \tfrac35 v_1 = 0\\
+    \delta_2 &= u_2 - u_1 = 0\\
+    \delta_3 &= -\tfrac45 u_2 - \tfrac35 v_2 = 0
+  \end{aligned} \tag{18a,b,c}\label{leu:18}
+\end{equation}
+There are four unknowns and three equations in Eqs.~\eqref{leu:18}; the solution is
+\begin{equation}
+  \bs{\varphi} = \frac{1}{\sqrt{50}}\langle 3, 4, 3, -4\rangle^\tr \tag{19}\label{leu:19}
+\end{equation}
+where $\bs{\varphi}$ has been normalized and its displacement components are listed in the order of $u_1$, $v_1$, $u_2$, and $v_2$. It can be verified that the displacement vector of Eq.~\eqref{leu:19} satisfies $\Kmat\bs{\varphi} = \mat{0}$ and therefore it corresponds to a mechanism.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}\centering\input{figures/ch05_paper_fig3}
+    \caption{A typical bar.}\label{fig:leu3}\end{subfigure}\hfill
+  \begin{subfigure}[b]{0.55\textwidth}\centering\input{figures/ch05_paper_fig4}
+    \caption{Compatible rigid body mode.}\label{fig:leu4}\end{subfigure}
+\end{figure}
+
+The second way to obtain the mechanism is to draw a compatible rigid body mode for each bar. Fig.~\ref{fig:leu4} shows a compatible rigid body mode for the three-bar chain of Fig.~\ref{fig:leu2}. The rigid body modes for bars 1 and 3 result from a rotation with respect to points 0 and 3, respectively. As shown in Fig.~\ref{fig:leu4}, let the resulting displacement vector of points 1 and 2 be denoted as $\delta_{n1}\mat{n}_1$ and $\delta_{n2}\mat{n}_2$, where $\mat{n}_1$ and $\mat{n}_2$ are the unit vectors normal to the axes of bars 1 and 3, respectively. Since $\mat{n}_1$ and $\mat{n}_2$ are known, the remaining problem is to determine the ratio of the normal displacements $\delta_{n1}$ to $\delta_{n2}$ so that bar 2 also moves as a rigid body.
+
+By employing the concept of ``instantaneous center of rotation'' in conventional rigid body dynamics, one can find the center of rotation of bar 2, point $a$, is actually the intersection of axes of bars 1 and 3 as depicted in Fig.~\ref{fig:leu4}. Let the distances between the center of rotation and points 1 and 2 be represented as $d_1$ and $d_2$, respectively. Then, the displacements of points 1 and 2 of bar 2 due to a rotation with respect to the center of rotation are proportional to their distances to it, i.e.
+\begin{equation}
+  \frac{\delta_{n1}}{\delta_{n2}} = \frac{d_1}{d_2} \tag{20}\label{leu:20}
+\end{equation}
+For the particular case of Fig.~\ref{fig:leu2}, $\delta_{n1} = \delta_{n2}$ since $d_1 = d_2$. Therefore, one can obtain the same mechanism as that expressed in Eq.~\eqref{leu:19}.
+
+Having obtained the mechanism of Eq.~\eqref{leu:19}, the condition of Eq.~\eqref{leu:2} for infinitely many solutions can be written explicitly as
+\begin{equation}
+  \bs{\varphi}^\tr\Pvec = \frac{1}{\sqrt{50}}(3P_1 + 4P_2 + 3P_3 - 4P_4) = 0 \tag{21}\label{leu:21}
+\end{equation}
+According to Eq.~\eqref{leu:21}, it is easy to answer the questions concerned with the three-bar chain of Fig.~\ref{fig:leu1} given in McGuire et al.\ (2000). Obviously, there will be a solution and actually infinitely many if $P_b = P_c$ and there is no solution when $P_b\neq P_c$. However, Eq.~\eqref{leu:21} is very general and can be used to answer whether a solution exists for the general loading case of Fig.~\ref{fig:leu2}.
+
+\subsection*{Physical interpretation of zero generalized load associated with a mechanism}
+That the generalized load associated with a mechanism is zero as stated in Eq.~\eqref{leu:21} is the condition for a solution to exist. This was derived from Eq.~\eqref{leu:11} and was discussed before. In addition to this derivation, an interesting and useful physical interpretation of Eq.~\eqref{leu:21} is given below and on the basis of interpretation, a third method for finding a mechanism is proposed.
+
+The free-body diagram of the three-bar chain is shown in Fig.~\ref{fig:leu5}, where $f_1$ and $f_3$ are the axial forces of bars 1 and 3, respectively. The existence of a solution to the three-bar chain is equivalent to saying that the equilibrium condition is satisfied for the free-body diagram of Fig.~\ref{fig:leu5}. Hence, the moment about point $a$, the center of rotation of bar 2, due to $f_1$, $f_3$, and $P_i$, $i = 1\sim 4$ must be zero. The contribution of $f_1$ and $f_3$ is zero since these two axial forces pass through point $a$. The contribution of the applied loads at points 1 and 2 can be calculated by multiplying their normal components by the moment arms. Hence,
+\begin{equation}
+  \textstyle\sum M_a = (\mat{n}_1^\tr\Pvec_1)d_1 + (\mat{n}_2^\tr\Pvec_2)d_2 = 0 \tag{22}\label{leu:22}
+\end{equation}
+where $\Pvec_1 = \langle P_1, P_2\rangle^\tr$ and $\Pvec_2 = \langle P_3, P_4\rangle^\tr$ are the applied loads at points 1 and 2, respectively. The normal vectors $\mat{n}_1$ and $\mat{n}_2$ and the moment arms $d_1$ and $d_2$ were defined in Fig.~\ref{fig:leu4} before. According to Eq.~\eqref{leu:20}, Eq.~\eqref{leu:22} is equivalent to
+\begin{equation}
+  (\mat{n}_1^\tr\Pvec_1)\delta_{n1} + (\mat{n}_2^\tr\Pvec_2)\delta_{n2} = 0 \tag{23}\label{leu:23}
+\end{equation}
+From Fig.~\ref{fig:leu4}, the displacements of points 1 and 2 can be written, respectively, as $\bs{\Delta}_1 = \delta_{n1}\mat{n}_1$ and $\bs{\Delta}_2 = \delta_{n2}\mat{n}_2$; they are actually the first two and the last two components of the mechanism $\bs{\varphi}$. Hence Eq.~\eqref{leu:23} can be rewritten as
+\begin{equation}
+  \bs{\Delta}_1^\tr\Pvec_1 + \bs{\Delta}_2^\tr\Pvec_2 = \bs{\varphi}^\tr\Pvec = 0 \tag{24}
+\end{equation}
+since $\Pvec_1$ and $\Pvec_2$ are also the first two and the last two components of $\Pvec$. Equation~(24) shows that Eq.~\eqref{leu:22} is equivalent to Eq.~\eqref{leu:21}.
+
+The main finding here is that Eq.~\eqref{leu:21} is equivalent to stating that the resulting moment of the applied loads at points 1 and 2 about the intersection of the axes of bars 1 and 3 is zero. By using this finding, one can also find the mechanism for the three-bar chain of Fig.~\ref{fig:leu2}. According to Fig.~\ref{fig:leu5}, this zero-moment condition yields
+\begin{equation}
+  P_1\Bigl(\frac32\Bigr) + P_2(2) + P_3\Bigl(\frac32\Bigr) - P_4(2) = 0 \tag{25}\label{leu:25}
+\end{equation}
+Clearly, this is equivalent to Eq.~\eqref{leu:21} and therefore the same mechanism can be found. This is called the third proposed method for finding a mechanism. It is emphasized that there is no need to form $\Kmat$ when using the three proposed methods to find a mechanism.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.42\textwidth}\centering\input{figures/ch05_paper_fig5}
+    \caption{Free-body diagram of the three-bar chain.}\label{fig:leu5}\end{subfigure}\hfill
+  \begin{subfigure}[b]{0.55\textwidth}\centering\input{figures/ch05_paper_fig6}
+    \caption{Five-bar chain.}\label{fig:leu6}\end{subfigure}
+\end{figure}
+
+\subsection*{\texorpdfstring{$N$}{N}-bar chain and an example of five-bar chain}
+The above three proposed methods for finding the mechanism for the three-bar chain can be extended to an $N$-bar chain easily, where $N\geq 3$. The number of displacement degrees of freedom for the $N$-bar chain is $(2N-2)$. There will be $N$ equations if the zero axial deformation condition such as Eqs.~\eqref{leu:18} is used. Therefore, there are $(N-2)$ mechanisms since the difference between $(2N-2)$ and $N$ is $(N-2)$. By solving these $N$ equations of zero axial deformation, one can obtain the $(N-2)$ mechanisms.
+
+The graphic (compatible rigid body mode) method can also be used to find the $(N-2)$ mechanisms. The idea is to take a three-bar free body from the $N$-bar chain. Hence, totally there will be $(N-2)$ three-bar free bodies; the first one consists of bars 1, 2, and 3 and the last one consists of bars $N-2$, $N-1$, and $N$. Each three-bar free body can be analyzed using the same method used for the three-bar chain of Fig.~\ref{fig:leu2} to find a mechanism. Note that each of the obtained mechanisms is local since only four displacement components associated with the middle bar are involved.
+
+The local mechanisms can also be obtained conveniently by applying the moment equilibrium condition to each three-bar free body similarly to that was done in Eq.~\eqref{leu:22} or \eqref{leu:25}. Clearly, there are $(N-2)$ centers of rotation because there are $(N-2)$ three-bar free bodies and each has a center of rotation. By applying the condition of moment equilibrium about each center of rotation, one can obtain the corresponding mechanism.
+
+Finally, consider the five-bar chain of Fig.~\ref{fig:leu6} for illustration. According to the above discussion, there are three three-bar free bodies and therefore three mechanisms can be found. By applying any of the three proposed methods, one can obtain the following three normalized mechanisms:
+\begin{align}
+  \bs{\varphi}_1 &= \frac{1}{\sqrt 8}\langle\sqrt3, 1, 0, -2, 0, 0, 0, 0\rangle^\tr \tag{26a}\\
+  \bs{\varphi}_2 &= \frac{1}{\sqrt 8}\langle 0, 0, 1, \sqrt3, 1, -\sqrt3, 0, 0\rangle^\tr \tag{26b}\\
+  \bs{\varphi}_3 &= \frac{1}{\sqrt 8}\langle 0, 0, 0, 0, 0, -2, -\sqrt3, 1\rangle^\tr \tag{26c}
+\end{align}
+where the displacement components in $\bs{\varphi}_1$, $\bs{\varphi}_2$ and $\bs{\varphi}_3$ are listed in the order of $u_1$, $v_1$, $u_2$, $v_2$, $u_3$, $v_3$, $u_4$, and $v_4$. Among the three methods, perhaps the third one is most convenient to use although the three methods obtain the same mechanisms. Points $a$, $b$, and $c$ in Fig.~\ref{fig:leu6} are the rotation centers when the third method is applied. It is also interesting to know that the obtained mechanisms are not affected by the lengths of the bars but are affected by the inclined angles of the bars. This is why the bar lengths are not given in Fig.~\ref{fig:leu6}. This remark is true for an $N$-bar chain as well.
+
+\subsection*{Conclusion}
+Three methods for finding the mechanism for a three-bar chain were first presented. The mechanism is useful for determining whether a solution exists for this kind of singular structure. If the external load vector is orthogonal to the mechanism, there will be an infinite number of solutions. Otherwise, there is no solution. This orthogonal condition was shown to be equivalent to a moment equilibrium condition about the center of rotation of the middle bar of the three-bar chain. The advantage of the three proposed methods is that there is no need to form the structural stiffness matrix $\Kmat$. Discussions are then given on how to extend the three methods to find the $(N-2)$ mechanisms of an $N$-bar chain, where $N\geq 3$. Finally, a five-bar chain having three mechanisms was used to demonstrate the extension.
+
+\subsection*{References}
+\begin{itemize}[leftmargin=*]
+  \item Greenberg, M.D., \emph{Foundations of Applied Mathematics}, Prentice-Hall, Englewood Cliffs, N.J., USA, 1978, pp.~342--348.
+  \item McGuire, W., Gallagher, R.~H., and Ziemian, R.D., \emph{Matrix Structural Analysis}, John Wiley and Sons, New York, USA, 2000, p.~53.
+\end{itemize}

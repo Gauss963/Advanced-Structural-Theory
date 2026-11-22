@@ -1,0 +1,40 @@
+% Fixed-end forces (local) -> equivalent member forces (global)
+\begin{tikzpicture}[scale=0.9,font=\footnotesize]
+  \def\ang{45}
+  % ---- F_l ----
+  \begin{scope}
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3.2);
+    \draw[member] (A) -- (B);
+    % distributed load
+    \foreach \t in {0.1,0.25,...,0.95}{\draw[->] ($(A)!\t!(B)+(\ang+90:0.7)$) -- ($(A)!\t!(B)+(\ang+90:0.1)$);}
+    \draw[load] ($(A)+(\ang+90:0.9)$) -- ($(A)+(\ang+90:0.15)$) node[pos=0,left] {10};
+    \draw[load] ($(B)+(\ang+90:0.9)$) -- ($(B)+(\ang+90:0.15)$) node[pos=0,right] {$-10$};
+    \draw[->,thick] ($(A)+(-0.35,-0.3)$) arc (-120:60:0.35); \node[left] at ($(A)+(-0.3,-0.2)$) {200};
+    \draw[->,thick] ($(B)+(0.35,0.3)$) arc (60:240:0.35); \node[right] at ($(B)+(0.25,0.35)$) {$-200$};
+    \node at ($(A)+(1.6,-0.7)$) {$\F_l$};
+  \end{scope}
+  \node at (4.4,2.2) {$\Longrightarrow$};
+  % ---- -F_l ----
+  \begin{scope}[xshift=5.6cm]
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3.2);
+    \draw[member] (A) -- (B);
+    \draw[load] ($(A)+(\ang+90:0.15)$) -- ($(A)+(\ang+90:0.9)$) node[left] {$-10$};
+    \draw[load] ($(B)+(\ang+90:0.15)$) -- ($(B)+(\ang+90:0.9)$) node[right] {10};
+    \draw[->,thick] ($(A)+(0.35,-0.3)$) arc (-60:-240:0.35); \node[left] at ($(A)+(-0.3,-0.2)$) {$-200$};
+    \draw[->,thick] ($(B)+(-0.35,0.3)$) arc (120:-60:0.35); \node[right] at ($(B)+(0.25,0.35)$) {200};
+    \node at ($(A)+(1.6,-0.7)$) {$-\F_l$};
+  \end{scope}
+  \node at (10.2,2.2) {$\Longrightarrow$};
+  % ---- -T^T F_l (global components) ----
+  \begin{scope}[xshift=11.6cm]
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3.2);
+    \draw[member] (A) -- (B);
+    \draw[load] (A) -- ++(0,0.9) node[left] {$-10\frac{1}{\sqrt2}$};
+    \draw[load] (A) -- ++(0.9,0) node[right] {$10\frac{1}{\sqrt2}$};
+    \draw[load] (B) -- ++(0,0.9) node[left] {$-10\frac{1}{\sqrt2}$};
+    \draw[load] (B) -- ++(0.9,0) node[below right] {$10\frac{1}{\sqrt2}$};
+    \draw[->,thick] ($(A)+(0.35,-0.3)$) arc (-60:-240:0.35); \node[left] at ($(A)+(-0.35,-0.35)$) {$-200$};
+    \draw[->,thick] ($(B)+(-0.35,0.3)$) arc (120:-60:0.35); \node[right] at ($(B)+(0.3,0.45)$) {200};
+    \node at ($(A)+(1.6,-1.1)$) {$-\Tmat^\tr\F_l$};
+  \end{scope}
+\end{tikzpicture}

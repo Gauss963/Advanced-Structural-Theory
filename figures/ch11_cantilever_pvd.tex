@@ -1,0 +1,9 @@
+% Cantilever beam AB with a tip load P
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \pic at (0,0) {wallL};
+  \draw[thick] (0,-0.15) rectangle (5,0.15);
+  \node[above right] at (0,0.15) {A}; \node[above left] at (5,0.15) {B};
+  \draw[->] (0.1,0) -- (1.4,0) node[right] {$x$};
+  \draw[->] (0,0.5) -- (0,2.0) node[above] {$Y$};
+  \draw[load] (5,0.2) -- (5,1.5) node[above] {$P$};
+\end{tikzpicture}

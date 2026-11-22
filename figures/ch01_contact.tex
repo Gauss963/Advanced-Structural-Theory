@@ -1,0 +1,11 @@
+% Contact problem: a ball pressed onto a rigid surface
+\begin{tikzpicture}[scale=1.0,>=Latex]
+  % ground
+  \fill[pattern={Lines[angle=45,distance=4pt]},pattern color=black!70] (-1.6,-0.35) rectangle (1.6,0);
+  \draw[thick] (-1.6,0) -- (1.6,0);
+  % ball (shaded)
+  \shade[ball color=black!45] (0,1.0) circle (1.0);
+  % load
+  \draw[->,very thick] (0,3.0) -- (0,2.1);
+  \node[right] at (0.1,2.75) {$P(\Delta)$};
+\end{tikzpicture}

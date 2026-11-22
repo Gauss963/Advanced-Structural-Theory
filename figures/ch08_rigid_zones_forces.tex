@@ -1,0 +1,26 @@
+% Beam with rigid zones: forces F and F'
+\begin{tikzpicture}[scale=0.68,font=\small]
+  \begin{scope}
+    \fill[hatch] (0,-0.12) rectangle (1.0,0.12); \draw (0,-0.12) rectangle (1.0,0.12);
+    \draw[member] (1.0,0) -- (5.5,0);
+    \fill[hatch] (5.5,-0.12) rectangle (6.2,0.12); \draw (5.5,-0.12) rectangle (6.2,0.12);
+    \draw[load] (-1.2,0) -- (-0.1,0) node[pos=0,left] {$F_{x1}$};
+    \draw[load] (0,0.15) -- (0,1.2) node[above] {$F_{y1}$};
+    \draw[->,thick] (0.35,-0.3) arc (-40:200:0.35); \node[below left] at (0,-0.35) {$M_{z1}$};
+    \draw[load] (6.3,0) -- (7.4,0) node[right] {$F_{x2}$};
+    \draw[load] (6.2,0.15) -- (6.2,1.2) node[above] {$F_{y2}$};
+    \draw[->,thick] (6.55,-0.3) arc (-40:200:0.35); \node[below right] at (6.2,-0.35) {$M_{z2}$};
+    \node[below] at (0.5,-0.15) {$a$}; \node[below] at (5.85,-0.15) {$b$};
+    \draw[dim] (1.0,-0.9) -- (5.5,-0.9) node[midway,fill=white,inner sep=1pt] {$L$};
+  \end{scope}
+  \begin{scope}[xshift=10cm]
+    \draw[member] (0,0) -- (4.5,0);
+    \draw[load] (-1.2,0) -- (-0.1,0) node[pos=0,left] {$F_{x1}$};
+    \draw[load] (0,0.15) -- (0,1.2) node[above] {$F_{y1}$};
+    \draw[->,thick] (0.35,-0.3) arc (-40:200:0.35); \node[below left,align=right] at (0.1,-0.35) {$M_{z1}-F_{y1}\cdot a$};
+    \draw[load] (4.6,0) -- (5.7,0) node[right] {$F_{x2}$};
+    \draw[load] (4.5,0.15) -- (4.5,1.2) node[above] {$F_{y2}$};
+    \draw[->,thick] (4.85,-0.3) arc (-40:200:0.35); \node[below right] at (4.4,-0.35) {$M_{z2}+F_{y2}\cdot b$};
+    \draw[dim] (0,-0.9) -- (4.5,-0.9) node[midway,fill=white,inner sep=1pt] {$L$};
+  \end{scope}
+\end{tikzpicture}

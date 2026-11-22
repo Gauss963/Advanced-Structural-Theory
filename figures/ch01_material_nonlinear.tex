@@ -1,0 +1,26 @@
+% Materially nonlinear analysis: nonlinear elastic vs. plastic
+\begin{tikzpicture}[scale=1.0,>=Latex,font=\small]
+  % ---------- nonlinear elastic ----------
+  \begin{scope}
+    \draw[->] (0,0) -- (3.4,0) node[right] {$\varepsilon$};
+    \draw[->] (0,0) -- (0,2.6) node[above] {$\sigma$};
+    \draw[thick] (0,0) .. controls (0.6,1.7) and (1.6,2.2) .. (3.0,2.3);
+    % loading / unloading arrows along the same curve
+    \draw[->,thin] (0.35,0.85) .. controls (0.5,1.2) .. (0.85,1.55);
+    \draw[<-,thin] (1.3,1.83) .. controls (1.5,1.95) .. (1.9,2.05);
+    \node[left] at (-0.2,1.3) {\itshape elastic};
+  \end{scope}
+  % ---------- plastic ----------
+  \begin{scope}[xshift=6.8cm]
+    \draw[->] (0,0) -- (3.4,0) node[right] {$\varepsilon$};
+    \draw[->] (0,0) -- (0,2.6) node[above] {$\sigma$};
+    % hysteresis parallelogram, hatched
+    \fill[pattern={Lines[angle=90,distance=3pt]},pattern color=black!70]
+      (0,0) -- (0.8,1.9) -- (2.4,1.9) -- (1.6,0) -- cycle;
+    \draw[thick] (0,0) -- (0.8,1.9) -- (2.4,1.9) -- (1.6,0) -- cycle;
+    \draw[->,thin] (0.35,0.83) -- (0.5,1.19);
+    \draw[->,thin] (1.4,1.9) -- (1.7,1.9);
+    \draw[->,thin] (2.05,1.07) -- (1.9,0.71);
+    \node[left] at (-0.2,1.1) {\itshape plastic};
+  \end{scope}
+\end{tikzpicture}

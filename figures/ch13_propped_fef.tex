@@ -1,0 +1,29 @@
+% Fixed-end forces for propped cantilevers (uniform load and centre point load)
+\begin{tikzpicture}[scale=0.8,font=\small]
+  % pin left, fixed right, UDL
+  \begin{scope}
+    \draw[member] (0,0) -- (7,0); \pic at (0,0) {pin}; \pic at (7,0) {wallR};
+    \foreach \x in {0.3,0.8,...,6.8}{\draw[->] (\x,0.9) -- (\x,0.1);} \draw (0.3,0.9) -- (6.8,0.9);
+    \node[above] at (3.5,0.95) {$w$}; \node[below] at (3.5,-0.1) {$l$};
+    \draw[load] (0,-1.5) -- (0,-0.6) node[pos=0,below] {$\frac38wl$};
+    \draw[load] (7,-1.5) -- (7,-0.6) node[pos=0,below] {$\frac58wl$};
+    \draw[->,thick] (7.4,-0.9) arc (-70:110:0.4); \node[left] at (6.9,-0.9) {$\frac18wl^2$};
+  \end{scope}
+  % fixed left, pin right, UDL
+  \begin{scope}[yshift=-4.2cm]
+    \draw[member] (0,0) -- (7,0); \pic at (0,0) {wallL}; \pic at (7,0) {pin};
+    \foreach \x in {0.3,0.8,...,6.8}{\draw[->] (\x,0.9) -- (\x,0.1);} \draw (0.3,0.9) -- (6.8,0.9);
+    \node[above] at (3.5,0.95) {$w$}; \node[below] at (3.5,-0.1) {$l$};
+    \draw[load] (0,-1.5) -- (0,-0.6) node[pos=0,below] {$\frac58wl$};
+    \draw[load] (7,-1.5) -- (7,-0.6) node[pos=0,below] {$\frac38wl$};
+    \draw[->,thick] (-0.4,-0.9) arc (250:70:0.4); \node[right] at (0.1,-0.9) {$\frac18wl^2$};
+  \end{scope}
+  % fixed left, pin right, centre point load
+  \begin{scope}[yshift=-8.4cm]
+    \draw[member] (0,0) -- (7,0); \pic at (0,0) {wallL}; \pic at (7,0) {pin};
+    \draw[load] (3.5,1.2) -- (3.5,0.1) node[pos=0,above] {$P$}; \node[below] at (3.5,-0.1) {$l$};
+    \draw[load] (0,-1.5) -- (0,-0.6) node[pos=0,below] {$\frac{11}{16}P$};
+    \draw[load] (7,-1.5) -- (7,-0.6) node[pos=0,below] {$\frac{5}{16}P$};
+    \draw[->,thick] (-0.4,-0.9) arc (250:70:0.4); \node[right] at (0.1,-0.9) {$\frac{3}{16}Pl$};
+  \end{scope}
+\end{tikzpicture}

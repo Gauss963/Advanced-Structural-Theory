@@ -1,0 +1,13 @@
+% Portal frame with six DOFs (axial deformation included)
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \draw[member] (0,0) -- (0,4) -- (4,4) -- (4,0);
+  \pic at (0,0) {fixed}; \pic at (4,0) {fixed};
+  \node at (2,2) {$EA, I, L$};
+  \draw[load] (-1.6,4) -- (-0.9,4) node[pos=0,below] {$P$};
+  \draw[load] (-0.8,4) -- (-0.1,4) node[pos=0,below] {$u_1$};
+  \draw[load] (0,4.1) -- (0,5.0) node[above] {$u_2$};
+  \draw[->,thick] (0.5,4.4) arc (30:170:0.5); \node[above left] at (-0.1,4.5) {$u_3$};
+  \draw[load] (4.1,4) -- (5.0,4) node[right] {$u_4$};
+  \draw[load] (4,4.1) -- (4,5.0) node[above] {$u_5$};
+  \draw[->,thick] (4.5,4.4) arc (30:170:0.5); \node[above left] at (3.9,4.5) {$u_6$};
+\end{tikzpicture}

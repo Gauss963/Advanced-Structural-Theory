@@ -1,0 +1,162 @@
+\chapter[Basic Equations]{Basic Equations: Equilibrium, Compatibility, and Constitutive Equations}
+
+\section{Equilibrium equations}
+We shall distinguish the following three levels of equilibrium equations.
+
+\topicnote{Material level:}{e.g.\ $\sigma_{ij,j}+f_i=0$}
+\begin{fig}
+  \input{figures/ch03_stress_element}
+\end{fig}
+\begin{itemize}
+  \item $\sum F_x = 0$ (assuming thickness $=1$):
+  \begin{multline*}
+    -\sigma_{xx}\,(dy\cdot 1) + \Bigl(\sigma_{xx}+\pd{\sigma_{xx}}{x}dx\Bigr)(dy\cdot 1)
+    - \sigma_{xy}\,(dx\cdot 1) \\
+    + \Bigl(\sigma_{xy}+\pd{\sigma_{xy}}{y}dy\Bigr)(dx\cdot 1) + f_x\,(dx\cdot dy\cdot 1) = 0
+  \end{multline*}
+  \begin{equation}
+    \Longrightarrow\quad \pd{\sigma_{xx}}{x}+\pd{\sigma_{xy}}{y}+f_x = 0
+  \end{equation}
+  \item $\sum F_y = 0$:
+  \begin{multline*}
+    -\sigma_{yy}\,(dx\cdot 1) + \Bigl(\sigma_{yy}+\pd{\sigma_{yy}}{y}dy\Bigr)(dx\cdot 1)
+    - \sigma_{xy}\,(dy\cdot 1) \\
+    + \Bigl(\sigma_{xy}+\pd{\sigma_{xy}}{x}dx\Bigr)(dy\cdot 1) + f_y\,(dx\cdot dy\cdot 1) = 0
+  \end{multline*}
+  \begin{equation}
+    \Longrightarrow\quad \pd{\sigma_{yy}}{y}+\pd{\sigma_{xy}}{x}+f_y = 0
+    \quad\xRightarrow{\;\sigma_{xy}=\sigma_{yx}\;}\quad
+    \pd{\sigma_{yx}}{x}+\pd{\sigma_{yy}}{y}+f_y = 0
+  \end{equation}
+\end{itemize}
+
+\topicnote{Nodal level:}{$\sum \mat{f}_i = \Pvec_i$}
+This means: summation of internal forces $\mat{f}_i$ (including moments) $=$ externally applied loads at node $i$, $\Pvec_i$.
+
+\noindent$*$ There are six nodes in this cantilever but only one joint (node 1).
+\begin{fig}
+  \input{figures/ch03_cantilever_nodes}
+\end{fig}
+
+\topic{Structural level:}
+\begin{equation*}
+  \Kmat\mat{U} = \Pvec \qquad \text{(obtained by assembling the nodal equilibrium equations)}
+\end{equation*}
+
+\section{Compatibility equations}
+\topic{Material level}
+\begin{enumerate}[label=e.g.\,\arabic*.,leftmargin=*]
+  \item $\mat{u}(\mat{x}') = \mat{u}(\mat{x})$ as $\mat{x}'\to\mat{x}$
+  \item 2D elasticity problems:
+    \begin{equation}
+      2\frac{\partial^2\eps_{xy}}{\partial x\,\partial y} = \frac{\partial^2\eps_x}{\partial y^2}+\frac{\partial^2\eps_y}{\partial x^2},
+      \qquad\text{where }
+      \eps_x = \pd{u}{x},\quad \eps_y=\pd{v}{y},\quad \eps_{xy} = \frac12\Bigl(\pd{u}{y}+\pd{v}{x}\Bigr).
+    \end{equation}
+    Mathematically, this is called the \emph{integrable condition}. Once this equation is satisfied, we can determine the displacement field from a given strain field.
+\end{enumerate}
+
+We all know the integrable condition associated with a conservative force as shown below.
+\begin{fig}
+  \input{figures/ch03_conservative_path}
+\end{fig}
+\begin{gather}
+  \mat{F} = P(x,y)\,\mat{i} + Q(x,y)\,\mat{j}, \qquad d\mat{r} = dx\,\mat{i} + dy\,\mat{j} \\
+  \int_1^2 \mat{F}\cdot d\mat{r} = \int_1^2 P(x,y)\,dx + Q(x,y)\,dy = \int_1^2 dW = -\int_1^2 dV = V_1 - V_2
+\end{gather}
+Note that the potential energy $V$ exists when $\mat{F}$ is conservative. The work done by a force needs to be evaluated by integration along the path of the particle. However, for a conservative force, no integration is needed. The work done can be evaluated using the change in the potential energy.
+\begin{gather}
+  \Longrightarrow\quad -dV = -\pd{V}{x}dx - \pd{V}{y}dy = P(x,y)\,dx + Q(x,y)\,dy \\
+  \Longrightarrow\quad P(x,y) = -\pd{V}{x},\quad Q(x,y) = -\pd{V}{y}
+  \qquad\Longrightarrow\quad \pd{P}{y} = \pd{Q}{x}
+\end{gather}
+
+Consider two well-known conservative forces and their potentials.
+\begin{enumerate}[label=(\alph*)]
+  \item \textbf{Gravity force}
+    \begin{fig}
+      \input{figures/ch03_gravity}
+    \end{fig}
+    \begin{gather*}
+      P(x,y) = 0, \qquad Q(x,y) = -mg \\
+      \text{Check: } \pd{P}{y} = \pd{Q}{x} \;\Rightarrow\; 0 = 0 \\
+      dW = (-mg)\,dy \;\Rightarrow\; dV = -dW = mg\,(dy) \;\Rightarrow\; V = mgy + c
+    \end{gather*}
+  \item \textbf{Spring (along the $x$-direction) force}
+    \begin{gather*}
+      P(x,y) = -kx, \qquad Q(x,y) = 0 \\
+      \text{Check: } \pd{P}{y} = \pd{Q}{x} \;\Rightarrow\; 0 = 0 \\
+      dW = (-kx)\,dx \;\Rightarrow\; dV = -dW = kx\,(dx) \;\Rightarrow\; V = \tfrac12 kx^2 + c
+    \end{gather*}
+\end{enumerate}
+
+\topic{Nodal level}
+E.g.\ for a plane truss, $(u_1,u_2)_1 = (u_1,u_2)_2 = (u_1,u_2)_3$, where a subscript represents the member number.
+\begin{fig}
+  \input{figures/ch03_truss_node}
+\end{fig}
+
+Skew support: no penetration, i.e.\ the displacement perpendicular to the skew support equals zero.
+\begin{fig}
+  \input{figures/ch03_skew_support}
+\end{fig}
+
+\section{Constitutive equations}
+\topic{Material level}
+Stress--strain relationships; for linearly elastic material $\bs{\sigma} = \mat{C}\bs{\eps}$ or $\bs{\eps} = \mat{S}\bs{\sigma}$, where $\mat{C} =$ elasticity matrix and $\mat{S} =$ compliance matrix.
+
+\topic{3D problems:}
+\begin{equation}
+  \mat{C} = \frac{E}{1+\nu}
+  \begin{bmatrix}
+    \dfrac{1-\nu}{1-2\nu} & \dfrac{\nu}{1-2\nu} & \dfrac{\nu}{1-2\nu} & 0 & 0 & 0\\[8pt]
+    \dfrac{\nu}{1-2\nu} & \dfrac{1-\nu}{1-2\nu} & \dfrac{\nu}{1-2\nu} & 0 & 0 & 0\\[8pt]
+    \dfrac{\nu}{1-2\nu} & \dfrac{\nu}{1-2\nu} & \dfrac{1-\nu}{1-2\nu} & 0 & 0 & 0\\[8pt]
+    0 & 0 & 0 & 1 & 0 & 0\\
+    0 & 0 & 0 & 0 & 1 & 0\\
+    0 & 0 & 0 & 0 & 0 & 1
+  \end{bmatrix}
+\end{equation}
+\begin{equation}
+  \mat{S} = \frac{1}{E}
+  \begin{bmatrix}
+    1 & -\nu & -\nu & 0 & 0 & 0\\
+    -\nu & 1 & -\nu & 0 & 0 & 0\\
+    -\nu & -\nu & 1 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1+\nu & 0 & 0\\
+    0 & 0 & 0 & 0 & 1+\nu & 0\\
+    0 & 0 & 0 & 0 & 0 & 1+\nu
+  \end{bmatrix}
+\end{equation}
+
+\topic{2D problems:}
+\begin{description}[style=nextline,leftmargin=1.5em]
+  \item[\underline{Case 1: plane stress}]
+    Assumption: $\sigma_{zz} = \sigma_{zx} = \sigma_{zy} = 0$ and in-plane ($xy$-plane) loading.
+    \begin{fig}
+      \input{figures/ch03_plane_stress}
+    \end{fig}
+    \begin{equation}
+      \mat{C} = \frac{E}{1-\nu^2}\bmat{1 & \nu & 0\\ \nu & 1 & 0\\ 0 & 0 & 1-\nu}, \qquad
+      \mat{S} = \frac{1}{E}\bmat{1 & -\nu & 0\\ -\nu & 1 & 0\\ 0 & 0 & 1+\nu}
+    \end{equation}
+  \item[\underline{Case 2: plane strain}]
+    Assumption: $\eps_{zz} = \eps_{zx} = \eps_{zy} = 0$ and in-plane ($xy$-plane) loading.
+    \begin{fig}
+      \input{figures/ch03_plane_strain}
+    \end{fig}
+    \begin{equation}
+      \mat{C} = \frac{E}{1+\nu}
+      \begin{bmatrix}
+        \dfrac{1-\nu}{1-2\nu} & \dfrac{\nu}{1-2\nu} & 0\\[8pt]
+        \dfrac{\nu}{1-2\nu} & \dfrac{1-\nu}{1-2\nu} & 0\\[8pt]
+        0 & 0 & 1
+      \end{bmatrix}, \qquad
+      \mat{S} = \frac{1}{E}
+      \bmat{1-\nu^2 & -\nu(1+\nu) & 0\\ -\nu(1+\nu) & 1-\nu^2 & 0\\ 0 & 0 & 1+\nu}
+    \end{equation}
+\end{description}
+\noindent$*$ Note that the $\mat{C}$ and $\mat{S}$ matrices for 2D problems can be derived from those for 3D problems using Gauss elimination; we shall do it in class.
+
+\topic{Cross-section level}
+Usually called \emph{generalized stress--strain relationships}, e.g.\ axial force--axial strain relationship ($F = EA\eps$), moment--curvature relationship ($M = EI\phi$), and torsion--rate of twist relationship ($T = GJ\theta'$).

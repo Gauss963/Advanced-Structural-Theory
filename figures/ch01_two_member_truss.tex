@@ -1,0 +1,38 @@
+% Two-member (von Mises) truss: geometrically nonlinear example
+\begin{tikzpicture}[scale=1.0,>=Latex]
+  \def\Lx{5.0} \def\h{2.0} \def\dl{0.7}
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (2*\Lx,0);
+  \coordinate (C0) at (\Lx,\h);
+  \coordinate (C1) at (\Lx,\h-\dl);
+  % undeformed (dotted)
+  \draw[densely dotted] (A) -- (C0) -- (B);
+  % baseline (dashed)
+  \draw[dashed] (A) -- (B);
+  % deformed (thick)
+  \draw[line width=2.5pt,black!70] (A) -- (C1) -- (B);
+  % supports
+  \foreach \p in {A,B} {
+    \draw[fill=black!60] (\p) -- ++(-0.25,-0.4) -- ++(0.5,0) -- cycle;
+    \fill[black!25] ($(\p)+(-0.4,-0.4)$) rectangle ($(\p)+(0.4,-0.55)$);
+    \fill[white,draw=black] (\p) circle (0.06);
+  }
+  \fill[white,draw=black] (C1) circle (0.07);
+  % load
+  \draw[->,very thick] ($(C0)+(0,1.0)$) -- ($(C1)+(0,0.1)$);
+  \node[above] at ($(C0)+(0,1.0)$) {$P$};
+  % labels
+  \node[above left,inner sep=1pt] at ($(A)!0.55!(C0)$) {$L$};
+  \node[above,inner sep=1pt] at ($(A)!0.62!(C1)$) {$L'$};
+  % angles
+  \draw[->] ($(A)+(1.4,0)$) arc (0:{atan(\h/\Lx)}:1.4);
+  \node at ($(A)+(1.65,0.22)$) {$\theta$};
+  \draw[->] ($(A)+(2.3,0)$) arc (0:{atan((\h-\dl)/\Lx)}:2.3);
+  \node at ($(A)+(2.55,0.22)$) {$\theta'$};
+  % dimension lines
+  \draw[thin] (C0) -- ($(B)+(1.0,\h)$);
+  \draw[thin] (C1) -- ($(B)+(1.0,\h-\dl)$);
+  \draw[thin] (B) -- ($(B)+(1.0,0)$);
+  \draw[<->] ($(B)+(0.6,\h)$) -- ($(B)+(0.6,\h-\dl)$) node[midway,right] {$\Delta$};
+  \draw[<->] ($(B)+(0.9,\h-\dl)$) -- ($(B)+(0.9,0)$) node[midway,right] {$h-\Delta$};
+\end{tikzpicture}

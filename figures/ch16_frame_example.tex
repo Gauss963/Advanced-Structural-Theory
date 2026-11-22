@@ -1,0 +1,10 @@
+% Portal frame solved by the flexibility method: redundants at d
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \draw[member] (0,0) -- (0,4) -- (4,4) -- (4,0);
+  \pic at (0,0) {fixed};
+  \node[left] at (0,0.3) {$a$}; \node[above right] at (0,4) {$b$}; \node[above left] at (4,4) {$c$}; \node[above left] at (4,0.3) {$d$};
+  \draw[load] (-1.4,4) -- (-0.1,4) node[pos=0,below] {$P$};
+  \draw[load] (4.1,0) -- (5.4,0) node[right] {$F_{x1}$};
+  \draw[load] (4,-1.3) -- (4,-0.1) node[pos=0,right] {$F_{x2}$};
+  \draw[->,thick] (4.6,-0.4) arc (-40:200:0.6); \node[left] at (3.4,-0.4) {$F_{x3}$};
+\end{tikzpicture}

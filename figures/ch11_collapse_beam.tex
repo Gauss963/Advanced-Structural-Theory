@@ -1,0 +1,13 @@
+% Propped cantilever with two point loads W at the third points
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \def\L{9}
+  \pic at (0,0) {wallL}; \pic at (\L,0) {pin};
+  \draw[member] (0,0) -- (\L,0);
+  \node[below right] at (0,0) {$A$}; \node[below] at (3,-0.05) {$B$}; \node[below] at (6,-0.05) {$C$}; \node[below left] at (\L,0) {$D$};
+  \draw[load] (3,1.6) -- (3,0.15) node[pos=0,above] {$W$};
+  \draw[load] (6,1.6) -- (6,0.15) node[pos=0,above] {$W$};
+  \draw[dim] (0,-0.9) -- (3,-0.9) node[midway,fill=white,inner sep=1pt] {$\frac L3$};
+  \draw[dim] (3,-0.9) -- (6,-0.9) node[midway,fill=white,inner sep=1pt] {$\frac L3$};
+  \draw[dim] (6,-0.9) -- (\L,-0.9) node[midway,fill=white,inner sep=1pt] {$\frac L3$};
+  \foreach \x in {0,3,6,\L}{\draw (\x,-0.7) -- (\x,-1.1);}
+\end{tikzpicture}

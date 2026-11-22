@@ -1,0 +1,17 @@
+% Point load P at x = a -> equivalent nodal loads
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \begin{scope}
+    \draw[thick] (0,0) rectangle (5,0.4);
+    \draw[load] (1.5,0.45) -- (1.5,1.8) node[above] {$P$};
+    \draw[dim] (0,-0.5) -- (1.5,-0.5) node[midway,below] {$a$};
+    \draw[dim] (1.5,-0.5) -- (5,-0.5) node[midway,below] {$b$};
+    \draw (0,-0.7) -- (0,-0.3); \draw (1.5,-0.7) -- (1.5,-0.3); \draw (5,-0.7) -- (5,-0.3);
+  \end{scope}
+  \node at (6.2,0.4) {$\Longrightarrow$};
+  \begin{scope}[xshift=7.5cm]
+    \draw[thick] (0,0) rectangle (5,0.4);
+    \draw[load] (0,0.5) -- (0,1.6) node[above] {$f_{eq1}$}; \draw[load] (5,0.5) -- (5,1.6) node[above] {$f_{eq3}$};
+    \draw[->,thick] (-0.3,-0.2) arc (-90:90:0.4); \node[below left] at (-0.1,-0.1) {$f_{eq2}$};
+    \draw[->,thick] (5.3,-0.2) arc (270:90:0.4); \node[below right] at (5.1,-0.1) {$f_{eq4}$};
+  \end{scope}
+\end{tikzpicture}

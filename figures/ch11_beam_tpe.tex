@@ -1,0 +1,33 @@
+% Beam with distributed load, point load, end moment, inclined bar and spring
+\begin{tikzpicture}[scale=0.85,font=\small]
+  \def\L{3.2}
+  \pic at (0,0) {wallL};
+  \draw[member] (0,0) -- (3*\L,0);
+  \node[above] at (1.6*\L,0.1) {$EI$};
+  % distributed load on first span
+  \foreach \x in {0.2,0.55,...,3.0}{\draw[->] (\x,0.9) -- (\x,0.12);} \draw (0.2,0.9) -- (3.0,0.9);
+  \node[above] at (1.6,0.95) {$w$};
+  \draw[->] (0,1.2) -- (0,2.4) node[right] {$v(x)$};
+  % point load at 2L
+  \draw[load] (2*\L,1.8) -- (2*\L,0.15) node[pos=0,above] {$\overline{P}$};
+  % end moment at 3L
+  \draw[->,thick] (3*\L+0.5,0.55) arc (40:200:0.5); \node[above left] at (3*\L-0.3,0.7) {$\overline{M}$};
+  % inclined bar at 30 deg from vertical, up-right from the end
+  \coordinate (E) at (3*\L,0);
+  \coordinate (T) at ($(E)+(60:2.8)$);
+  \draw[thinmember] (E) -- (T);
+  \pic[rotate=60] at (T) {wallR};
+  \node[left] at ($(E)!0.5!(T)+(-0.1,0.1)$) {$EA$};
+  \draw[dashed] (E) -- ($(E)+(0,2.2)$);
+  \draw[->] ($(E)+(0,1.4)$) arc (90:60:1.4); \node at ($(E)+(0.45,1.75)$) {$30^\circ$};
+  \draw[dim] ($(E)+(0.9,0.2)$) -- ($(T)+(0.9,0.2)$) node[midway,right] {$L$};
+  % spring below the end
+  \draw[thick,decorate,decoration={zigzag,segment length=6pt,amplitude=4pt,pre length=6pt,post length=6pt}] (E) -- ($(E)+(0,-2.6)$);
+  \node[right] at ($(E)+(0.2,-1.6)$) {$K_0$};
+  \pic at ($(E)+(0,-2.6)$) {fixed};
+  % dims
+  \draw[dim] (0,-0.9) -- (\L,-0.9) node[midway,fill=white,inner sep=1pt] {$L$};
+  \draw[dim] (\L,-0.9) -- (2*\L,-0.9) node[midway,fill=white,inner sep=1pt] {$L$};
+  \draw[dim] (2*\L,-0.9) -- (3*\L,-0.9) node[midway,fill=white,inner sep=1pt] {$L$};
+  \foreach \x in {0,\L,2*\L,3*\L}{\draw (\x,-0.7) -- (\x,-1.1);}
+\end{tikzpicture}

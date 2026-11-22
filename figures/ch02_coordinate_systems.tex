@@ -1,0 +1,13 @@
+% Gable frame: local (xyz) vs. global (XYZ) coordinate systems
+\begin{tikzpicture}[scale=1.0]
+  \coordinate (A) at (0,0); \coordinate (B) at (0,2.2);
+  \coordinate (C) at (1.6,3.3); \coordinate (D) at (3.2,2.2); \coordinate (E) at (3.2,0);
+  \draw[member] (A) -- (B) -- (C) -- (D) -- (E);
+  \pic at (A) {fixed}; \pic at (E) {fixed};
+  % global axes
+  \draw[->] (A) -- ++(1.1,0) node[right] {$X$};
+  \draw[->] (A) -- ++(0,1.1) node[above] {$Y$};
+  % local axes on member BC
+  \draw[->] (B) -- ($(B)!0.55!(C)$) node[above left] {$x$};
+  \draw[->] (B) -- ($(B)+(-0.6,0.87)$) node[above] {$y$};
+\end{tikzpicture}

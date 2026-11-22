@@ -1,0 +1,16 @@
+% Three-bar chain subject to four loads (paper Fig. 2)
+\begin{tikzpicture}[scale=0.55,font=\small]
+  \coordinate (n0) at (0,3); \coordinate (n1) at (4,0); \coordinate (n2) at (8,0); \coordinate (n3) at (12,3);
+  \draw[member] (n0) -- (n1) -- (n2) -- (n3);
+  \pic[rotate=-36.87] at (n0) {wallL};
+  \pic[rotate=36.87] at (n3) {wallR};
+  \foreach \p in {n1,n2}{\node[node dot] at (\p) {};}
+  \node[below right] at (n0) {0}; \node[below] at (n1) {1}; \node[below] at (n2) {2}; \node[below left] at (n3) {3};
+  \node[circle,draw,inner sep=1pt] at (1.5,2.0) {\scriptsize 1};
+  \node[circle,draw,inner sep=1pt] at (6,-0.9) {\scriptsize 2};
+  \node[circle,draw,inner sep=1pt] at (10.5,2.0) {\scriptsize 3};
+  \draw[load] (n1) -- ++(0,1.8) node[above] {$v_1\,(P_2)$};
+  \draw[load] (n2) -- ++(0,1.8) node[above] {$v_2\,(P_4)$};
+  \draw[load] (n1) -- ++(-2.2,0) node[above] {$u_1\,(P_1)$};
+  \draw[load] (n2) -- ++(2.2,0) node[above] {$u_2\,(P_3)$};
+\end{tikzpicture}

@@ -1,0 +1,16 @@
+% Three-bar chain subject to two loads (paper Fig. 1)
+\begin{tikzpicture}[scale=0.45,font=\small]
+  \coordinate (a) at (0,3); \coordinate (b) at (4,0); \coordinate (c) at (8,0); \coordinate (d) at (12,3);
+  \draw[member] (a) -- (b) -- (c) -- (d);
+  \pic[rotate=-36.87] at (a) {wallL};
+  \pic[rotate=36.87] at (d) {wallR};
+  \node[above right] at (a) {$a$}; \node[above] at (b) {$b$}; \node[above] at (c) {$c$}; \node[above left] at (d) {$d$};
+  \draw[load] (b) -- ++(0,-1.6) node[below] {$P_b$};
+  \draw[load] (c) -- ++(0,-1.6) node[below] {$P_c$};
+  \draw[dashed] (a) -- (0,0) -- (b); \draw[dashed] (d) -- (12,0) -- (c);
+  \draw[dim] (-1.2,0) -- (-1.2,3) node[midway,left] {$3m$};
+  \draw[dim] (12.9,0) -- (12.9,3) node[midway,right] {$3m$};
+  \draw[dim] (0,-0.8) -- (4,-0.8) node[midway,fill=white,inner sep=1pt] {$4m$};
+  \draw[dim] (4,-0.8) -- (8,-0.8) node[midway,fill=white,inner sep=1pt] {$4m$};
+  \draw[dim] (8,-0.8) -- (12,-0.8) node[midway,fill=white,inner sep=1pt] {$4m$};
+\end{tikzpicture}

@@ -1,0 +1,30 @@
+% Rearranged joint stiffness matrix for a continuous beam (after Weaver & Gere, Fig. 4-10)
+\begin{tikzpicture}[scale=0.38,font=\scriptsize]
+  % ---- (a) beam: rotations 1..7, translations 8..14 ----
+  \begin{scope}[yshift=2cm]
+    \draw[member] (0,0) -- (18,0);
+    \foreach \i in {0,...,6}{
+      \pgfmathtruncatemacro{\t}{\i+8}\pgfmathtruncatemacro{\r}{\i+1}
+      \draw[fill=black!50] (3*\i,0) -- ++(-0.3,-0.55) -- ++(0.6,0) -- cycle;
+      \draw[->,thick] (3*\i,0.1) -- (3*\i,1.6) node[above] {\t};
+      \draw[->,thick] (3*\i-1.3,-1.1) -- (3*\i-0.1,-0.1) node[pos=0,below left] {\r};}
+    \foreach \i in {1,...,6}{\node[above] at (3*\i-1.5,0.05) {\i};}
+    \node at (9,-2.6) {(a)};
+  \end{scope}
+  % ---- (b) matrix pattern: four tridiagonal 7x7 blocks ----
+  \begin{scope}[yshift=-19cm]
+    \foreach \bx in {0,7}{\foreach \by in {0,7}{
+      \foreach \i in {1,...,7}{
+        \pgfmathsetmacro{\x}{\bx+\i-1} \pgfmathsetmacro{\y}{\by+7-\i}
+        \fill[pattern={Lines[angle=45,distance=2.5pt]},pattern color=black!70] (\x,\y) rectangle (\x+1,\y+1);
+        \ifnum\i<7
+          \fill[pattern={Lines[angle=45,distance=2.5pt]},pattern color=black!70] (\x+1,\y) rectangle (\x+2,\y+1);
+          \fill[pattern={Lines[angle=45,distance=2.5pt]},pattern color=black!70] (\x,\y-1) rectangle (\x+1,\y);
+        \fi}}}
+    \draw[step=1,black!60,thin] (0,0) grid (14,14);
+    \draw[thick] (0,0) rectangle (14,14);
+    \draw[dashed,thick] (7,0) -- (7,14); \draw[dashed,thick] (0,7) -- (14,7);
+    \foreach \i in {1,...,14}{\node[above] at (\i-0.5,14) {\i}; \node[left] at (0,14.5-\i) {\i};}
+    \node at (7,-1.6) {(b)};
+  \end{scope}
+\end{tikzpicture}

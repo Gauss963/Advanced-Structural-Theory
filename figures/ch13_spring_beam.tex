@@ -1,0 +1,10 @@
+% Simple beam with rotational springs at both ends
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \draw[thinmember] (0,0) -- (7,0);
+  \pic at (0,0) {roller}; \pic at (7,0) {pin};
+  \foreach \x in {0,7}{\draw[thick] (\x,0) circle (0.2); \draw[thick] (\x,0) circle (0.1);}
+  \draw[->,thick] (-0.4,0.7) arc (110:-40:0.5); \node[above left] at (-0.2,0.8) {$M_1(\alpha_1)$};
+  \draw[->,thick] (7.4,0.7) arc (70:220:0.5); \node[above right] at (7.2,0.8) {$M_2(\alpha_2)$};
+  \node[below right] at (0.2,-0.2) {$k_{\theta1}$}; \node[below left] at (6.8,-0.2) {$k_{\theta2}$};
+  \node[below] at (3.5,-0.2) {$EI, L$};
+\end{tikzpicture}

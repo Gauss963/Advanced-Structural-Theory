@@ -1,0 +1,113 @@
+\chapter{Axial Element}
+
+\section{Stiffness matrix for an axial (bar, or truss) element}
+\begin{fig}
+  \input{figures/ch04_axial_element}
+\end{fig}
+\begin{equation}
+  \mat{f} = \kmat\bs{\delta} \quad\text{where}\quad
+  \mat{f} = \Bmat{f_1\\ f_2},\quad \bs{\delta} = \Bmat{\delta_1\\ \delta_2}
+  \quad\text{and}\quad \kmat = \frac{EA}{L}\bmat{1 & -1\\ -1 & 1}.
+\end{equation}
+\begin{equation*}
+  \delta = \delta_2-\delta_1,\qquad f_2 = k\delta = \frac{EA}{L}(\delta_2-\delta_1)
+  \quad\text{and}\quad f_1 = -f_2 = \frac{EA}{L}(\delta_1-\delta_2).
+\end{equation*}
+
+\section{Methods for deriving the element stiffness matrix \texorpdfstring{$\kmat$}{k}}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Direct method}\\
+    By definition, the $i$-th column of $\kmat$ is the $\mat{f}$ vector corresponding to $\delta_i = 1$, and other $\delta_j = 0$ ($j\neq i$).
+
+    For example, take $\delta_1 = 1$, $\delta_2 = 0$; then the first column of the stiffness matrix can be obtained as shown.
+    \begin{fig}
+      \input{figures/ch04_direct_method}
+    \end{fig}
+  \item \textbf{Energy method}\\
+    The strain energy $U$ in terms of $\bs{\delta}$ for a linearly elastic member is a quadratic form. Hence
+    \begin{equation}
+      U = \tfrac12\,\bs{\delta}^\tr\kmat\bs{\delta}.
+    \end{equation}
+    This is equivalent to
+    \begin{equation}
+      k_{ij} = \frac{\partial^2 U}{\partial\delta_i\,\partial\delta_j}.
+    \end{equation}
+    For a truss element, $U$ can be easily shown to be
+    \begin{equation}
+      U = \frac12\frac{EA}{L}(\Delta\delta)^2 = \frac12\frac{EA}{L}(\delta_2-\delta_1)^2.
+    \end{equation}
+  \item \textbf{Principle of virtual displacement}, or finite element approach employing shape functions (we shall discuss this method in Ch.~\ref{ch:pvd2}).
+\end{enumerate}
+
+\section{Global stiffness matrix for an axial element}
+\emph{Stiffness matrix ready for assembling.}
+\begin{equation}
+  \Bmat{F_{x1}\\ F_{y1}\\ F_{x2}\\ F_{y2}} = \frac{EA}{L}
+  \bmat{c^2 & sc & -c^2 & -sc\\ sc & s^2 & -sc & -s^2\\ -c^2 & -sc & c^2 & sc\\ -sc & -s^2 & sc & s^2}
+  \Bmat{u_1\\ v_1\\ u_2\\ v_2}
+  \label{eq:truss-global-k}
+\end{equation}
+\begin{minipage}{0.68\textwidth}
+where $c = \cos\phi$, $s = \sin\phi$, and $\phi$ is the angle between the local ($x$) and the global ($X$) axes, which is positive if the $x$ axis is rotated counterclockwise with respect to the $X$ axis. Methods for deriving the local stiffness matrix can also be used to obtain the above global stiffness matrix.
+\end{minipage}\hfill
+\begin{minipage}{0.28\textwidth}
+  \centering
+  \input{figures/ch04_axes_angle}
+\end{minipage}
+
+Note that the strain energy is
+\begin{equation}
+  U = \frac12\frac{EA}{L}(\delta_2-\delta_1)^2
+    = \frac12\frac{EA}{L}\langle\delta_1\;\;\delta_2\rangle\bmat{1 & -1\\ -1 & 1}\Bmat{\delta_1\\ \delta_2}.
+\end{equation}
+The member displacements in the local axes, $\delta_1$ and $\delta_2$, and the member displacements in the global axes, $u_1$, $v_1$, $u_2$ and $v_2$, are shown in the figure below.
+\begin{fig}
+  \input{figures/ch04_local_global_disp}
+\end{fig}
+
+Relationship between the displacements in the local axes and the displacements in the global axes:
+\begin{equation}
+  \bs{\delta} = \Bmat{\delta_1\\ \delta_2} = \bmat{c & s & 0 & 0\\ 0 & 0 & c & s}\Bmat{u_1\\ v_1\\ u_2\\ v_2} = \Tmat\bs{\Delta}.
+\end{equation}
+Writing the strain energy $U$ in terms of $\bs{\delta}$ and $\bs{\Delta}$:
+\begin{equation}
+  U = \frac12\bs{\delta}^\tr\kmat_l\bs{\delta} = \frac12\bs{\Delta}^\tr\Tmat^\tr\kmat_l\Tmat\bs{\Delta}
+    = \frac12\bs{\Delta}^\tr\kmat_g\bs{\Delta},
+  \qquad\text{where } \kmat_g = \Tmat^\tr\kmat_l\Tmat.
+\end{equation}
+Therefore,
+\begin{equation}
+  U = \frac12\Bmat{u_1\\ v_1\\ u_2\\ v_2}^{\!\tr}
+  \bmat{c & 0\\ s & 0\\ 0 & c\\ 0 & s}\frac{EA}{L}\bmat{1 & -1\\ -1 & 1}\bmat{c & s & 0 & 0\\ 0 & 0 & c & s}
+  \Bmat{u_1\\ v_1\\ u_2\\ v_2}
+  = \frac12\Bmat{u_1\\ v_1\\ u_2\\ v_2}^{\!\tr}[k_g]\Bmat{u_1\\ v_1\\ u_2\\ v_2},
+\end{equation}
+where $[k_g]$ is the global stiffness matrix given above.
+
+\section{General features of an element stiffness matrix}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Symmetric}
+  \item \textbf{Singular}\\
+    Number of zero eigenvalues $=$ number of rigid-body modes.\\
+    E.g.\ for the local stiffness matrix of an axial element, the number is 1 (one translation), and for the global one, the number is 3 (two translations plus one rotation). For example, let's take a look at the rigid-body rotation (w.r.t.\ node 1) mode, $\bs{\Delta}_r$, where
+    \begin{fig}
+      \begin{minipage}{0.35\textwidth}
+        \begin{equation*}
+          \bs{\Delta}_r = \Bmat{0\\ 0\\ -L\theta_r\sin\phi\\ L\theta_r\cos\phi}
+        \end{equation*}
+      \end{minipage}
+      \begin{minipage}{0.55\textwidth}
+        \centering\input{figures/ch04_rigid_rotation}
+      \end{minipage}
+    \end{fig}
+  \item Each column of the element stiffness matrix constitutes a set of member end forces that are in \textbf{equilibrium}. Therefore, $\F = \kmat\bs{\Delta}$ is also a set of forces in equilibrium.
+
+    For example, $v_2 = 1$ and others equal 0. The axial force is equal to $(EA/L)\sin\phi$. With the geometric relationship, we get
+    \begin{equation}
+      \Bmat{F_{x1}\\ F_{y1}\\ F_{x2}\\ F_{y2}} = \frac{EA}{L}\Bmat{-sc\\ -s^2\\ sc\\ s^2}.
+    \end{equation}
+    This vector is the 4th column of the element stiffness matrix.
+    \begin{fig}
+      \input{figures/ch04_fourth_column}
+    \end{fig}
+\end{enumerate}

@@ -1,0 +1,11 @@
+% Vector P in two coordinate systems xyz and x'y'z'
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \coordinate (O) at (0,0);
+  \draw[->,thick] (O) -- (3.2,0) node[right] {$x$};
+  \draw[->,thick] (O) -- (0,2.6) node[above] {$y$};
+  \draw[->,thick] (O) -- (-1.4,-1.4) node[below left] {$z$};
+  \draw[->,dashed,thick] (O) -- (2.6,2.0) node[above right] {$x'$};
+  \draw[->,dashed,thick] (O) -- (-1.5,2.0) node[above left] {$y'$};
+  \draw[->,dashed,thick] (O) -- (-0.2,-1.8) node[below] {$z'$};
+  \draw[-{Latex[length=3mm]},line width=1.6pt] (0.6,1.0) -- (1.5,2.1) node[above right] {$\mat{P}$};
+\end{tikzpicture}

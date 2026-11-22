@@ -1,0 +1,15 @@
+% Elastic beam + rigid bar with end rotational springs (springs in series with the beam)
+\begin{tikzpicture}[scale=0.85,font=\small]
+  \begin{scope}
+    \draw[thinmember] (0,0) -- (6,0); \pic at (0,0) {roller}; \pic at (6,0) {pin};
+    \node[node dot] at (0,0) {}; \node[node dot] at (6,0) {};
+    \node[below] at (3,-0.2) {$EI, L$};
+  \end{scope}
+  \node at (7.3,0.3) {\large $+$};
+  \begin{scope}[xshift=8.6cm]
+    \draw[member] (0,0) -- (6,0); \pic at (0,0) {roller}; \pic at (6,0) {pin};
+    \foreach \x in {0,6}{\draw[thick] (\x,0) circle (0.2); \draw[thick] (\x,0) circle (0.1);}
+    \node[below right] at (0.2,-0.2) {$k_{\theta1}$}; \node[below left] at (5.8,-0.2) {$k_{\theta2}$};
+    \node[below] at (3,-0.2) {\itshape rigid};
+  \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,20 @@
+% Deformation of the cantilever element vs. displacements of the unsupported element
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \coordinate (A) at (0,0); \coordinate (B) at (9,3);
+  % rigid-body line: rotation theta_1 about node 1
+  \coordinate (Br) at (9,1.6);
+  \draw[very thick] (A) -- (Br);
+  \draw[dashed,thick] (A) .. controls (3,0.8) and (6.5,1.6) .. (B);
+  \draw[thin] (A) -- ++(2.6,0);
+  \draw[->] ($(A)+(2.2,0)$) arc (0:10.1:2.2); \node[right] at (2.3,0.25) {$\theta_1$};
+  \draw[thin] (B) -- ++(210.1:2.4); \draw[thin] (B) -- ++(190.1:2.4);
+  \draw[->] ($(B)+(190.1:1.8)$) arc (190.1:210.1:1.8); \node at ($(B)+(-2.2,-0.85)$) {$\bar\theta_2$};
+  \draw[->] ($(B)+(180:1.2)$) arc (180:210.1:1.2); \node at ($(B)+(-1.1,-0.75)$) {$\theta_2$};
+  \draw[thin] (B) -- ++(-2.4,0); \node[above left] at ($(B)+(-1.8,0)$) {$\theta_1$};
+  \draw[dim] (9.3,1.6) -- (9.3,3) node[midway,right] {$\bar v_2$};
+  \draw[dim] (9.3,-1.5) -- (9.3,1.6) node[midway,right] {$v_2$};
+  \node[left] at (8.9,0.9) {$L\theta_1$};
+  \draw[dim] (-0.3,-1.5) -- (-0.3,0) node[midway,left] {$v_1$};
+  \draw[thin] (0,-1.5) -- (-0.5,-1.5); \draw[thin] (9,-1.5) -- (9.5,-1.5);
+  \draw[dim] (0,-1.5) -- (9,-1.5) node[midway,fill=white,inner sep=1pt] {$L$};
+\end{tikzpicture}

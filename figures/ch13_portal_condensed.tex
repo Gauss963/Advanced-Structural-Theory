@@ -1,0 +1,12 @@
+% Portal frame with three DOFs (axial deformation neglected)
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \draw[member] (0,0) -- (0,4) -- (4,4) -- (4,0);
+  \pic at (0,0) {fixed}; \pic at (4,0) {fixed};
+  \node at (2,2) {$EI, L$};
+  \node[circle,draw,inner sep=1pt,fill=white] at (0,2) {\scriptsize 1};
+  \node[circle,draw,inner sep=1pt,fill=white] at (2,4) {\scriptsize 2};
+  \node[circle,draw,inner sep=1pt,fill=white] at (4,2) {\scriptsize 3};
+  \draw[load] (-1.4,4) -- (-0.1,4) node[pos=0,left] {$v$};
+  \draw[->,thick] (0.5,4.4) arc (30:170:0.5); \node[above left] at (-0.1,4.5) {$\theta_1$};
+  \draw[->,thick] (4.5,4.4) arc (30:170:0.5); \node[above left] at (3.9,4.5) {$\theta_2$};
+\end{tikzpicture}

@@ -1,0 +1,11 @@
+% Axial (bar/truss) element with end displacements and forces
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \def\L{5}
+  \draw[thick] (0,-0.15) rectangle (\L,0.15);
+  \node[above] at (\L/2,0.15) {$EA$};
+  \draw[->,thick] (-1.5,0) -- (-0.1,0);
+  \node[above] at (-0.8,0.1) {$\delta_1\,(f_1)$};
+  \draw[->,thick] (\L+0.1,0) -- (\L+1.5,0);
+  \node[above] at (\L+0.8,0.1) {$\delta_2\,(f_2)$};
+  \draw[dim] (0,-0.55) -- (\L,-0.55) node[midway,fill=white,inner sep=1pt] {$L$};
+\end{tikzpicture}

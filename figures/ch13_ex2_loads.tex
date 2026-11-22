@@ -1,0 +1,7 @@
+% Example 2: the three loading cases on the frame with a hinge at the top-left corner
+\begin{tikzpicture}[scale=0.6,font=\small]
+  \newcommand{\hframe}{\draw[member] (0,0) -- (0,4) -- (4,4) -- (4,0); \pic at (0,0) {fixed}; \pic at (4,0) {fixed}; \node[node dot] at (0,4) {};}
+  \begin{scope} \hframe \draw[load] (-1.4,4) -- (-0.15,4) node[pos=0,below] {$P$}; \end{scope}
+  \begin{scope}[xshift=7cm] \hframe \draw[load] (-1.4,2) -- (-0.1,2) node[pos=0,below] {$P$}; \end{scope}
+  \begin{scope}[xshift=14cm] \hframe \foreach \x in {0.3,0.8,...,3.8}{\draw[->] (\x,5.0) -- (\x,4.15);} \draw (0.3,5.0) -- (3.8,5.0); \node[above] at (2,5.0) {$w$}; \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,71 @@
+% Free-body diagrams of the grid members and node a, drawn in plan view
+% (forces in kips, moments in kip-in).  Vertical (y) forces: dot = up (+y), cross = down.
+% Double-headed arrows = moment vectors (about x or z).
+\begin{tikzpicture}[scale=0.8,font=\scriptsize,
+  mom/.style={->,thick,double,double distance=1pt},
+  up/.pic={\draw[fill=white] (0,0) circle (0.13); \fill (0,0) circle (0.04);},
+  down/.pic={\draw[fill=white] (0,0) circle (0.13); \draw (-0.09,-0.09) -- (0.09,0.09); \draw (-0.09,0.09) -- (0.09,-0.09);}]
+  % plan: x to the right, z downwards on the page
+  \draw[->] (-7.2,3.6) -- (-6.2,3.6) node[right] {$x$}; \draw[->] (-7.2,3.6) -- (-7.2,2.6) node[below] {$z$};
+  % ---------------- node a ----------------
+  \draw[line width=1.5pt] (-0.5,0) -- (0.5,0); \draw[line width=1.5pt] (0,-0.5) -- (0,0.5);
+  \fill (0,0) circle (0.05); \node[above left] at (0,0) {$a$};
+  % from ab (right)
+  \pic at (1.4,-0.5) {up}; \node[below] at (1.4,-0.65) {22.8};
+  \draw[mom] (0.6,0) -- (2.0,0) node[right] {335};
+  \draw[mom] (1.4,0.25) -- (1.4,1.3) node[above] {2570};
+  % from ad (left)
+  \pic at (-1.4,-0.5) {down}; \node[below] at (-1.4,-0.65) {0.2};
+  \draw[mom] (-0.6,0) -- (-2.0,0) node[left] {502};
+  \draw[mom] (-1.4,0.25) -- (-1.4,1.3) node[above] {2700};
+  % from ae (top, -z)
+  \pic at (-0.5,1.9) {up}; \node[left] at (-0.65,1.9) {45.6};
+  \draw[mom] (0,0.6) -- (0,2.4) node[above] {85.6};
+  \draw[mom] (0.25,2.1) -- (1.4,2.1) node[right] {1350};
+  % from ac (bottom, +z)
+  \pic at (-0.5,-1.9) {down}; \node[left] at (-0.65,-1.9) {68.2};
+  \draw[mom] (0,-0.6) -- (0,-2.4) node[below] {42.8};
+  \draw[mom] (0.25,-2.1) -- (1.4,-2.1) node[right] {510};
+  % ---------------- member ab ----------------
+  \begin{scope}[shift={(4.8,0)}]
+    \draw[line width=1.5pt,black!70] (0,0) -- (3.4,0); \node[below] at (1.7,-0.1) {$ab$};
+    \pic at (0,0.45) {down}; \node[above] at (0,0.6) {22.8};
+    \draw[mom] (-0.15,0) -- (-1.0,0) node[left] {335};
+    \draw[mom] (0.3,-0.2) -- (0.3,-1.0) node[below] {2570};
+    \pic at (3.4,0.45) {up}; \node[above] at (3.4,0.6) {22.8};
+    \draw[mom] (3.55,0) -- (4.4,0) node[right] {335};
+    \draw[mom] (3.1,-0.2) -- (3.1,-1.0) node[below] {2350};
+  \end{scope}
+  % ---------------- member ad ----------------
+  \begin{scope}[shift={(-4.8,0)}]
+    \draw[line width=1.5pt,black!70] (0,0) -- (-3.4,0); \node[below] at (-1.7,-0.1) {$ad$};
+    \pic at (0,0.45) {up}; \node[above] at (0,0.6) {0.2};
+    \draw[mom] (0.15,0) -- (1.0,0) node[right] {502};
+    \draw[mom] (-0.3,-0.2) -- (-0.3,-1.0) node[below] {2700};
+    \pic at (-3.4,0.45) {up}; \node[above] at (-3.4,0.6) {119.8};
+    \draw[mom] (-3.55,0) -- (-4.4,0) node[left] {502};
+    \draw[mom] (-3.1,-0.2) -- (-3.1,-1.0) node[below] {5910};
+  \end{scope}
+  % ---------------- member ae (towards -z, i.e. up the page) ----------------
+  \begin{scope}[shift={(0,4.6)}]
+    \draw[line width=1.5pt,black!70] (0,0) -- (0,2.6); \node[right] at (0.1,1.3) {$ae$};
+    \pic at (-0.45,0) {down}; \node[left] at (-0.6,0) {45.6};
+    \draw[mom] (0,-0.15) -- (0,-0.9) node[below] {85.6};
+    \draw[mom] (0.2,0.3) -- (1.1,0.3) node[right] {1350};
+    \pic at (-0.45,2.6) {up}; \node[left] at (-0.6,2.6) {45.6};
+    \draw[mom] (0,2.75) -- (0,3.5) node[above] {85.6};
+    \draw[mom] (0.2,2.3) -- (1.1,2.3) node[right] {4130};
+  \end{scope}
+  % ---------------- member ac (towards +z, i.e. down the page) ----------------
+  \begin{scope}[shift={(0,-4.8)}]
+    \draw[line width=1.5pt,black!70] (0,0) -- (0,-3.2); \node[right] at (0.1,-1.6) {$ac$};
+    \pic at (-0.45,0) {up}; \node[left] at (-0.6,0) {68.2};
+    \draw[mom] (0,0.15) -- (0,0.9) node[above] {42.8};
+    \draw[mom] (0.2,-0.3) -- (1.1,-0.3) node[right] {510};
+    \pic at (-0.45,-3.2) {up}; \node[left] at (-0.6,-3.2) {131.8};
+    \draw[mom] (0,-3.35) -- (0,-4.1) node[below] {42.8};
+    \draw[mom] (0.2,-2.9) -- (1.1,-2.9) node[right] {7120};
+  \end{scope}
+  % legend
+  \node[anchor=west,align=left] at (4.2,-5.4) {\tikz\pic at (0,0) {up}; \ force $+y$ (up)\\[2pt]\tikz\pic at (0,0) {down}; \ force $-y$ (down)\\[2pt]\tikz\draw[mom] (0,0)--(0.5,0); \ moment vector};
+\end{tikzpicture}

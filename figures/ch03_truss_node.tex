@@ -1,0 +1,11 @@
+% Compatibility at a truss node: three members share the same nodal displacements
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \coordinate (N) at (0,0);
+  \draw[member] (N) -- (-1.3,-2.0); \draw[member] (N) -- (0.4,-2.0); \draw[member] (N) -- (1.9,-1.7);
+  \fill (N) circle (0.06);
+  \draw[->,thick] (N) -- (1.4,0) node[right] {$u_1$};
+  \draw[->,thick] (N) -- (0,1.2) node[right] {$u_2$};
+  \node[circle,draw,inner sep=1pt] at (-1.1,-0.85) {\scriptsize 1};
+  \node[circle,draw,inner sep=1pt] at (-0.2,-1.3) {\scriptsize 2};
+  \node[circle,draw,inner sep=1pt] at (1.3,-0.8) {\scriptsize 3};
+\end{tikzpicture}

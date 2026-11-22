@@ -1,0 +1,30 @@
+% Nodal equilibrium: sum of member end forces = applied nodal loads
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \coordinate (N) at (0,0);
+  % node with member stubs and applied loads
+  \draw[member] (N) -- (-0.9,-1.0); \draw[member] (N) -- (0.45,-1.1);
+  \fill (N) circle (0.06);
+  \draw[load] (N) -- ++(1.3,0) node[right] {$P_x$};
+  \draw[load] (N) -- ++(0,1.3) node[above] {$P_y$};
+  % forces exerted by the members on the node
+  \draw[load] (-2.2,-0.75) -- (-1.1,-0.75) node[pos=0,left] {$F^1_{x2}$};
+  \draw[load] (-0.75,-2.1) -- (-0.75,-1.1) node[pos=0,below] {$F^1_{y2}$};
+  \draw[load] (2.0,-0.75) -- (0.9,-0.75) node[pos=0,right] {$F^2_{x2}$};
+  \draw[load] (0.75,-2.1) -- (0.75,-1.1) node[pos=0,below] {$F^2_{y2}$};
+  % ---- member 1 free body ----
+  \coordinate (T1) at (-2.3,-3.1); \coordinate (A) at (-5.0,-6.1);
+  \draw[member] (T1) -- (A);
+  \draw[load] (T1) -- ++(-1.1,0) node[left] {$F^1_{x2}$};
+  \draw[load] (T1) -- ++(0,-1.0) node[below] {$F^1_{y2}$};
+  \draw[load] (A) -- ++(1.1,0) node[right] {$F^1_{x1}$};
+  \draw[load] (A) -- ++(0,1.0) node[left] {$F^1_{y1}$};
+  % ---- member 2 free body ----
+  \coordinate (T2) at (1.8,-3.3); \coordinate (B) at (2.9,-6.6);
+  \draw[member] (T2) -- (B);
+  \draw[load] (T2) -- ++(1.1,0) node[right] {$F^2_{x2}$};
+  \draw[load] (T2) -- ++(0,-1.0) node[below] {$F^2_{y2}$};
+  \draw[load] (B) -- ++(1.1,0) node[right] {$F^2_{x1}$};
+  \draw[load] (B) -- ++(0,1.0) node[midway,right] {$F^2_{y1}$};
+  % ---- equations ----
+  \node[anchor=west,align=left] at (4.8,-2.8) {$F^1_{x2}+F^2_{x2}=P_x$\\[6pt]$F^1_{y2}+F^2_{y2}=P_y$};
+\end{tikzpicture}

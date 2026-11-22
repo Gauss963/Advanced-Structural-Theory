@@ -1,0 +1,19 @@
+% Free-body diagram of the three-bar chain (paper Fig. 5)
+\begin{tikzpicture}[scale=0.48,font=\small]
+  \coordinate (n0) at (0,3); \coordinate (n1) at (4,0); \coordinate (n2) at (8,0); \coordinate (n3) at (12,3);
+  \coordinate (a) at (6,-1.5);
+  \draw[member] (n0) -- (n1) -- (n2) -- (n3);
+  \foreach \p in {n1,n2}{\node[node dot] at (\p) {};}
+  \node[below right] at (n0) {0}; \node[above right] at (n1) {1}; \node[above left] at (n2) {2}; \node[below left] at (n3) {3};
+  \draw[dashed] (n1) -- (a) -- (n2); \fill (a) circle (0.08); \node[below] at (a) {$a$};
+  % axial forces at the supports
+  \draw[load] (n0) -- ++(143.13:1.3) node[above left,inner sep=1pt] {$f_1$};
+  \draw[load] (n3) -- ++(36.87:1.3) node[above right,inner sep=1pt] {$f_3$};
+  % applied loads
+  \draw[load] ($(n1)+(-2.2,0)$) -- (n1) node[pos=0,left] {$P_1$};
+  \draw[load] (n1) -- ++(0,1.8) node[above] {$P_2$};
+  \draw[load] (n2) -- ++(2.2,0) node[right] {$P_3$};
+  \draw[load] (n2) -- ++(0,1.8) node[above] {$P_4$};
+  \draw[dim] ($(n1)+(-0.9,-0.9)$) -- ($(a)+(-0.9,-0.9)$) node[midway,below left] {$d_1$};
+  \draw[dim] ($(a)+(0.9,-0.9)$) -- ($(n2)+(0.9,-0.9)$) node[midway,below right] {$d_2$};
+\end{tikzpicture}

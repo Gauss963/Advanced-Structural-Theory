@@ -1,0 +1,22 @@
+% Special elements: (a) internal hinge, (b) internal rotational springs, (c) end rotational spring
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \newcommand{\rspring}[1]{\draw[thick] #1 circle (0.18); \draw[thick] #1 circle (0.09);}
+  % (a)
+  \begin{scope}
+    \node[left] at (-0.6,0) {(a)};
+    \pic at (0,0) {wallL}; \draw[member] (0,0) -- (6,0); \node[node dot] at (2.5,0) {}; \node[node dot] at (6,0) {}; \pic at (6,0) {roller};
+  \end{scope}
+  % (b)
+  \begin{scope}[yshift=-2.2cm]
+    \node[left] at (-0.6,0) {(b)};
+    \pic at (0,0) {wallL}; \draw[member] (0,0) -- (6,0); \rspring{(2.5,0)}
+    \begin{scope}[xshift=8.5cm]
+      \draw[member] (0,0) -- (6,0); \node[node dot] at (0,0) {}; \node[node dot] at (6,0) {}; \pic at (0,0) {roller}; \pic at (6,0) {pin}; \rspring{(1.8,0)}
+    \end{scope}
+  \end{scope}
+  % (c)
+  \begin{scope}[yshift=-4.4cm]
+    \node[left] at (-0.6,0) {(c)};
+    \draw[member] (0,0) -- (6,0); \node[node dot] at (6,0) {}; \pic at (0,0) {roller}; \pic at (6,0) {pin}; \rspring{(0.25,0.1)}
+  \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,29 @@
+% 3D beam-column element: end forces and displacements (12 DOFs)
+\begin{tikzpicture}[scale=1.0,font=\footnotesize,x={(1cm,0cm)},y={(0cm,1cm)},z={(-0.7cm,-0.5cm)}]
+  \def\L{7} \def\h{0.45} \def\b{0.9}
+  % member as a box
+  \coordinate (n1) at (0,0,0); \coordinate (n2) at (\L,0,0);
+  \draw (0,\h,\b) -- (\L,\h,\b) -- (\L,\h,-\b) -- (0,\h,-\b) -- cycle;      % top face
+  \draw (0,-\h,\b) -- (\L,-\h,\b); \draw (0,-\h,-\b) -- (\L,-\h,-\b);
+  \draw (0,\h,\b) -- (0,-\h,\b); \draw (0,\h,-\b) -- (0,-\h,-\b); \draw (0,-\h,\b) -- (0,-\h,-\b);
+  \draw (\L,\h,\b) -- (\L,-\h,\b); \draw (\L,\h,-\b) -- (\L,-\h,-\b); \draw (\L,-\h,\b) -- (\L,-\h,-\b);
+  \fill (n1) circle (0.06); \fill (n2) circle (0.06);
+  \node[below right] at (n1) {1}; \node[above left] at (n2) {2};
+  % --- node 1 ---
+  \draw[load] (n1) -- ++(0,1.6,0) node[right] {$F_{y1},v_1$};
+  \draw[load,double] (0,1.75,0) -- (0,2.9,0) node[right] {$M_{y1},\theta_{y1}$};
+  \draw[load] (-1.4,0,0) -- (-0.1,0,0) node[pos=0,above] {$F_{x1},u_1$};
+  \draw[load,double] (-3.2,0,0) -- (-1.7,0,0) node[pos=0,above] {$M_{x1},\theta_{x1}$};
+  \draw[load] (n1) -- ++(0,0,1.5) node[below left,inner sep=1pt] {$F_{z1},w_1$};
+  \draw[load,double] (0,0,1.9) -- (0,0,3.1) node[below left,inner sep=1pt] {$M_{z1},\theta_{z1}$};
+  % --- node 2 ---
+  \draw[load] (n2) -- ++(0,1.6,0) node[right] {$F_{y2},v_2$};
+  \draw[load,double] (\L,1.75,0) -- (\L,2.9,0) node[right] {$M_{y2},\theta_{y2}$};
+  \draw[load] (\L+0.1,0,0) -- (\L+1.4,0,0) node[above] {$F_{x2},u_2$};
+  \draw[load,double] (\L+1.7,0,0) -- (\L+3.2,0,0) node[above] {$M_{x2},\theta_{x2}$};
+  \draw[load] (n2) -- ++(0,0,1.5) node[below right,inner sep=1pt] {$F_{z2},w_2$};
+  \draw[load,double] (\L,0,1.9) -- (\L,0,3.1) node[below right,inner sep=1pt] {$M_{z2},\theta_{z2}$};
+  % length
+  \draw[dim] (0,-2.4,0) -- (\L,-2.4,0) node[midway,fill=white,inner sep=1pt] {$L$};
+  \draw (0,-2.2,0) -- (0,-2.6,0); \draw (\L,-2.2,0) -- (\L,-2.6,0);
+\end{tikzpicture}

@@ -1,0 +1,343 @@
+\chapter{Element Flexibility Matrix}
+\label{ch:flex}
+
+\section{Element flexibility matrix}
+To define the flexibility coefficients for an element (member), the member shall be well supported, i.e.\ stable. Let the flexibility equations of a member be written as
+\begin{equation}
+  \mat{r} = \mat{d}\F_f
+\end{equation}
+where $\mat{r}$ indicates the (relative) deformation vector associated with the independent force vector $\F_f$ and $\mat{d}$ is the flexibility matrix. We emphasize that the components of $\F_f$ are independent. According to the definition, the flexibility coefficient $d_{ij}$ is the deformation $r_i$ due to $F_{fj} = 1$ and the other components of $\F_f$ equal zero.
+
+\topic{Truss element:}
+\begin{equation}
+  d = L/EA,\quad\text{i.e.}\quad \delta = F_x\frac{L}{EA}
+\end{equation}
+
+\topic{Beam element: three different supported elements can be distinguished}
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+  \item Simply supported at both ends
+    \begin{fig}
+      \input{figures/ch14_ss_beam_flex}
+    \end{fig}
+    \begin{equation}
+      \Bmat{\bar\theta_1\\ \bar\theta_2} = \frac{L}{6EI}\bmat{2 & -1\\ -1 & 2}\Bmat{M_1\\ M_2},\quad\text{i.e.}\quad \mat{d}_a = \frac{L}{6EI}\bmat{2 & -1\\ -1 & 2}
+    \end{equation}
+  \item Cantilever (fixed at $x = 0$ and free at $x = L$)
+    \begin{fig}
+      \input{figures/ch14_cantilever_flex}
+    \end{fig}
+    \begin{equation}
+      \Bmat{\bar v_2\\ \bar\theta_2} = \frac{L}{6EI}\bmat{2L^2 & 3L\\ 3L & 6}\Bmat{F_2\\ M_2},\quad\text{i.e.}\quad \mat{d}_b = \frac{L}{6EI}\bmat{2L^2 & 3L\\ 3L & 6}
+    \end{equation}
+  \item Slide at $x = 0$ and simple support at $x = L$
+    \begin{fig}
+      \input{figures/ch14_slide_flex}
+    \end{fig}
+    \begin{equation}
+      \Bmat{\bar v_1\\ \bar\theta_2} = \frac{L}{6EI}\bmat{2L^2 & -3L\\ -3L & 6}\Bmat{F_1\\ M_2},\quad\text{i.e.}\quad \mat{d}_c = \frac{L}{6EI}\bmat{2L^2 & -3L\\ -3L & 6}
+    \end{equation}
+\end{enumerate}
+
+\section{Complementary strain energy}
+The complementary strain energy of an element is defined as follows.
+
+Truss element:
+\begin{equation}
+  U^* = \int_0^L\frac{F_x^2}{2EA}\,dx;\quad\text{if } EA = \text{constant},\ U^* = \tfrac12F_x^\tr dF_x,\ \text{where } d = \frac{L}{EA}.
+\end{equation}
+Beam element:
+\begin{equation}
+  U^* = \int_0^L\frac{M^2}{2EI}\,dx = \tfrac12\mat{r}^\tr\F_f = \tfrac12\F_f^\tr\mat{d}\F_f
+\end{equation}
+In general, we have the following relation:
+\begin{equation}
+  \boxed{U^* = \tfrac12\F_f^\tr\mat{d}\F_f}
+\end{equation}
+Therefore,
+\begin{equation}
+  \mat{d} = \frac{\partial^2U^*}{\partial^2\F_f}\qquad\text{or}\qquad d_{ij} = \frac{\partial^2U^*}{\partial F_{fi}\,\partial F_{fj}}
+\end{equation}
+With the above relation, once the complementary strain energy $U^*$ can be formulated as a function of independent member forces $\F_f$, the flexibility coefficients can be readily obtained.
+
+For example, for the simply supported beam, the complementary strain energy indicated as $U^*_a$ is:
+\begin{equation*}
+  U^*_a = \int_0^L\frac{M^2}{2EI}\,dx
+\end{equation*}
+where $M(x) = -M_1\bigl(1-\frac xL\bigr) + M_2\frac xL = \bigl\langle -1+\frac xL, \frac xL\bigr\rangle\Bmat{M_1\\ M_2} = \NN(\F_f)_a$. Therefore,
+\begin{equation*}
+  U^*_a = \int_0^L\frac{M^2}{2EI}\,dx = \frac{1}{2EI}\int_0^L M^\tr M\,dx = \frac{1}{2EI}\int_0^L(\F_f)_a^\tr\NN^\tr\NN(\F_f)_a\,dx = \tfrac12(\F_f)_a^\tr\mat{d}_a(\F_f)_a
+\end{equation*}
+where
+\begin{equation*}
+  \mat{d}_a = \frac{1}{EI}\int_0^L\NN^\tr\NN\,dx = \frac{L}{6EI}\bmat{2 & -1\\ -1 & 2}
+\end{equation*}
+Similarly, for case (b): since $M(x) = F_2(L-x) + M_2 = \langle L-x, 1\rangle\Bmat{F_2\\ M_2} = \NN(\F_f)_b$, we have
+\begin{gather*}
+  \mat{d}_b = \frac{1}{EI}\int_0^L\NN^\tr\NN\,dx = \frac{L}{6EI}\bmat{2L^2 & 3L\\ 3L & 6}\\
+  U^*_b = \tfrac12\langle F_2, M_2\rangle\frac{L}{6EI}\bmat{2L^2 & 3L\\ 3L & 6}\Bmat{F_2\\ M_2} = \tfrac12(\F_f)_b^\tr\mat{d}_b(\F_f)_b
+\end{gather*}
+Therefore, with different choices of $\F_f$, we seem to get different values of $U^*$. Actually, this is not true at all. From the equilibrium equations, we know that
+\begin{equation*}
+  \Bmat{F_2\\ M_2} = \bmat{-1/L & -1/L\\ 0 & 1}\Bmat{M_1\\ M_2}\qquad\text{or}\qquad\boxed{(\F_f)_b = \Tmat_{ba}(\F_f)_a}
+\end{equation*}
+Substituting $(\F_f)_b = \Tmat_{ba}(\F_f)_a$ (or $\F_f' = \Tmat\F_f$) into $U^*_b$ yields
+\begin{equation*}
+  U^*_b = \tfrac12(\F_f)_b^\tr\mat{d}_b(\F_f)_b = \tfrac12(\F_f)_a^\tr\Tmat_{ba}^\tr\mat{d}_b\Tmat_{ba}(\F_f)_a = \tfrac12(\F_f)_a^\tr\mat{d}_a(\F_f)_a = U^*_a
+\end{equation*}
+where
+\begin{equation*}
+  \boxed{\mat{d}_a = \Tmat_{ba}^\tr\mat{d}_b\Tmat_{ba}}\qquad(\text{or } \mat{d} = \Tmat^\tr\mat{d}'\Tmat)
+\end{equation*}
+Substituting $\Tmat_{ba}$ and $\mat{d}_b$ into this equation gives
+\begin{equation*}
+  \mat{d}_a = \frac{L}{6EI}\bmat{2 & -1\\ -1 & 2}
+\end{equation*}
+With the above derivations, we have two important conclusions. First, the same value of $U^*$ is obtained for different choices of $\F_f$. Second, the transformation between two flexibility matrices follows the following rule:
+\begin{equation}
+  \boxed{(\F_f)_b = \Tmat_{ba}(\F_f)_a\quad\Longleftrightarrow\quad\mat{d}_a = \Tmat_{ba}^\tr\mat{d}_b\Tmat_{ba}}
+\end{equation}
+or
+\begin{equation}
+  \F_f' = \Tmat\F_f\quad\Longleftrightarrow\quad\mat{d} = \Tmat^\tr\mat{d}'\Tmat
+\end{equation}
+
+\section{Flexibility--stiffness transformation}
+For a linearly elastic body, the strain energy for a supported element is
+\begin{equation}
+  U = \tfrac12\mat{r}^\tr\F_f = \tfrac12\mat{r}^\tr\kmat_n\mat{r}
+\end{equation}
+where $\kmat_n = \mat{d}^{-1}$ is the stiffness matrix corresponding to the supported element.
+
+The stiffness matrix for the corresponding unsupported element can be obtained from $\kmat_n$ by the congruent transformation. To do so, we need to know the relation:
+\begin{equation*}
+  \mat{r} = \Tmat\bs{\Delta}
+\end{equation*}
+or equivalently
+\begin{equation*}
+  \F = \Tmat^\tr\F_f
+\end{equation*}
+It is usually convenient to obtain $\Tmat$ from the relation between forces. According to the equilibrium conditions, we have
+\begin{equation}
+  \F_s = \bs{\Phi}\F_f
+\end{equation}
+where $\bs{\Phi}$ is called the \emph{equilibrium matrix}, which depends on how the element is supported. For example, for the simply supported case
+\begin{fig}
+  \input{figures/ch14_ss_forces}
+\end{fig}
+\begin{equation*}
+  \Bmat{F_1\\ F_2} = \bmat{1/L & 1/L\\ -1/L & -1/L}\Bmat{M_1\\ M_2},\quad\text{i.e.}\quad \bs{\Phi} = \bmat{1/L & 1/L\\ -1/L & -1/L}
+\end{equation*}
+Therefore,
+\begin{equation*}
+  \Bmat{\F_f\\ \F_s} = \Bmat{\mat{I}\\ \bs{\Phi}}\F_f\qquad\text{or}\qquad \F = \Tmat^\tr\F_f\quad\rightarrow\quad \Tmat = \langle\mat{I}, \bs{\Phi}^\tr\rangle
+\end{equation*}
+According to the congruent transformation, the stiffness matrix for the unsupported element
+\begin{equation}
+  \kmat = \Tmat^\tr\kmat_n\Tmat = \Bmat{\mat{I}\\ \bs{\Phi}}\kmat_n\langle\mat{I}, \bs{\Phi}^\tr\rangle = \bmat{\kmat_n & \kmat_n\bs{\Phi}^\tr\\ \bs{\Phi}\kmat_n & \bs{\Phi}\kmat_n\bs{\Phi}^\tr}
+\end{equation}
+If expressed in terms of $\mat{d}$,
+\begin{equation}
+  \kmat = \bmat{\mat{d}^{-1} & \mat{d}^{-1}\bs{\Phi}^\tr\\ \bs{\Phi}\mat{d}^{-1} & \bs{\Phi}\mat{d}^{-1}\bs{\Phi}^\tr}
+\end{equation}
+This is the so-called \emph{stiffness--flexibility transformation}.
+
+Substituting the expressions for $\mat{d}$ and $\bs{\Phi}$ of the simply supported beam into the above transformation results in
+\begin{equation*}
+  \kmat = \begin{array}{c}
+    \begin{array}{cccc}\ \ \theta_1\ \ & \ \ \theta_2\ \ & \ \ v_1\ \ & \ \ v_2\ \ \end{array}\\
+    \left[\begin{array}{cccc}
+      \dfrac{4EI}{L} & \dfrac{2EI}{L} & \dfrac{6EI}{L^2} & -\dfrac{6EI}{L^2}\\[8pt]
+      \dfrac{2EI}{L} & \dfrac{4EI}{L} & \dfrac{6EI}{L^2} & -\dfrac{6EI}{L^2}\\[8pt]
+      \dfrac{6EI}{L^2} & \dfrac{6EI}{L^2} & \dfrac{12EI}{L^3} & -\dfrac{12EI}{L^3}\\[8pt]
+      -\dfrac{6EI}{L^2} & -\dfrac{6EI}{L^2} & -\dfrac{12EI}{L^3} & \dfrac{12EI}{L^3}
+    \end{array}\right]
+  \end{array}
+\end{equation*}
+It should be noted that the ordering of degrees of freedom is different from the conventional one. To get the conventional stiffness matrix needs reordering the stiffness coefficients. Such a reordering can be avoided if we order the components of $\F$ and redefine $\Tmat$ as follows:
+\begin{equation*}
+  \Bmat{F_1\\ M_1\\ F_2\\ M_2} = \bmat{1/L & 1/L\\ 1 & 0\\ -1/L & -1/L\\ 0 & 1}\Bmat{M_1\\ M_2}\qquad\text{or}\qquad \F = \Tmat^\tr\F_f,\quad\text{where } \Tmat^\tr = \bmat{1/L & 1/L\\ 1 & 0\\ -1/L & -1/L\\ 0 & 1}
+\end{equation*}
+Then $\kmat = \Tmat^\tr\kmat_n\Tmat$ will result in the conventional stiffness matrix.
+
+\section{Deformation vector of supported element versus displacement vector of unsupported element}
+As discussed above, we can establish, from the equilibrium equations, that
+\begin{equation*}
+  \F = \Tmat^\tr\F_f
+\end{equation*}
+According to the contragredient principle, the deformation vector $\mat{r}$ conjugate to $\F_f$ and the displacement vector $\bs{\Delta}$ conjugate to $\F$ ($= \langle F_1, M_1, F_2, M_2\rangle^\tr$) are related by
+\begin{equation*}
+  \mat{r} = \Tmat\bs{\Delta}
+\end{equation*}
+From the equilibrium equations, we can obtain $\Tmat$ for the three types of supported beam and the corresponding $\mat{r}$ as follows.
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+  \item Simply supported at both ends
+    \begin{fig}
+      \input{figures/ch14_deformation_ss}
+    \end{fig}
+    \begin{gather*}
+      \Tmat = \bmat{1/L & 1 & -1/L & 0\\ 1/L & 0 & -1/L & 1}\\
+      \bar\theta_1 = \theta_1 - (v_2-v_1)/L = \theta_1 - \theta_r\\
+      \bar\theta_2 = \theta_2 - (v_2-v_1)/L = \theta_2 - \theta_r\\
+      \text{where } \theta_r = (v_2-v_1)/L
+    \end{gather*}
+  \item Cantilever (fixed at $x = 0$ and free at $x = L$)
+    \begin{fig}
+      \input{figures/ch14_deformation_cantilever}
+    \end{fig}
+    \begin{gather*}
+      \Tmat = \bmat{-1 & -L & 1 & 0\\ 0 & -1 & 0 & 1}\\
+      \bar v_2 = v_2 - v_1 - L\theta_1\\
+      \bar\theta_2 = \theta_2 - \theta_1
+    \end{gather*}
+  \item Slide at $x = 0$ and simple support at $x = L$
+    \begin{gather*}
+      \Tmat = \bmat{1 & L & -1 & 0\\ 0 & -1 & 0 & 1}\\
+      \bar v_1 = v_1 - v_2 + L\theta_1\\
+      \bar\theta_2 = \theta_2 - \theta_1
+    \end{gather*}
+\end{enumerate}
+The deformation vectors $\mat{r}$ can be obtained by excluding from $\bs{\Delta}$ the rigid body modes; the associated rigid body modes can be constructed as follows.
+\begin{enumerate}[label=(\alph*)]
+  \item $v_1\rightarrow\theta_r$ w.r.t.\ node 1
+  \item $v_1\rightarrow\theta_1$ w.r.t.\ node 1
+  \item $v_2\rightarrow\theta_1$ w.r.t.\ node 2
+\end{enumerate}
+
+\section{Flexibility matrices for some special elements}
+\begin{enumerate}[label=(\alph*)]
+  \item Beam with an internal hinge
+  \item Beam with internal rotational spring(s)
+  \item Beam with an end rotational spring
+\end{enumerate}
+\begin{fig}
+  \input{figures/ch14_special_elements}
+\end{fig}
+Consider the case of (b)-2:
+\begin{fig}
+  \input{figures/ch14_spring_moment}
+\end{fig}
+\begin{gather*}
+  U^* = U^*_b + U^*_s\\
+  M(x) = -M_1 + \frac{M_1+M_2}{L}x\\
+  M_s = M(x)\big|_{x=a} = \Bigl\langle -1+\frac aL, \frac aL\Bigr\rangle\Bmat{M_1\\ M_2} = \NN\F_f
+\end{gather*}
+where $\NN = \bigl\langle\frac{-b}{L}, \frac aL\bigr\rangle$ and $b = L-a$.
+\begin{gather*}
+  U^*_b = \tfrac12\F_f^\tr\mat{d}_b\F_f\\
+  U^*_s = \tfrac12M_s\Delta\theta = \tfrac12M_s\frac{M_s}{K_\theta} = \tfrac12\frac{M_s^\tr M_s}{K_\theta} = \tfrac12\frac{\F_f^\tr\NN^\tr\NN\F_f}{K_\theta} = \tfrac12\F_f^\tr\mat{d}_s\F_f
+\end{gather*}
+where
+\begin{equation*}
+  \mat{d}_s = \frac{\NN^\tr\NN}{K_\theta} = \frac{1}{K_\theta L^2}\bmat{b^2 & -ab\\ -ab & a^2}
+\end{equation*}
+\begin{gather*}
+  U^* = U^*_b + U^*_s = \tfrac12\F_f^\tr\mat{d}_b\F_f + \tfrac12\F_f^\tr\mat{d}_s\F_f = \tfrac12\F_f^\tr\mat{d}\F_f\\
+  \Rightarrow\quad \mat{d} = \mat{d}_b + \mat{d}_s
+\end{gather*}
+
+% =====================================================================
+\clearpage
+\section[Appendix: Conjugate beam method for beams with springs (Leu, Sung \& Tsai, 2000)]{Appendix: Conjugate beam method for beams with springs}
+\label{sec:conjugate-paper}
+\begin{center}
+  \emph{L.~J.~Leu, Y.~C.~Sung, and M.~H.~Tsai}\\
+  Department of Civil Engineering, National Taiwan University, Taipei 10617, Taiwan\\[2pt]
+  {\small pp.~49--54, Proceedings of the Thirteenth KKNN Symposium on Civil Engineering, December 7--8, 2000, Taipei, Taiwan}
+\end{center}
+
+\subsection*{Abstract}
+The conjugate beam method is a commonly used and convenient method for calculating the elastic deformations of a beam. However, it seems that this method is not applicable to the cases in which the beam is supported by linear elastic translational/rotational springs, or has internal rotational springs. This paper has made an extension of the conjugate method to deal with those cases. It is found that the conjugate beam also contains springs for a beam with springs but the types of springs are different for the real and conjugate beams. However, it is not necessary to know the stiffness of the springs for the conjugate beam; instead a force condition at the location of each spring can be stated. Several examples on the calculation of beam deflections validate the present extension.
+
+\subsection*{Introduction}
+The conjugate beam method was first presented by Otto Mohr in 1860. Since then, it has become a powerful method for the calculation of slope and deflection of beams. However, to the best knowledge of the authors, how to apply the method to beams with translational/rotational springs has not been investigated so far. This paper aims at bridging this gap.
+
+\subsection*{Conjugate beams for beams with spring}
+\paragraph{Sign convention.}
+The main ideas of the conjugate beam method can be summarized as follows. The slopes and deflections of a beam subjected to applied loads can be evaluated by analyzing a conjugate beam having an applied distributed load that varies as the curvature of the real beam. The shear and moment at any point in the conjugate beam are then equal to the slope and vertical displacement, respectively, of the real beam at that point. Therefore, the calculation of slopes and deflections of a beam is reduced to obtaining the variation of the shear and moment in the corresponding conjugate beam.
+
+The sign convention for slopes and deflections in a real beam and that for shear and moment in a conjugate beam are shown in Fig.~\ref{fig:cb1}. Note that the sign convention for shear and moment in the real beam is the same as that for the conjugate beam and that the distributed load acting on the conjugate beam is positive or upward if the curvature of the real beam is positive.
+\begin{figure}[H]
+  \centering
+  \input{figures/ch14_paper_fig1}
+  \caption{Sign convention.}
+  \label{fig:cb1}
+\end{figure}
+
+\paragraph{Beam with translational spring (Cases 1 and 2).}
+Consider a real beam with translational springs. The shear force at the location of a typical translational spring, $x$, will have a jump $\Delta V = V(x^+) - V(x^-)$. From the equilibrium equation at that location, we obtain $\Delta V = -F$, where $F$ is the force in the translational spring and is positive if tensile. Hence, the deflection at $x$ in the real beam is
+\begin{equation}
+  \delta = \frac Fk = -\frac{\Delta V}{k} \tag{1}\label{cb:1}
+\end{equation}
+Since there is a jump on the shear force at the location of a translational spring for the real beam, there must exist an internal rotational spring for the conjugate beam at the same location as shown in case 1 of Fig.~\ref{fig:cb2}. There comes a question, what is the stiffness of the internal rotational spring? It turns out that its value is not needed. According to the conjugate beam theory, the deflection of the real beam given in Eq.~\eqref{cb:1} shall be equal to the moment at the same location in the conjugate beam. Hence, we have
+\begin{equation}
+  \overline M = -\frac{\Delta V}{k} \tag{2}\label{cb:2}
+\end{equation}
+This means that the moment $\overline M$ in the internal rotational spring in the conjugate beam can be determined from the jump on the shear force and the stiffness of the translational spring in the real beam.
+
+Referring to case 2 of Fig.~\ref{fig:cb2}, note that if the translational spring is located at the right end of a beam, then $\Delta V = 0 - V_2 = -V_2$ in Eqs.~\eqref{cb:1} and \eqref{cb:2}, where $V_2$ is the shear force at the right end. Also, the right end of the conjugate beam is a hinged support with an external rotational spring or equivalently a fixed support with an internal rotational spring. However, if the spring is located at the left end, $\Delta V = V_1 - 0 = V_1$ in Eqs.~\eqref{cb:1} and \eqref{cb:2}, where $V_1$ is the shear force at the left end.
+
+\paragraph{Beam with internal rotational spring (Cases 3 and 4).}
+Consider a real beam with internal rotational springs. The rotation at the location of a typical internal rotational spring, $x$, will have a jump $\Delta\theta$ of the following value
+\begin{equation}
+  \Delta\theta = \theta(x^+) - \theta(x^-) = \frac{M(x)}{k_\theta} \tag{3}\label{cb:3}
+\end{equation}
+In Eq.~\eqref{cb:3}, $M(x)$ is the moment at $x$ in the real beam and $k_\theta$ is the stiffness of the internal rotational spring.
+
+To produce such a rotation jump, there must be a shear force jump that equals the rotation jump in the conjugate beam at the same location according to the conjugate beam theory. Hence,
+\begin{equation}
+  \Delta\overline V = \frac{M(x)}{k_\theta} \tag{4}\label{cb:4}
+\end{equation}
+where $\Delta\overline V = \overline V(x^+) - \overline V(x^-)$. To introduce $\Delta\overline V$ in the conjugate beam, a translational spring is placed at $x$ as shown in case 3 of Fig.~\ref{fig:cb2}. However, its stiffness is not required since the force acting on the conjugate beam from the translational spring shall equal $\Delta\overline V$ according to the conjugate beam theory.
+
+Note that if the rotational spring is located at the right end of a beam as shown in case 4 of Fig.~\ref{fig:cb2}, then $\Delta\overline V$ in Eq.~\eqref{cb:4} should be replaced by $-\overline V_2$, where $\overline V_2$ is the shear force at the right end. On the other hand, if the rotational spring is located at the left end of a beam, then $\Delta\overline V$ should be replaced by $\overline V_1$, the shear force at the left end.
+
+\paragraph{Beam with external rotational spring (Cases 5 and 6).}
+Consider a real beam with external rotational springs. The rotation at the location of a typical external rotational spring, $x$, can be expressed by
+\begin{equation}
+  \theta = \frac{\Delta M}{k_\theta} \tag{5}\label{cb:5}
+\end{equation}
+where $\Delta M = M(x^+) - M(x^-)$, the moment jump induced by the external rotational spring. The external rotational spring in the real beam corresponds to an ``elastic slide'' in the conjugate beam as shown in case 5 of Fig.~\ref{fig:cb2}. However, the stiffness of the slide is not required. According to the conjugate beam theory, the shear force it carries shall be equal to the rotation in the real beam; by making use of Eq.~\eqref{cb:5}, this can be stated as
+\begin{equation}
+  \overline V = \frac{\Delta M}{k_\theta} \tag{6}\label{cb:6}
+\end{equation}
+Note that if the external rotational spring is located at the right end of a beam, then $\Delta M$ should be replaced by $-M_2$ in Eq.~\eqref{cb:6}, where $M_2$ is the moment at the right end. However, if the external rotational spring is located at the left end of a beam, then $\Delta M$ should be replaced by $M_1$, where $M_1$ is the moment at the left end. These two special cases are shown in case 6 of Fig.~\ref{fig:cb2}.
+\begin{figure}[H]
+  \centering
+  \input{figures/ch14_paper_fig2}
+  \caption{Conjugate beams for beams with springs and the corresponding force conditions.}
+  \label{fig:cb2}
+\end{figure}
+
+\subsection*{Examples}
+\paragraph{Example 1: Beam with translational springs.}
+The beam considered and its conjugate beam are shown, respectively, in Figs.~3(a) and 3(b). We like to calculate $v_c$ and $\theta_c$. The shear force at point $a$ and the shear force jump at point $b$ are $V_a = -P/2$ and $\Delta V_b = 3P/2$, respectively. Therefore, $\overline M_a = -V_a/k_a = PL^3/6EI$ and $\overline M_b = -\Delta V_b/k_b = -PL^3/32EI$ according to case 2 of Fig.~\ref{fig:cb2} and Eq.~\eqref{cb:2}. Then, two equations of $\overline M_c$ and $\overline V_c$ need to be formulated to solve them. Referring to Fig.~3(b), equilibrium of moment with respect to point $a$ results in one equation; referring to Fig.~3(c), taking moment about point $b$ results in the other equation. Solving these two equations and according to the conjugate beam theory, we obtain $v_c = \overline M_c = -49PL^3/192EI$ and $\theta_c = \overline V_c = -94PL^2/192EI$.
+\begin{figure}[H]
+  \centering
+  \input{figures/ch14_paper_fig3}
+\end{figure}
+
+\paragraph{Example 2: Beam with internal rotational spring.}
+Consider the beam with an internal rotational spring as depicted in Fig.~4(a); we like to calculate $\theta_c$. The corresponding conjugate beam is shown in Fig.~4(b), in which $P = M_b/k_\theta = M_cL_1/Lk_\theta$ according to Eq.~\eqref{cb:4}; note that $L = L_1 + L_2$. Referring to Fig.~4(b), we can obtain $\overline V_c = [PL_1 + (M_cL/2EI)(2L/3)]/L = M_cL(L_1^2EI/k_\theta L^3 + 1/3)/EI$, which equals $\theta_c$ in accordance with the conjugate beam theory.
+\begin{figure}[H]
+  \centering
+  \input{figures/ch14_paper_fig4}
+\end{figure}
+
+\paragraph{Example 3: Beam with external rotational spring.}
+Consider the beam with an external rotational spring as depicted in Fig.~5(a); we like to calculate $v_c$ and $\theta_c$. Clearly there is a moment jump $\Delta M_b = 2PL$ induced by the external rotational spring at point $b$. The corresponding conjugate beam is shown in Fig.~5(b), where the shear force at point $b$ shall equal $\overline V_b = \Delta M_b/k_\theta = 2PL^2/EI$ from Eq.~\eqref{cb:6}. From the force equilibrium equation for the free body shown in Fig.~5(c), we can obtain $\overline V_a = PL^2/2EI + \overline V_b = 5PL^2/2EI$. On the basis of the force and moment equilibrium equations for the whole structure of Fig.~5(a), we can obtain $\overline V_c = \overline V_a = 5PL^2/2EI$ and $\overline M_c = (PL^2/2EI)2L/3 - (PL^2/2EI)(4L/3) + 2\overline V_aL = 14PL^3/3EI$. Finally, $v_c = \overline M_c$ and $\theta_c = \overline V_c$.
+\begin{figure}[H]
+  \centering
+  \input{figures/ch14_paper_fig5}
+\end{figure}
+
+\subsection*{Conclusions and discussions}
+This paper has extended the conjugate beam method to beams with translational and/or rotational springs. The solutions to all the above examples have been verified by the direct stiffness method; the stiffness matrix for a beam with internal or end rotational springs can be found, for example, in McGuire et al.\ (2000). Although the above examples are all statically determinate, the proposed method is applicable to indeterminate beams as well; in particular it has been used conveniently to obtain the fixed-end forces for beams with internal or end rotational springs (Tsai 2000).
+
+\subsection*{Acknowledgements}
+This research was sponsored by the National Science Council of the Republic of China under Grant No.\ NSC 89-2211-E-002-124.
+
+\subsection*{References}
+\begin{itemize}[leftmargin=*]
+  \item McGuire, W., Gallagher, R.H., and Ziemian, R.D. (2000), \emph{Matrix Structural Analysis}, 2nd Edition, John Wiley \& Sons, New York, USA.
+  \item Tsai, M.~H. (2000), \emph{Nonlinear Analysis of Frames and Continuous Beams with Softening Moment-Curvature Relationship}, Master Thesis, Dept.\ of Civil Engineering, National Taiwan University, Taipei, Taiwan, (in Chinese).
+\end{itemize}

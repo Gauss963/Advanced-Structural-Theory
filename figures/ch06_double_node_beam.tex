@@ -1,0 +1,17 @@
+% Beam with an internal pin modelled by double nodes 3 and 4
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \draw[member] (0,0) -- (7,0);
+  \pic at (0,0) {wallL}; \pic at (7,0) {wallR};
+  \pic at (2.3,0) {roller};
+  \node[node dot] at (4.6,0) {};
+  \node[above right,inner sep=1pt] at (0,0) {1};
+  \node[above right,inner sep=1pt] at (2.3,0.02) {2};
+  \node[above left,inner sep=1pt] at (4.5,0.05) {3};
+  \node[above right,inner sep=1pt] at (4.7,0.05) {4};
+  \node[above left,inner sep=1pt] at (7,0) {5};
+  % rotations
+  \foreach \x/\l in {2.3/2,4.35/3,4.95/4}{
+    \draw[->,thick] ($(\x,0)+(0.3,0.35)$) arc (20:160:0.3);
+    \node[above] at (\x,0.6) {$\theta_\l$};}
+  \draw[->,thick] (4.6,-0.9) -- (4.6,-0.15) node[pos=0,right] {$v$};
+\end{tikzpicture}

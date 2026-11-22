@@ -1,0 +1,8 @@
+% Virtual system: cantilever with a unit moment at B
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \pic at (0,0) {wallL}; \draw[member] (0,0) -- (9,0);
+  \node[above right] at (0,0.05) {$A$}; \node[above] at (6,0.05) {$C$}; \node[above left] at (9,0.05) {$B$};
+  \draw[->,thick] (9.5,0.5) arc (60:-120:0.5); \node[right] at (9.7,0) {$m = 1$};
+  \draw[dim] (0,-1.0) -- (6,-1.0) node[midway,fill=white,inner sep=1pt] {6 m}; \draw[dim] (6,-1.0) -- (9,-1.0) node[midway,fill=white,inner sep=1pt] {3 m};
+  \foreach \x in {0,6,9}{\draw (\x,-0.8) -- (\x,-1.2);}
+\end{tikzpicture}

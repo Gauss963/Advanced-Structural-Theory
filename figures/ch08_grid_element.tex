@@ -1,0 +1,14 @@
+% Grid element (ITP=4) lying in the x-z plane
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \coordinate (O) at (0,0);
+  \draw[->,thick] (O) -- (0,3.0) node[above] {$z$};
+  \draw[->,thick] (O) -- (4.0,0) node[right] {$x$};
+  \draw[->,dashed,thick] (O) -- (2.0,2.2) node[above right] {$y$};
+  \draw[->,dashed,thick] (O) -- (1.4,1.6) node[right] {$z'$};
+  \draw[->,dashed,thick] (O) -- (2.6,1.4) node[right] {$y'$};
+  % member along x'
+  \draw[line width=3pt,black!60] (O) -- (-35:2.8);
+  \draw[->,thick] (-35:2.8) -- (-35:3.6) node[right] {$x'$};
+  \node[below left,font=\footnotesize] at (-35:0.6) {1}; \node[below,font=\footnotesize] at (-35:2.8) {2};
+  \draw[->] (1.6,0) arc (0:-35:1.6); \node at (1.9,-0.45) {$\phi$};
+\end{tikzpicture}

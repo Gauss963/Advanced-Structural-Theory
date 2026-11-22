@@ -1,0 +1,336 @@
+\chapter{Programming for FRAME21}
+\label{ch:frame21}
+
+\section{Introduction}
+\topic{Purpose}
+Develop \textsc{FRAME21} --- a linear analysis program for framed structures.
+
+\topic{Procedure}
+\begin{enumerate}
+  \item Input data.
+  \item Set up global degrees of freedom (equation numbering).
+  \item Assemble external loads into the load vector.
+  \item Form the global stiffness matrix and add the equivalent forces (arising from the fixed-end forces) to the load vector.
+  \item Solve for the nodal unknowns.
+  \item Calculate member displacements and member end forces (force recovery).
+\end{enumerate}
+
+\section{Input data}
+Functions: \texttt{INPUT} and \texttt{OUTPUT1}; read in and write out the following data.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Structural data}
+    \begin{description}[font=\ttfamily,leftmargin=6em,style=sameline,itemsep=0pt]
+      \item[TITLE] title of the problem analyzed; e.g.\ Example 5.3 of McGuire et al.\ (2000).
+      \item[FUNIT] unit of force such as kN, kips.
+      \item[LUNIT] unit of length such as mm, in.
+      \item[NNOD] number of nodes
+      \item[NBC] number of elements (number of beam columns)
+      \item[NMAT] number of sets of material properties
+      \item[NSEC] number of sets of sectional properties
+      \item[ITP] frame type; 1: beam, 2: 2D truss, 3: 2D frame, 4: grid, 5: 3D truss, 6: 3D frame.
+      \item[NCO] number of coordinates per node
+      \item[NDN] number of d.o.f.\ per node
+      \item[NNE] number of nodes per element
+      \item[NDE] number of d.o.f.\ per element
+      \item[IFORCE] indicator for inputting the fixed-end forces (FEF). When \texttt{IFORCE}=1, no FEF is needed; when \texttt{IFORCE}=2, FEF needs to be input.
+    \end{description}
+
+  \item \textbf{Nodal data}
+    \begin{enumerate}[label=(\alph*)]
+      \item Coordinates: \texttt{COOR(NCO,NNOD)} --- $x$, $y$, and $z$.
+      \item Boundary conditions: \texttt{NFIX(NDN,NNOD)} --- $u$, $v$, $w$, $\theta_x$, $\theta_y$, and $\theta_z$ (3D frame).
+
+        Specify ``$-1$'' if the d.o.f.\ is constrained (or fixed); specify ``0'' if free. Specify the smaller node number for the d.o.f.\ which is the same as the d.o.f.\ of the larger node number if the \emph{double node technique} is used. For example, if nodes 3 and 4 are double nodes (they have the same coordinates) used to model an internal pin for a beam, then the \texttt{NFIX} values are 0, 0 for node 3, and 3, 0 for node 4.
+        \begin{fig}
+          \input{figures/ch06_double_node_beam}
+        \end{fig}
+        \begin{center}
+          \begin{minipage}{0.47\linewidth}\centering
+            \texttt{NFIX(NDN,NNOD)}\\[4pt]
+            \begin{tabular}{|c|c|c|c|c|c|}\hline
+                       & 1    & 2    & 3 & 4 & 5   \\\hline
+              $v$      & $-1$ & $-1$ & 0 & 3 & $-1$\\\hline
+              $\theta$ & $-1$ & 0    & 0 & 0 & $-1$\\\hline
+            \end{tabular}
+          \end{minipage}
+          \begin{minipage}{0.5\linewidth}\centering
+            \texttt{IDND(NDN,NNOD)} (discussed later)\\[4pt]
+            \begin{tabular}{|c|c|c|c|c|c|}\hline
+                       & 1    & 2    & 3 & 4 & 5   \\\hline
+              $v$      & $-1$ & $-3$ & 2 & 2 & $-4$\\\hline
+              $\theta$ & $-2$ & 1    & 3 & 4 & $-5$\\\hline
+            \end{tabular}
+          \end{minipage}
+        \end{center}
+      \item External ``concentrated'' nodal loads: \texttt{EXLD(NDN,NNOD)}
+        \begin{fig}
+          \input{figures/ch06_portal_loads}
+        \end{fig}
+        \begin{center}
+          \begin{minipage}{0.47\linewidth}\centering
+            \texttt{NFIX(NDN,NNOD)}\\[4pt]
+            \begin{tabular}{|c|c|c|c|c|}\hline
+                       & 1    & 2 & 3 & 4   \\\hline
+              $u$      & $-1$ & 0 & 0 & 0   \\\hline
+              $v$      & $-1$ & 0 & 0 & $-1$\\\hline
+              $\theta$ & $-1$ & 0 & 0 & 0   \\\hline
+            \end{tabular}
+          \end{minipage}
+          \begin{minipage}{0.5\linewidth}\centering
+            \texttt{EXLD(NDN,NNOD)}\\[4pt]
+            \begin{tabular}{|c|c|c|c|c|}\hline
+                    & 1 & 2     & 3    & 4   \\\hline
+              $F_x$ & 0 & 2     & 0    & $-7$\\\hline
+              $F_y$ & 0 & $-10$ & 5    & 0   \\\hline
+              $M$   & 0 & 0     & $-3$ & 0   \\\hline
+            \end{tabular}
+          \end{minipage}
+        \end{center}
+    \end{enumerate}
+
+  \item \textbf{Elemental data}
+    \begin{enumerate}[label=(\alph*)]
+      \item Identification matrices (connectivities):\\
+        \texttt{IDBC(5,NBC)}: node 1, node 2, material type, sectional type, blank.
+      \item Direction cosines of the local $y$ axis: \texttt{VECTY(3,NBC)}. (\texttt{ITP}=6 only)
+        \begin{fig}
+          \input{figures/ch06_local_axes_3d}
+        \end{fig}
+      \item Fixed-end forces (in local axis) \texttt{FEF(NDE,NBC)} $= \F_l$. (\texttt{IFORCE}=2 only)
+    \end{enumerate}
+
+  \item \textbf{Material and sectional properties}
+    \begin{enumerate}[label=(\alph*)]
+      \item \texttt{PROP(5,NMAT)}: Young's modulus $E$, Poisson's ratio $\nu$, blank, blank, blank.\\
+        For dynamic problems, $\rho$ is required; for plastic analysis problems, $\sigma_y$ is needed.
+      \item \texttt{SECT(5,NSEC)}: cross-sectional area $A$, moments of inertia $I_z$ and $I_y$, and torsional constant $J$, blank.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection*{Example of input files}
+\begin{fig}
+  \input{figures/ch06_truss_input_example}
+\end{fig}
+\begin{itemize}
+  \item $E = 300~\mathrm{kN/cm^2} = 3{,}000{,}000~\mathrm{kN/m^2}$ for members 1, 2, 3, 4, 13, and 14
+  \item $E = 200~\mathrm{kN/cm^2} = 2{,}000{,}000~\mathrm{kN/m^2}$ for members 5, 6, 7, 8, 9, 10, 11, 12
+  \item Cross section area $= 0.10~\mathrm{m^2}$ for members 1, 2, 3, 4, 13, and 14
+  \item Cross section area $= 0.20~\mathrm{m^2}$ for members 6, 8, and 11
+  \item Cross section area $= 0.30~\mathrm{m^2}$ for members 5, 7, 9, 10 and 12
+\end{itemize}
+The contents of \texttt{2Dtruss.ipt}:
+\begin{lstlisting}[language={},numbers=none,basicstyle=\small\ttfamily]
+2-D truss example
+kN
+m
+
+* NNOD  NBC  NMAT  NSEC  ITP  NNE  IFORCE
+   8    14    2     3     2    2     1
+
+* COOR (m)
+1    0.   0.
+2   24.   0.
+3   48.   0.
+4   72.   0.
+5   96.   0.
+6   24.  32.
+7   48.  32.
+8   72.  32.
+
+* NFIX (u, v)
+1   -1  -1
+2    0   0
+3    0   0
+4    0   0
+5   -1  -1
+6    0   0
+7    0   0
+8    0   0
+
+* External Load (kN): Px, Py
+1   0.    0.
+2   0.  -64.
+3   0.    0.
+4   0.    0.
+5   0.    0.
+6   0.    0.
+7   0.    0.
+8   0.    0.
+
+* IDBC
+1   1 2 1 1 0
+2   2 3 1 1 0
+3   3 4 1 1 0
+4   4 5 1 1 0
+5   1 6 2 3 0
+6   2 6 2 2 0
+7   3 6 2 3 0
+8   3 7 2 2 0
+9   4 7 2 3 0
+10  3 8 2 3 0
+11  4 8 2 2 0
+12  5 8 2 3 0
+13  6 7 1 1 0
+14  7 8 1 1 0
+
+* PROP
+1   3000000. 0. 0. 0. 0.
+2   2000000. 0. 0. 0. 0.
+
+* SECT
+1   0.10 0. 0. 0. 0.
+2   0.20 0. 0. 0. 0.
+3   0.30 0. 0. 0. 0.
+\end{lstlisting}
+
+\section{Set up global degrees of freedom (equation numbering)}
+Functions: \texttt{IDMAT}, \texttt{MEMDOF} and \texttt{SEMIBAND}.
+\begin{enumerate}[leftmargin=*]
+  \item \texttt{IDMAT}: Equation numbering --- transform \texttt{NFIX(NDN,NNOD)} into \texttt{IDND(NDN,NNOD)} and obtain \texttt{NEQ}.
+
+    Example: 2-D truss (\texttt{NDN}=2)
+    \begin{fig}
+      \input{figures/ch06_idmat_truss}
+    \end{fig}
+    \begin{center}
+      \begin{minipage}{0.47\linewidth}\centering
+        \texttt{NFIX(NDN,NNOD)}\\[4pt]
+        \begin{tabular}{|c|c|c|c|c|c|c|}\hline
+              & 1    & 2    & 3 & 4 & 5 & 6\\\hline
+          $u$ & $-1$ & $-1$ & 0 & 0 & 0 & 0\\\hline
+          $v$ & 0    & $-1$ & 0 & 0 & 0 & 0\\\hline
+        \end{tabular}
+      \end{minipage}
+      \begin{minipage}{0.47\linewidth}\centering
+        \texttt{IDND(NDN,NNOD)}\\[4pt]
+        \begin{tabular}{|c|c|c|c|c|c|c|}\hline
+              & 1    & 2    & 3 & 4 & 5 & 6\\\hline
+          $u$ & $-1$ & $-2$ & 2 & 4 & 6 & 8\\\hline
+          $v$ & 1    & $-3$ & 3 & 5 & 7 & 9\\\hline
+        \end{tabular}
+      \end{minipage}
+    \end{center}
+
+  \item \texttt{MEMDOF}: create member d.o.f.\ table, \texttt{LM(NDE,NBC)}.
+    \begin{itemize}
+      \item Use connectivities \texttt{IDBC(1,IB)} and \texttt{IDBC(2,IB)} (the \texttt{IB}th element) and the nodal d.o.f.\ table, \texttt{IDND(NDN,NNOD)}, to create the member d.o.f.\ table, \texttt{LM(NDE,NBC)}.
+    \end{itemize}
+    \begin{center}
+      \texttt{LM(NDE,NBC)}\\[4pt]
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
+                 & 1    & 2    & 3 & 4 & 5 & 6 & 7 & 8 & 9 (\texttt{NBC})\\\hline
+        1        & $-1$ & $-1$ &   &   &   &   & 2 &   & \\\hline
+        2        & 1    & 1    &   &   &   &   & 3 &   & \\\hline
+        3        & $-2$ & 2    &   &   &   &   & 8 &   & \\\hline
+        4 (\texttt{NDE}) & $-3$ & 3 &   &   &   &   & 9 &   & \\\hline
+      \end{tabular}
+    \end{center}
+
+  \item \texttt{SEMIBAND}: calculate the semi-band width (including diagonal) \texttt{NSBAND}. $[\Kmat]$ can be stored in banded form.
+    \begin{center}
+      \begin{minipage}{0.5\linewidth}\centering
+        $\Kmat$ (\texttt{NEQ},\texttt{NEQ})\\[4pt]
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{|c|c|c|c|c|c|}\hline
+          $K_{11}$ & $K_{12}$ & $K_{13}$ &          &          &         \\\hline
+          $K_{12}$ & $K_{22}$ & $K_{23}$ &          &          &         \\\hline
+          $K_{13}$ & $K_{23}$ & $K_{33}$ & $K_{34}$ &          &         \\\hline
+                   &          & $K_{34}$ & $K_{44}$ & $K_{45}$ & $K_{46}$\\\hline
+                   &          &          & $K_{45}$ & $K_{55}$ & $K_{56}$\\\hline
+                   &          &          & $K_{46}$ & $K_{56}$ & $K_{66}$\\\hline
+        \end{tabular}
+      \end{minipage}
+      \begin{minipage}{0.42\linewidth}\centering
+        $\widetilde{\Kmat}$ (\texttt{NEQ},\texttt{NSBAND})\\[4pt]
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{|c|c|c|}\hline
+          $K_{11}$ & $K_{12}$ & $K_{13}$\\\hline
+          $K_{22}$ & $K_{23}$ &         \\\hline
+          $K_{33}$ & $K_{34}$ &         \\\hline
+          $K_{44}$ & $K_{45}$ & $K_{46}$\\\hline
+          $K_{55}$ & $K_{56}$ &         \\\hline
+          $K_{66}$ &          &         \\\hline
+        \end{tabular}
+      \end{minipage}
+    \end{center}
+    $K(i,j)$, $j\geq i$ is stored in $\widetilde{K}(i,\,j-i+1)$; for example,
+    \begin{align*}
+      K(2,3) &\;\rightarrow\; \widetilde{K}(2,2)\\
+      K(4,6) &\;\rightarrow\; \widetilde{K}(4,3)
+    \end{align*}
+    Calculate \texttt{NSBAND} from the \texttt{LM(NDE,NBC)} matrix columnwise using the algorithm below:
+    \begin{equation}
+      \texttt{NSBAND} = \max_{i=1,\texttt{NBC}}\Bigl(\max_{j=1,\texttt{NDE}}LM(j,i) - \min_{j=1,\texttt{NDE}}LM(j,i) + 1\Bigr)\quad\text{for } LM(j,i) > 0
+    \end{equation}
+\end{enumerate}
+
+\section{Assemble external loads into the load vector}
+Function \texttt{LOAD}: assemble \texttt{EXLD(NDN,NNOD)} into \texttt{GLOAD(NEQ)}.
+
+\topic{Algorithm:}
+\begin{lstlisting}[language=Matlab,numbers=none]
+GLOAD = zeros(NEQ,1);
+for j = 1:NNOD
+    for i = 1:NDN
+        if IDND(i,j) > 0
+            GLOAD(IDND(i,j)) = GLOAD(IDND(i,j))+EXLD(i,j);
+        end
+    end
+end
+\end{lstlisting}
+
+\section{Form the global stiffness matrix and add the equivalent member forces to the load vector}
+Functions: \texttt{FORMKP} (\texttt{ROTATION}, \texttt{ELKE}).
+
+For each element, perform the following steps to add its stiffness matrix to the banded global stiffness matrix.
+\begin{enumerate}
+  \item Calculate element transformation (rotation) matrix $\Tmat_{\texttt{NDE}\times\texttt{NDE}}$. (function \texttt{ROTATION})
+  \item Calculate element stiffness matrix referred to the local (elemental) coordinate system, $[k_l]_{\texttt{NDE}\times\texttt{NDE}} = \kmat_l$. (function \texttt{ELKE})
+  \item Calculate element stiffness matrix $\kmat$ referred to the global (structural) coordinate system using $\kmat = \Tmat^\tr\kmat_l\Tmat$. ($\kmat_l =$ matrix \texttt{EE}, $\kmat =$ matrix \texttt{ELK})
+  \item Assemble $\kmat_{\texttt{NDE}\times\texttt{NDE}}$ into the stiffness matrix $\Kmat_{\texttt{NEQ}\times\texttt{NEQ}}$.
+\end{enumerate}
+Assembling process: $k_{mn}\;\rightarrow\;K_{IJ}$.
+
+\topic{Algorithm (for the \texttt{IB}th element):}
+\begin{lstlisting}[language=Matlab,numbers=none]
+% Get element DOFs
+LDOF = find(LM(:,IB)>0);
+GDOF = LM(LDOF,IB);
+% Transform the element stiffness matrix from the local axes
+% to global axes : EE --> ELK
+ELK = T'*EE*T;
+% Assemble the global element stiffness matrix to form the global
+% stiffness matrix GLK
+GLK(GDOF,GDOF) = GLK(GDOF,GDOF) + ELK(LDOF,LDOF);
+\end{lstlisting}
+
+For each element, perform the following three steps to add its equivalent member forces to the load vector.
+\begin{enumerate}
+  \item Calculate element transformation matrix $\Tmat$. (function \texttt{ROTATION})
+  \item Calculate equivalent member forces using $\F_g = -\Tmat^\tr\F_l$, where $\F_l$ (\texttt{FEF(NDE,NBC)}) is the fixed-end forces; $\F_g$ is referred to as equivalent member forces.
+    \begin{fig}
+      \input{figures/ch06_fef_transform}
+    \end{fig}
+  \item Assemble $\F_g$ into \texttt{GLOAD(NEQ)} using the algorithm below (for the \texttt{IB}th element).
+\end{enumerate}
+\begin{lstlisting}[language=Matlab,numbers=none]
+Steps 2 and 3:
+EFEQ = -T'*FEF(:,IB);
+GLOAD(GDOF) = GLOAD(GDOF) + EFEQ(LDOF);
+\end{lstlisting}
+
+\section{Solve for the nodal unknowns}
+(Chapter~\ref{ch:solve}; function \texttt{SOLVE})
+
+\section{Calculate member end forces (force recovery)}
+(function \texttt{FORCE})
+
+For each element (member), the member end forces can be calculated as follows:
+\begin{enumerate}
+  \item Use \texttt{LM(NDE,IB)} (the \texttt{IB}th element) and the global displacement vector \texttt{DISP(NEQ)} to find the element displacement vector in the global coordinate system, $\dvec_g$.
+  \item Call function \texttt{ROTATION} to obtain the element transformation matrix $\Tmat$.
+  \item Obtain the element displacement vector in the local coordinate system, $\dvec_l$ (dimension: $\texttt{NDE}\times\texttt{NDE}$) using $\dvec_l = \Tmat\dvec_g$.
+  \item Call function \texttt{ELKE} to obtain the element stiffness matrix $\kmat_l$.
+  \item Calculate the element forces (member end forces) using $\mat{f}_l = \kmat_l\dvec_l + \F_l$.
+\end{enumerate}

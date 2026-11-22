@@ -1,0 +1,25 @@
+% Fixed-end forces of elements 1 and 3
+\begin{tikzpicture}[scale=0.7,font=\small]
+  % element 1
+  \begin{scope}
+    \draw[member] (0,0) -- (6,0); \pic at (0,0) {wallL}; \pic at (6,0) {wallR};
+    \foreach \x in {0.5,1.2,...,5.6}{\draw[->] (\x,{0.2+0.28*\x}) -- (\x,0.15);} \draw (0,0.2) -- (6,1.9);
+    \node[above left] at (1.2,1.5) {30\,kN/m};
+    \node[below right] at (0,0) {1}; \node[below left] at (6,0) {2};
+    \draw[->,thick] (-0.5,-0.6) arc (-100:100:0.6); \node[above left] at (-0.4,0.5) {54};
+    \draw[->,thick] (6.5,-0.6) arc (280:80:0.6); \node[above right] at (6.4,0.5) {$-36$};
+    \draw[load] (-0.5,-1.4) -- (-0.5,-0.1) node[pos=0,below] {63};
+    \draw[load] (6.5,-1.4) -- (6.5,-0.1) node[pos=0,below] {27};
+  \end{scope}
+  % element 3
+  \begin{scope}[xshift=10.5cm]
+    \draw[member] (0,0) -- (10,0); \pic at (0,0) {wallL}; \pic at (10,0) {wallR};
+    \draw[load] (5,2.2) -- (5,0.15) node[pos=0,above] {150\,kN};
+    \node[below right] at (0,0) {3}; \node[below left] at (10,0) {4};
+    \draw[->,thick] (-0.5,-0.6) arc (-100:100:0.6); \node[above left] at (-0.4,0.5) {187.5};
+    \draw[->,thick] (10.5,-0.6) arc (280:80:0.6); \node[above right] at (10.4,0.5) {$-187.5$};
+    \draw[load] (-0.5,-1.4) -- (-0.5,-0.1) node[pos=0,below] {75};
+    \draw[load] (10.5,-1.4) -- (10.5,-0.1) node[pos=0,below] {75};
+    \node[right] at (11.6,-0.6) {$\mat{f}_{fef}$};
+  \end{scope}
+\end{tikzpicture}

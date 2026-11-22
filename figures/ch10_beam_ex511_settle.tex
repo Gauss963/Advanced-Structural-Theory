@@ -1,0 +1,10 @@
+% Example 5.11: fixed-end state with support b settled 15 mm (theta_zb = 0)
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \pic at (0,0) {wallL}; \pic at (13,0) {wallR};
+  \draw[dashed] (0,0) -- (13,0);
+  \draw[member] (0,0) .. controls (3,0) and (5,-0.9) .. (8,-0.9) .. controls (10,-0.9) and (11.5,0) .. (13,0);
+  \pic at (8,-0.9) {roller};
+  \draw[dim] (13.6,0) -- (13.6,-0.9) node[midway,right] {15 mm};
+  \draw[dim] (8.4,0.6) -- (8.4,-0.9); \node[right] at (8.4,0.5) {15 mm};
+  \node[above] at (0,0.1) {$a$}; \node[above right] at (8,-0.8) {$b$}; \node[above left] at (13,0.1) {$c$};
+\end{tikzpicture}

@@ -1,0 +1,45 @@
+% Truss example (Ghali & Neville): geometry, real forces, and virtual forces
+\begin{tikzpicture}[scale=0.62,font=\scriptsize]
+  \newcommand{\trussgeo}{\coordinate (A) at (0,0); \coordinate (B) at (4,0); \coordinate (C) at (8,0); \coordinate (D) at (4,3); \coordinate (E) at (0,3);
+    \draw[thinmember] (A) -- (C); \draw[thinmember] (E) -- (D) -- (C); \draw[thinmember] (A) -- (E); \draw[thinmember] (A) -- (D); \draw[thinmember] (B) -- (D);
+    \foreach \p in {A,B,C,D,E}{\fill (\p) circle (0.06);}}
+  % (a)
+  \begin{scope}
+    \trussgeo \pic at (A) {pin}; \pic at (C) {roller};
+    \node[left] at (A) {$A$}; \node[below] at (B) {$B$}; \node[below right] at (C) {$C$}; \node[above right] at (D) {$D$}; \node[above left] at (E) {$E$};
+    \newcommand{\mem}[2]{\node[circle,draw,fill=white,inner sep=0.8pt,font=\tiny] at #1 {#2};}
+    \mem{(2,0)}{1} \mem{(6,0)}{2} \mem{(0,1.5)}{3} \mem{(4,1.5)}{4} \mem{(2,3)}{5} \mem{(6,1.5)}{6} \mem{(1.5,1.4)}{7}
+    \draw[load] (-1.3,3) -- (-0.1,3) node[pos=0,above] {$P$}; \draw[load] (4,4.3) -- (4,3.1) node[pos=0,right] {$P$};
+    \draw[load] (8.1,0) -- (9.1,0) node[right] {$D_1$}; \node[below] at (8.6,0) {1};
+    \draw[load] (E) -- ++(-40:0.9) node[below right] {$\frac{D_2}{2}$}; \draw[load] (B) -- ++(140:0.9) node[above left] {$\frac{D_2}{2}$};
+    \draw[dim] (0,-1.0) -- (4,-1.0) node[midway,fill=white,inner sep=1pt] {$l$}; \draw[dim] (4,-1.0) -- (8,-1.0) node[midway,fill=white,inner sep=1pt] {$l$};
+    \node[below] at (4,-1.5) {(a) 2D truss};
+  \end{scope}
+  % (b)
+  \begin{scope}[xshift=12cm]
+    \trussgeo \pic at (A) {pin}; \pic at (C) {roller};
+    \draw[load] (-1.3,3) -- (-0.1,3) node[pos=0,above] {$P$}; \draw[load] (4,4.3) -- (4,3.1) node[pos=0,right] {$P$};
+    \draw[load] (-1.3,0) -- (-0.1,0) node[pos=0,above] {$P$};
+    \node[above] at (2,3) {$-P$}; \node[left] at (0,1.5) {$0$}; \node[right] at (4,1.5) {$0$}; \node[below] at (2,0) {$1.167P$}; \node[below] at (6,0) {$1.167P$};
+    \node[above,sloped] at (2,1.5) {$-0.208P$}; \node[above,sloped] at (6,1.5) {$-1.458P$};
+    \draw[load] (0,-1.4) -- (0,-0.6) node[pos=0,below] {$0.125P$}; \draw[load] (8,-1.4) -- (8,-0.7) node[pos=0,below] {$0.875P$};
+    \draw[dim] (-1.6,0) -- (-1.6,3) node[midway,left] {$0.75l$};
+    \node[below] at (4,-2.0) {(b) (real) internal forces $N_i$};
+  \end{scope}
+  % (c)
+  \begin{scope}[yshift=-7.5cm]
+    \trussgeo \pic at (A) {pin}; \pic at (C) {roller};
+    \draw[load] (8.1,0) -- (9.1,0) node[above] {1};
+    \node[above] at (2,3) {$0$}; \node[left] at (0,1.5) {$0$}; \node[right] at (4,1.5) {$0$}; \node[below] at (2,0) {$-1$}; \node[below] at (6,0) {$-1$};
+    \node[above,sloped] at (2,1.5) {$0$}; \node[above,sloped] at (6,1.5) {$0$};
+    \node[below] at (4,-1.5) {(c) virtual forces $n_i$ (due to $\delta P_{D1} = 1$)};
+  \end{scope}
+  % (d)
+  \begin{scope}[xshift=12cm,yshift=-7.5cm]
+    \trussgeo \pic at (A) {pin}; \pic at (C) {roller};
+    \draw[load] (E) -- ++(-36.87:1.0) node[below right] {1}; \draw[load] (B) -- ++(143.13:1.0) node[above left] {1};
+    \node[above] at (2,3) {$-0.8$}; \node[left] at (0,1.5) {$-0.6$}; \node[right] at (4,1.5) {$-0.6$}; \node[below] at (2,0) {$-0.8$}; \node[below] at (6,0) {$0$};
+    \node[above,sloped] at (2.9,2.2) {$1$}; \node[above,sloped] at (6,1.5) {$0$};
+    \node[below] at (4,-1.5) {(d) virtual forces $n_i$ (due to $\delta P_{D2} = 1$)};
+  \end{scope}
+\end{tikzpicture}

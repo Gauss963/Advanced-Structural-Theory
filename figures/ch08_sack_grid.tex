@@ -1,0 +1,30 @@
+% Simple grid (after Sack, 1989, Example 5.4): grid with loading (isometric sketch)
+\begin{tikzpicture}[scale=0.9,font=\footnotesize,x={(1cm,0cm)},y={(0cm,1cm)},z={(-0.55cm,-0.42cm)}]
+  \coordinate (a) at (0,0,0);
+  \coordinate (b) at (4.5,0,0); \coordinate (d) at (-3.6,0,0);
+  \coordinate (e) at (0,0,-3.6); \coordinate (c) at (0,0,5.0);
+  % members
+  \draw[line width=2.4pt,black!65] (d) -- (b);
+  \draw[line width=2.4pt,black!65] (e) -- (c);
+  % fixed ends
+  \foreach \p in {b,d}{\fill[hatch] ($(\p)+(-0.15,-0.25,0)$) -- ($(\p)+(0.15,-0.25,0)$) -- ($(\p)+(0.15,0.55,0)$) -- ($(\p)+(-0.15,0.55,0)$) -- cycle;}
+  \foreach \p in {e,c}{\fill[hatch] ($(\p)+(0,-0.25,-0.15)$) -- ($(\p)+(0,-0.25,0.15)$) -- ($(\p)+(0,0.55,0.15)$) -- ($(\p)+(0,0.55,-0.15)$) -- cycle;}
+  % distributed load on ad
+  \foreach \t in {0.12,0.3,...,0.95}{\draw[->] (-3.6*\t,1.0,0) -- (-3.6*\t,0.1,0);}
+  \draw (-3.6*0.12,1.0,0) -- (-3.6*0.95,1.0,0);
+  \node[above] at (-1.9,1.0,0) {10 k/ft};
+  % distributed load on ac
+  \foreach \t in {0.1,0.22,...,0.95}{\draw[->] (0,1.0,5.0*\t) -- (0,0.1,5.0*\t);}
+  \draw (0,1.0,5.0*0.1) -- (0,1.0,5.0*0.95);
+  \node[left] at (0,1.15,3.0) {10 k/ft};
+  % node labels
+  \node[above right] at (a) {$a$}; \node[above] at ($(b)+(0,0.6,0)$) {$b$}; \node[right] at ($(c)+(0.2,0,0)$) {$c$};
+  \node[above] at ($(d)+(0,0.6,0)$) {$d$}; \node[above] at ($(e)+(0,0.6,0)$) {$e$};
+  % axes
+  \draw[->] (a) -- (0,2.2,0) node[above] {$y$};
+  \draw[->] ($(b)+(0.3,0,0)$) -- (6.0,0,0) node[right] {$x$};
+  \draw[->] ($(c)+(0,0,0.3)$) -- (0,0,6.6) node[below left] {$z$};
+  % dimensions (below the members)
+  \node[below,inner sep=5pt] at (2.25,0,0) {18 ft}; \node[below,inner sep=5pt] at (-1.8,0,0) {12 ft};
+  \node[right,inner sep=5pt] at (0,0,2.6) {20 ft}; \node[right,inner sep=5pt] at (0,0,-1.9) {12 ft};
+\end{tikzpicture}

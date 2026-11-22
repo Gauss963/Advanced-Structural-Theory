@@ -1,0 +1,9 @@
+% Grid: y and z axes opposite to the textbook (z up, member rotated clockwise by phi)
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \draw[->,thick] (0,0) -- (0,2.6) node[above] {$z$};
+  \draw[->,thick] (0,0) -- (2.6,0) node[right] {$x$};
+  \draw[->,dashed,thick] (0,0) -- (1.6,2.1) node[above right] {$z'$};
+  \draw[line width=3pt,black!60] (0,0) -- (-37:2.0);
+  \draw[->,thick] (-37:2.0) -- (-37:2.6) node[right] {$x'$};
+  \draw[->] (1.3,0) arc (0:-37:1.3); \node at (1.55,-0.4) {$\phi$};
+\end{tikzpicture}

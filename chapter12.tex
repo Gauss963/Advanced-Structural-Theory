@@ -1,0 +1,289 @@
+\chapter[PVD in Framework Analysis]{Principle of Virtual Displacements in Framework Analysis}
+\label{ch:pvd2}
+
+\section{Shape functions and stiffness matrix}
+\subsection{Two-noded (linear) axial element}
+\begin{equation}
+  u(x) = \Bigl(1-\frac xL\Bigr)u_1 + \frac xL u_2 = N_1(x)u_1 + N_2(x)u_2 = \langle N_1, N_2\rangle\Bmat{u_1\\ u_2} = \NN\bs{\Delta}
+\end{equation}
+where the shape functions are
+\begin{equation}
+  N_1(x) = 1-\frac xL\quad\text{and}\quad N_2(x) = \frac xL
+\end{equation}
+Note that shape function $N_i(x)$ represents the displacement field associated with $\Delta_i = 1$ and other $\Delta_i$'s $= 0$.
+
+The strain field is then given by
+\begin{equation}
+  \eps(x) = u'(x) = \NN'\bs{\Delta}
+\end{equation}
+where $\NN' = \langle N_1', N_2'\rangle = \langle -1/L, 1/L\rangle$.
+
+The virtual strain energy is
+\begin{equation}
+  \dU = \int_0^L\delta\eps\,E\eps\,A\,dx = \int_0^L(\delta\eps)^\tr E\eps\,A\,dx = \delta\bs{\Delta}^\tr\Bigl(\int_0^L EA\NN'^{\tr}\NN'\,dx\Bigr)\bs{\Delta}
+\end{equation}
+Noting that $\dU = \delta\bs{\Delta}^\tr\kmat\bs{\Delta}$, therefore,
+\begin{gather}
+  \kmat = \int_0^L EA\NN'^{\tr}\NN'\,dx = EA\int_0^L\NN'^{\tr}\NN'\,dx\quad\text{if } EA = \text{constant}\\
+  \Rightarrow\quad \kmat = \frac{EA}{L}\bmat{1 & -1\\ -1 & 1}\quad\text{if } EA = \text{constant.}
+\end{gather}
+
+\subsection{Flexural element: bent about the \texorpdfstring{$z$}{z}-axis}
+The displacement is
+\begin{equation}
+  v(x) = N_1(x)v_1 + N_2(x)\theta_{z1} + N_3(x)v_2 + N_4(x)\theta_{z2} = \sum_{i=1}^4 N_i(x)\Delta_i = \NN\bs{\Delta}
+\end{equation}
+where the shape functions are
+\begin{align*}
+  N_1(x) &= 2\Bigl(\frac xL\Bigr)^3 - 3\Bigl(\frac xL\Bigr)^2 + 1\\
+  N_2(x) &= \frac{x^3}{L^2} - 2\frac{x^2}{L} + x\\
+  N_3(x) &= -2\Bigl(\frac xL\Bigr)^3 + 3\Bigl(\frac xL\Bigr)^2\\
+  N_4(x) &= \frac{x^3}{L^2} - \frac{x^2}{L}
+\end{align*}
+Similarly, shape function $N_i(x)$ is the displacement field due to $\Delta_i = 1$ and the other $\Delta_i$'s $= 0$. For example, $N_2(x)$ satisfies the following four conditions: $N_2(0) = 0$, $N_2'(0) = 1$, $N_2(L) = 0$, $N_2'(L) = 0$; these correspond to a hinged support with a unit rotation for the left end and a fixed support for the right end.
+
+The above shape functions can be derived as follows. First, as there are four degrees of freedom, a cubic displacement field can be assumed; namely
+\begin{equation}
+  v(x) = a_0 + a_1x + a_2x^2 + a_3x^3
+\end{equation}
+Then use of the four boundary conditions: $v(0) = v_1$, $v(L) = v_2$, $v'(0) = \theta_{z1}$, and $v'(L) = \theta_{z2}$ results in
+\begin{equation}
+  \bmat{1 & 0 & 0 & 0\\ 1 & L & L^2 & L^3\\ 0 & 1 & 0 & 0\\ 0 & 1 & 2L & 3L^2}\Bmat{a_0\\ a_1\\ a_2\\ a_3} = \Bmat{v_1\\ v_2\\ \theta_{z1}\\ \theta_{z2}}
+  \quad\Rightarrow\quad
+  \begin{aligned}
+    a_0 &= v_1\\ a_1 &= \theta_{z1}\\ a_2 &= \frac{3}{L^2}(-v_1+v_2) - \frac1L(2\theta_{z1}+\theta_{z2})\\ a_3 &= \frac{2}{L^3}(v_1-v_2) + \frac{1}{L^2}(\theta_{z1}+\theta_{z2})
+  \end{aligned}
+\end{equation}
+Substituting $a_0, a_1, a_2$, and $a_3$ into $v(x)$ and rearranging the terms results in the shape functions immediately.
+
+The axial strain along the depth of a cross section due to bending is given by
+\begin{equation}
+  \eps(y) = -yv'' = -y\NN''\bs{\Delta}
+\end{equation}
+The virtual strain energy is
+\begin{equation}
+  \begin{aligned}
+    \dU &= \int_V\delta\eps\,\sigma\,dV = \int_V\delta\eps\,E\eps\,dV\\
+        &= \int_V\delta v''Ey^2v''\,dV = \int_0^L EI_z\,\delta v''^{\tr}v''\,dx\\
+        &= \delta\bs{\Delta}^\tr\Bigl(\int_0^L EI_z\NN''^{\tr}\NN''\,dx\Bigr)\bs{\Delta} = \delta\bs{\Delta}^\tr\kmat\bs{\Delta}
+  \end{aligned}
+\end{equation}
+Therefore,
+\begin{equation}
+  \kmat = \int_0^L EI_z\NN''^{\tr}\NN''\,dx\qquad\text{or}\qquad k_{ij} = \int_0^L EI_zN_i''(x)N_j''(x)\,dx
+\end{equation}
+If $EI_z =$ constant, it is easy to obtain, on the basis of this equation and the shape functions, that
+\begin{equation}
+  \kmat = \frac{EI_z}{L}
+  \begin{bmatrix}
+    \dfrac{12}{L^2} & \dfrac6L & -\dfrac{12}{L^2} & \dfrac6L\\[8pt]
+    & 4 & -\dfrac6L & 2\\[8pt]
+    & & \dfrac{12}{L^2} & -\dfrac6L\\[8pt]
+    \multicolumn{2}{l}{\textit{Symm.}} & & 4
+  \end{bmatrix}
+\end{equation}
+
+\subsection{Flexural element: bent about the \texorpdfstring{$y$}{y}-axis}
+The displacement field is:
+\begin{equation}
+  w(x) = N_1(x)w_1 + N_2(x)\theta_{y1} + N_3(x)w_2 + N_4(x)\theta_{y2} = \sum_{i=1}^4 N_i(x)\Delta_i = \NN\bs{\Delta}
+\end{equation}
+where the shape functions are given by
+\begin{align*}
+  N_1(x) &= 2\Bigl(\frac xL\Bigr)^3 - 3\Bigl(\frac xL\Bigr)^2 + 1\\
+  N_2(x) &= -\Bigl(\frac{x^3}{L^2} - 2\frac{x^2}{L} + x\Bigr)\\
+  N_3(x) &= -2\Bigl(\frac xL\Bigr)^3 + 3\Bigl(\frac xL\Bigr)^2\\
+  N_4(x) &= -\Bigl(\frac{x^3}{L^2} - \frac{x^2}{L}\Bigr)
+\end{align*}
+Note that shape functions $N_1(x)$ and $N_3(x)$ are the same as those for the $z$-axis bending but shape functions $N_2(x)$ and $N_4(x)$ have a sign change compared with those for the $z$-axis bending. The sign change is due to the fact that $\theta_y(x) = -w'(x)$ but $\theta_z(x) = v'(x)$.
+
+\subsection{Torsional element}
+The shape functions for $\theta_x$ are the same as those for the axial displacement. Therefore, the stiffness matrix for a torsional element takes the form:
+\begin{equation}
+  \kmat = \int_0^L GJ\NN'^{\tr}\NN'\,dx \quad\Rightarrow\quad \kmat = \frac{GJ}{L}\bmat{1 & -1\\ -1 & 1}\ \text{if } GJ = \text{constant.}
+\end{equation}
+
+\section{Special purpose elements}
+\subsection{Three-noded (quadratic) axial element}
+The displacement field is given by
+\begin{equation}
+  u(x) = \sum_{i=1}^3 N_i(x)u_i = \NN(x)\bs{\Delta}
+\end{equation}
+where $\NN(x) = \langle N_1(x), N_2(x), N_3(x)\rangle$ and $\bs{\Delta} = \langle u_1, u_2, u_3\rangle^\tr$. The shape functions are given by
+\begin{fig}
+  \input{figures/ch12_quadratic_shape}
+\end{fig}
+Let the cross-sectional area be of the form $A(x) = A_0(1-mx/L)$, where $m =$ constant. The stiffness matrix for this linearly tapered axial bar is:
+\begin{fig}
+  \input{figures/ch12_tapered_bar}
+\end{fig}
+\begin{equation}
+  \kmat = \int_0^L EA\NN'^{\tr}\NN'\,dx = \frac{EA_0}{6L}\bmat{-3m+14 & 4m-16 & -m+2\\ 4m-16 & -16m+32 & 12m-16\\ -m+2 & 12m-16 & -11m+14}
+\end{equation}
+It is easy to verify that each column of $\kmat$ is a set of forces in equilibrium (summation of each column is zero). A special case is that of $A(x) = A_0$, i.e.\ $m = 0$, for which
+\begin{equation}
+  \kmat = \frac{EA_0}{3L}\bmat{7 & -8 & 1\\ -8 & 16 & -8\\ 1 & -8 & 7}
+\end{equation}
+
+\subsection{Exact shape functions and exact stiffness matrix for a tapered bar}
+The governing differential equation for a tapered bar is given by
+\begin{equation}
+  \od{}{x}\Bigl(EA(x)\od{u}{x}\Bigr) = 0
+\end{equation}
+where $A(x) = A_0(1-mx/L)$ is assumed. Integrating the differential equation twice and using the boundary conditions $u(0) = u_1$ and $u(L) = u_2$ yields
+\begin{align*}
+  &\od{}{x}\Bigl(EA_0(1-mx/L)\od{u}{x}\Bigr) = 0\\
+  &\Rightarrow (1-mx/L)\od{u}{x} = c_1 \quad\Rightarrow\quad \od{u}{x} = \frac{c_1}{(1-mx/L)}\\
+  &\Rightarrow u(x) = c_1\Bigl(\frac{-L}{m}\Bigr)\ln(1-mx/L) + c_2\\
+  &u(0) = u_1 \quad\Rightarrow\quad c_2 = u_1\\
+  &u(L) = u_2 \quad\Rightarrow\quad c_1\Bigl(\frac{-L}{m}\Bigr)\ln(1-m) + u_1 = u_2\\
+  &\Rightarrow c_1 = (u_2-u_1)\Bigl(\frac{-m}{L}\Bigr)\frac{1}{\ln(1-m)}\\
+  &\Rightarrow u(x) = (u_2-u_1)\frac{\ln(1-mx/L)}{\ln(1-m)} + u_1 = N_1(x)u_1 + N_2(x)u_2
+\end{align*}
+where
+\begin{equation}
+  N_1(x) = 1 - \frac{\ln(1-mx/L)}{\ln(1-m)},\qquad N_2(x) = \frac{\ln(1-mx/L)}{\ln(1-m)}
+\end{equation}
+The above shape functions are exact in the sense that they satisfy the differential equation. The ``exact'' stiffness matrix, calculated by $k_{ij} = E\int_0^L A(x)N_i'(x)N_j'(x)\,dx$, is of the form:
+\begin{equation}
+  \kmat = -\frac{EA_0}{L}\frac{m}{\ln(1-m)}\bmat{1 & -1\\ -1 & 1}
+\end{equation}
+If a two-noded linear element is used, then $u(x) = (1-\frac xL)u_1 + \frac xL u_2 \Rightarrow \od{u}{x} = \dfrac{u_2-u_1}{L}$
+\begin{equation*}
+  \od{}{x}\Bigl[EA_0(1-mx/L)\Bigl(\frac{u_2-u_1}{L}\Bigr)\Bigr] \neq 0
+\end{equation*}
+
+\begin{example}
+Consider a linearly tapered bar fixed at the left end and a force $P$ is applied at the right end. Assuming $m = 2/3$, the exact stiffness equations are:
+\begin{equation*}
+  -\frac{EA_0}{L}\frac{2/3}{\ln(1/3)}\bmat{1 & -1\\ -1 & 1}\Bmat{u_1\\ u_2} = \Bmat{R\\ P}
+\end{equation*}
+where $R$ is the reaction at the fixed end. Using the boundary condition $u_1 = 0$, we obtain from the above stiffness equations that
+\begin{equation*}
+  u_2 = 1.6479\frac{PL}{EA_0}
+\end{equation*}
+which is, of course, exact.
+
+If a quadratic axial element is used to solve the problem, the stiffness equations can be written as
+\begin{equation*}
+  \frac{2EA_0}{9L}\bmat{9 & -10 & 1\\ -10 & 16 & -6\\ 1 & -6 & 5}\Bmat{u_1\\ u_2\\ u_3} = \Bmat{R\\ 0\\ P}
+\end{equation*}
+Knowing that $u_1 = 0$, we can solve for $u_2$ and $u_3$ from the above equations that
+\begin{equation*}
+  \Bmat{u_2\\ u_3} = \Bmat{0.6136\\ 1.6364}\frac{PL}{EA_0}
+\end{equation*}
+The error for $u_3$, compared with the exact value, is only 0.7\%.
+
+If a two-noded linear element is used and the cross-sectional area is taken as the mean cross-sectional area, i.e.\ $\overline{A} = \frac23A_0$, then we have
+\begin{equation*}
+  \frac{2EA_0}{3L}\bmat{1 & -1\\ -1 & 1}\Bmat{u_1\\ u_2} = \Bmat{R\\ P} \Rightarrow u_2 = 1.5\frac{PL}{EA_0}
+\end{equation*}
+The error is greater than that with the quadratic element. If the bar is divided into three or more elements, the error will become very small.
+\end{example}
+
+\subsection{Exact stiffness matrix of a tapered beam}
+\begin{minipage}{0.45\linewidth}
+Assume a tapered beam with width $b =$ constant and depth $h(x) = h_1\bigl(1+\frac xL\bigr)$. Therefore
+\begin{equation*}
+  I(x) = \frac{bh^3}{12} = \frac{bh_1^3}{12}\Bigl(1+\frac xL\Bigr)^3
+\end{equation*}
+\end{minipage}\hfill
+\begin{minipage}{0.5\linewidth}\centering
+  \input{figures/ch12_tapered_beam}
+\end{minipage}
+
+Governing equation (G.E.):
+\begin{equation}
+  \frac{d^2}{dx^2}\bigl[EI(x)v''\bigr] = 0
+\end{equation}
+By integrating G.E. twice, we have
+\begin{equation}
+  \Bigl(1+\frac xL\Bigr)^3v'' = c_1 + c_2x
+\end{equation}
+By integrating the above equation twice, we obtain
+\begin{equation}
+  v(x) = \frac{L^2}{2}\Bigl(\frac{c_1}{1+\frac xL}\Bigr) - L^3\Bigl[\frac{1}{2(1+\frac xL)} + \ln\Bigl(1+\frac xL\Bigr)\Bigr]c_2 + c_3x + c_4
+\end{equation}
+Boundary conditions (BCs):
+\begin{equation*}
+  v(0) = v_1,\quad v'(0) = \theta_{z1},\quad v(L) = v_2,\quad v'(L) = \theta_{z2}
+\end{equation*}
+Substituting BCs into $v(x)$, we can obtain $c_i$ ($i = 1, 4$) in terms of $v_1, \theta_{z1}, v_2$, and $\theta_{z2}$. Finally, rearrange the terms to result in the form below:
+\begin{equation}
+  v(x) = N_1(x)v_1 + N_2(x)\theta_{z1} + N_3(x)v_2 + N_4(x)\theta_{z2}
+\end{equation}
+The shape functions $N_i(x)$ ($i = 1, 4$) are therefore obtained; these shape functions are exact since they satisfy the governing equation.
+
+Stiffness matrix:
+\begin{equation}
+  \kmat = \int_0^L EI(x)\NN''^{\tr}\NN''\,dx = \text{exact stiffness matrix.}
+\end{equation}
+
+\section{Use of PVD to calculate the equivalent nodal forces or fixed-end forces}
+In general, we can determine $\mat{f}_{eq}$ using the principle of virtual displacements. In this way, we let the virtual work done by $\mat{f}_{eq}$ be equal to that done by the intermediate concentrated loads (can be expressed as delta functions) or distributed loads. That is,
+\begin{fig}
+  \input{figures/ch12_general_load_feq}
+\end{fig}
+\begin{gather}
+  \delta\bs{\Delta}^\tr\mat{f}_{eq} = \int_0^L(\NN\delta\bs{\Delta})^\tr q(x)\,dx
+  \;\rightarrow\; \delta\bs{\Delta}^\tr\mat{f}_{eq} = \delta\bs{\Delta}^\tr\int_0^L\NN^\tr q(x)\,dx\\
+  \rightarrow\quad \mat{f}_{eq} = \int_0^L\NN^\tr q(x)\,dx
+\end{gather}
+where $\NN = \langle N_1, N_2, \dots\rangle$ are shape functions. In component form,
+\begin{equation}
+  (\mat{f}_{eq})_i = \int_0^L N_i(x)q(x)\,dx
+\end{equation}
+The corresponding fixed-end forces are $\mat{f}_{fef} = -\mat{f}_{eq}$.
+
+\begin{example}
+\leavevmode
+\begin{fig}
+  \input{figures/ch12_uniform_load_feq}
+\end{fig}
+Using the equations given above, we obtain
+\begin{alignat*}{2}
+  f_{eq1} &= q\int_0^L N_1(x)\,dx = \frac{qL}{2};&\qquad f_{eq3} &= q\int_0^L N_3(x)\,dx = \frac{qL}{2}\\
+  f_{eq2} &= q\int_0^L N_2(x)\,dx = \frac{qL^2}{12};&\qquad f_{eq4} &= q\int_0^L N_4(x)\,dx = -\frac{qL^2}{12}
+\end{alignat*}
+\end{example}
+
+\begin{example}
+\leavevmode
+\begin{fig}
+  \input{figures/ch12_point_load_feq}
+\end{fig}
+We can use the same equations to calculate the equivalent nodal loads. In this case, $q(x) = P\delta(x-a)$. By using the property $\int_0^L N_i(x)\delta(x-a)\,dx = N_i(a)$, one can obtain that $f_{eqi} = PN_i(a)$ and therefore
+\begin{equation*}
+  \mat{f}_{eq} = \Bmat{\dfrac{Pb^2}{L^3}(3a+b)\\[6pt] \dfrac{ab^2P}{L^2}\\[6pt] \dfrac{Pa^2}{L^3}(a+3b)\\[6pt] -\dfrac{ba^2P}{L^2}}
+  \qquad\text{Check special case } a = b = \frac L2:\quad
+  \mat{f}_{eq} = \Bmat{\dfrac P2\\[6pt] \dfrac{PL}{8}\\[6pt] \dfrac P2\\[6pt] -\dfrac{PL}{8}}
+\end{equation*}
+or
+\begin{equation*}
+  \dW = P\delta v(x)\big|_{x=a} = P\bigl[N_1(x)\big|_{x=a}\delta v_1 + \dots + N_4(x)\big|_{x=a}\delta\theta_2\bigr] = f_{eqi}\delta\Delta_i \Rightarrow f_{eq_i} = PN_i(a)
+\end{equation*}
+Similarly, for an applied moment, $M$, at $x = a$, we have
+\begin{equation*}
+  \dW = M\delta v'(x)\big|_{x=a} = M\bigl[N_1'(x)\big|_{x=a}\delta v_1 + \dots + N_4'(x)\big|_{x=a}\delta\theta_2\bigr] = f_{eqi}\delta\Delta_i \Rightarrow f_{eq_i} = MN_i'(a)
+\end{equation*}
+(see Fig.~\ref{fig:fef-table}).
+\end{example}
+
+\begin{example}[Axial element]
+\leavevmode
+\begin{fig}
+  \input{figures/ch12_axial_triangular_feq}
+\end{fig}
+\begin{align*}
+  f_{eq1} &= \int_0^L q(x)N_1(x)\,dx = \int_0^L q\frac xL\Bigl(1-\frac xL\Bigr)dx = \frac{qL}{6}\\
+  f_{eq2} &= \int_0^L q(x)N_2(x)\,dx = \int_0^L q\frac xL\Bigl(\frac xL\Bigr)dx = \frac{qL}{3}
+\end{align*}
+Consider the axial bar below discretized into 2 elements. We can use the above formulas to obtain nodal loads as
+\begin{equation*}
+  \Pvec = \Pvec_c + \Pvec_{eq} = \Bmat{0\\ P} + \Bmat{\frac12qL\bigl(\frac23\bigr)+\frac12qL\bigl(\frac23\bigr)\\[4pt] \frac12qL\bigl(\frac13\bigr)} = \Bmat{\frac23qL\\[4pt] P+\frac16qL}
+\end{equation*}
+By $\Kmat\bs{\Delta} = \Pvec$, $\bs{\Delta}$ can be obtained.
+\begin{fig}
+  \input{figures/ch12_axial_two_elements}
+\end{fig}
+\end{example}

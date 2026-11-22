@@ -1,0 +1,11 @@
+% Local (x,y) axes rotated by phi from global (X,Y) axes
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \draw[->,thick] (0,0) -- (3.2,0) node[right] {$X$};
+  \draw[->,thick] (0,0) -- (0,3.2) node[above] {$Y$};
+  \coordinate (O) at (1.2,0.7);
+  \draw[dashed] (O) -- ++(1.6,0);
+  \draw[->,thick] (O) -- ++(35:2.0) node[above right] {$x$};
+  \draw[->,thick] (O) -- ++(125:1.4) node[above left] {$y$};
+  \draw[->] ($(O)+(1.1,0)$) arc (0:35:1.1);
+  \node at ($(O)+(1.35,0.35)$) {$\phi$};
+\end{tikzpicture}

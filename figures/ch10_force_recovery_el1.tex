@@ -1,0 +1,19 @@
+% Element 1: fixed-end forces and local displacements
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \begin{scope}
+    \draw[member] (0,0) -- (6,0);
+    \node[below right] at (0.2,0) {1}; \node[below left] at (5.8,0) {2};
+    \draw[->,thick] (-0.15,-0.6) arc (-100:100:0.6); \node[above left] at (-0.1,0.5) {54};
+    \draw[->,thick] (6.15,-0.6) arc (280:80:0.6); \node[above right] at (6.1,0.5) {$-36$};
+    \draw[load] (0,-1.2) -- (0,-0.1) node[pos=0,below] {63};
+    \draw[load] (6,-1.2) -- (6,-0.1) node[pos=0,below] {27};
+  \end{scope}
+  \begin{scope}[xshift=9.5cm]
+    \draw[member] (0,0) -- (6,0);
+    \node[below right] at (0.2,0) {1}; \node[below left] at (5.8,0) {2};
+    \draw[->,thick] (-0.15,-0.6) arc (-100:100:0.6); \node[above left] at (-0.1,0.5) {0};
+    \draw[->,thick] (6.15,-0.6) arc (280:80:0.6); \node[above right] at (6.1,0.5) {$\Delta_2$};
+    \draw[load] (0,-1.2) -- (0,-0.1) node[pos=0,below] {0};
+    \draw[load] (6,-1.2) -- (6,-0.1) node[pos=0,below] {$\Delta_1$};
+  \end{scope}
+\end{tikzpicture}

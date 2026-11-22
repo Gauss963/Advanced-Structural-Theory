@@ -1,0 +1,15 @@
+% Beam element (left) and beam element with a hinge at the left end (right)
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \begin{scope}
+    \draw[thinmember] (0,0) -- (5,0);
+    \draw[load] (0,0.1) -- (0,1.0) node[above] {$F_1$}; \draw[load] (5,0.1) -- (5,1.0) node[above] {$F_2$};
+    \draw[->,thick] (-0.05,-0.4) arc (-100:100:0.4); \node[below right] at (0.1,-0.3) {$M_1$};
+    \draw[->,thick] (5.05,-0.4) arc (280:80:0.4); \node[below right] at (5.1,-0.3) {$M_2$};
+  \end{scope}
+  \draw[->,thick] (6.3,0) -- (7.3,0);
+  \begin{scope}[xshift=8.5cm]
+    \draw[thinmember] (0,0) -- (5,0); \node[node dot] at (0,0) {};
+    \draw[load] (0,0.15) -- (0,1.0) node[above] {$F_1$}; \draw[load] (5,0.1) -- (5,1.0) node[above] {$F_2$};
+    \draw[->,thick] (5.05,-0.4) arc (280:80:0.4); \node[below right] at (5.1,-0.3) {$M_2$};
+  \end{scope}
+\end{tikzpicture}

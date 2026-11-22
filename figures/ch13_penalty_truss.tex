@@ -1,0 +1,21 @@
+% Penalty (substituting member) method for a truss with an inclined support
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \begin{scope}
+    \coordinate (c) at (0,0); \coordinate (b) at (6,0); \coordinate (a) at (3.5,2.2);
+    \draw[member] (c) -- (a) -- (b) -- (c);
+    \pic at (c) {pin}; \pic[rotate=30] at (b) {roller};
+    \foreach \p in {a,b,c}{\node[node dot] at (\p) {};}
+  \end{scope}
+  \node at (7.5,1.0) {$\Longrightarrow$};
+  \begin{scope}[xshift=9cm]
+    \coordinate (c) at (0,0); \coordinate (b) at (6,0); \coordinate (a) at (3.5,2.2);
+    \draw[member] (c) -- (a) -- (b) -- (c);
+    \pic at (c) {pin};
+    \foreach \p in {a,b,c}{\node[node dot] at (\p) {};}
+    \node[above left] at ($(c)!0.5!(a)$) {$k_3$}; \node[above right] at ($(a)!0.5!(b)$) {$k_1$}; \node[below] at (3,-0.1) {$k_2$};
+    % substituting member perpendicular to the incline
+    \coordinate (s) at ($(b)+(-60:1.6)$);
+    \draw[line width=3pt,black] (b) -- (s); \pic[rotate=-60] at (s) {pin};
+    \node[right] at ($(b)+(0.9,-0.6)$) {$\alpha \gg k_1\sim k_3$};
+  \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,9 @@
+% The same truss with an additional member de
+\begin{tikzpicture}[scale=0.8,font=\small]
+  \coordinate (a) at (0,0); \coordinate (b) at (2,0); \coordinate (c) at (2,4); \coordinate (d) at (4,4); \coordinate (e) at (6,4);
+  \draw[thinmember] (a) -- (b) -- (c) -- (d); \draw[thinmember] (a) -- (c); \draw[thinmember] (b) -- (d);
+  \draw[thinmember] (d) -- (e);
+  \node[above left] at (a) {$a$}; \node[right] at ($(b)+(0.1,0.2)$) {$b$}; \node[above left] at (c) {$c$}; \node[above] at (d) {$d$}; \node[above] at (e) {$e$};
+  \pic at (a) {pin}; \pic at (b) {roller};
+  \pic at (e) {wallR};
+\end{tikzpicture}

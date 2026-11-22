@@ -1,0 +1,109 @@
+\chapter{Introduction}
+
+\section{Purpose of this course}
+To calculate the responses, including internal forces (axial, shear, moment) distribution and displacements (deflections), of framed structures.
+
+\section{Five elements of structural analysis}
+\begin{enumerate}
+  \item \textbf{Basic mechanics:}
+    \begin{enumerate}[label=(\alph*)]
+      \item stress--strain relationships
+      \item equilibrium equations
+      \item compatibility equations
+    \end{enumerate}
+  \item \textbf{Finite element mechanics}, or member force--deformation relationships
+    \begin{fig}
+      \input{figures/ch01_beam_end_moments}
+    \end{fig}
+    \begin{itemize}
+      \item \emph{Stiffness methods}: forces in terms of displacements through stiffness coefficients
+        \begin{equation}
+          \Bmat{M_1\\ M_2} = \frac{2EI}{L}\bmat{2 & 1\\ 1 & 2}\Bmat{\alpha_1\\ \alpha_2}
+        \end{equation}
+      \item \emph{Flexibility methods}: deformations in terms of forces through flexibility coefficients
+        \begin{equation}
+          \Bmat{\alpha_1\\ \alpha_2} = \frac{L}{6EI}\bmat{2 & -1\\ -1 & 2}\Bmat{M_1\\ M_2}
+        \end{equation}
+    \end{itemize}
+  \item \textbf{Formulation of structural (global) equations}\\
+    Meaning of structural equations:
+    \begin{itemize}
+      \item Stiffness methods: equilibrium equations
+      \item Flexibility methods: compatibility equations (consistent deformation)
+    \end{itemize}
+  \item \textbf{Equation solving}\\
+    Gauss elimination, decomposition methods, etc.
+  \item \textbf{Solution interpretation}
+    \begin{itemize}
+      \item Member force diagrams such as axial, shear and moment diagrams
+      \item Deformed shapes
+    \end{itemize}
+\end{enumerate}
+
+\section{Types of analysis}
+(See also Sec.~8.1 of the textbook.)
+
+\subsection*{Linear analysis}
+
+\subsection*{Nonlinear analysis}
+
+\topicnote{Geometrically nonlinear analysis}{(second-order analysis, $P$-$\Delta$ effects)}
+\begin{fig}
+  \input{figures/ch01_pdelta}
+\end{fig}
+
+\topic{Materially nonlinear analysis}
+\begin{fig}
+  \input{figures/ch01_material_nonlinear}
+\end{fig}
+
+\topicnote{Nonlinear analysis due to change in boundary conditions}{(such as contact problems)}
+\begin{fig}
+  \input{figures/ch01_contact}
+\end{fig}
+Considering a ball subjected to a load $P$, the contact area will increase as the load increases.
+
+\subsection*{Example of geometrically nonlinear analysis}
+A simple example, the \emph{two-member truss}, illustrating the geometrically nonlinear analysis is as follows.
+\begin{fig}
+  \input{figures/ch01_two_member_truss}
+\end{fig}
+
+\begin{solution}
+For a displacement $\Delta$, we have
+\begin{equation}
+  L' = \sqrt{(h-\Delta)^2 + (L\cos\theta)^2}.
+\end{equation}
+Knowing $\eps = \dfrac{L-L'}{L}$ and the stress--strain relationship $\sigma = f(\eps)$, we can first obtain the stress corresponding to this displacement and then the axial force $F = \sigma A$. Finally, the equilibrium equation states that
+\begin{equation}
+  P = 2F\sin\theta', \qquad \text{where } \sin\theta' = (h-\Delta)/L'.
+\end{equation}
+It shall be noted that the equilibrium equation is written for the \emph{deformed configuration}, which is the main feature of geometric nonlinear analysis. With different stress--strain relationships, the $P$--$\Delta$ curves are of different shapes, but all the curves pass through $(0,0)$, $(h,0)$ and $(2h,0)$.
+\end{solution}
+\begin{fig}
+  \input{figures/ch01_snap_through_curve}
+\end{fig}
+
+Another famous example related to geometric nonlinear analysis is a horizontal cable fixed at both ends and with a pretension $T$. Assume the length of the cable is $2L$ and the cable is subjected to a vertical load $P$ applied at the midpoint. Assuming $T$ is much larger than $P$, calculate the vertical deflection at the loaded point.
+\begin{fig}
+  \input{figures/ch01_cable}
+\end{fig}
+
+\begin{solution}
+The equilibrium equation for the deformed configuration is
+\begin{equation}
+  2(T+\Delta F)\sin\theta = P,
+\end{equation}
+where $\Delta F$ is the increment of the tension. Since $T$ is much larger than $P$, $\Delta F$ must be very small compared with $T$. Also, $\sin\theta \approx v/L$; hence,
+\begin{equation}
+  2T\frac{v}{L} = P \quad\Longrightarrow\quad v = \frac{PL}{2T}.
+\end{equation}
+The relation $v \propto \dfrac{P}{T}$ is what we would expect.
+\end{solution}
+
+\section{Different levels of analysis}
+\begin{figure}[H]
+  \centering
+  \input{figures/ch01_levels_of_analysis}
+  \caption{Levels of analysis (after Fig.~8.1 of the textbook).}
+\end{figure}

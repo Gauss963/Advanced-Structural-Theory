@@ -1,0 +1,118 @@
+% Static and kinematic indeterminacy (after Fig. 3.7 of the textbook)
+\begin{tikzpicture}[scale=0.75,font=\footnotesize,
+  redund/.style={->,thick},
+  dofm/.style={->,thick,black!60}]
+  % column headers
+  \node at (1.6,1.1) {Structure};
+  \node at (6.6,1.1) {Forces};
+  \node[align=center] at (11.6,1.3) {Degrees of\\Freedom};
+  \node[align=center] at (15.0,1.3) {Indeterminacy\\[-1pt]Static \quad Kinematic};
+  % helper: a load arrow pointing down-right onto a point
+  \newcommand{\ld}[1]{\draw[load] ($#1+(-0.45,0.6)$) -- ($#1+(-0.05,0.07)$);}
+  % helper: a small rotational dof symbol
+  \newcommand{\rot}[1]{\draw[dofm] ($#1+(0.3,0.05)$) arc (0:180:0.3);}
+  \newcommand{\transv}[1]{\draw[dofm] ($#1+(0,-0.05)$) -- ($#1+(0,-0.6)$);}
+  \newcommand{\transh}[1]{\draw[dofm] ($#1+(0.05,0)$) -- ($#1+(0.6,0)$);}
+  %
+  % ---------------- (a) simply supported beam ----------------
+  \begin{scope}[yshift=0cm]
+    \node at (-0.6,0) {$(a)$};
+    \draw[member] (0,0) -- (3.2,0); \pic at (0,0) {pin}; \pic at (3.2,0) {roller};
+    \ld{(1.4,0)}
+    % forces (free body)
+    \begin{scope}[xshift=5cm]
+      \draw[member] (0,0) -- (3.2,0); \ld{(1.4,0)}
+      \draw[redund] (-0.7,0) -- (-0.1,0); \draw[redund] (0,-0.7) -- (0,-0.1); \draw[redund] (3.2,-0.7) -- (3.2,-0.1);
+    \end{scope}
+    % dofs
+    \begin{scope}[xshift=10cm]
+      \draw[member] (0,0) -- (3.2,0); \pic at (0,0) {pin}; \pic at (3.2,0) {roller}; \ld{(1.4,0)}
+      \rot{(0,0)} \rot{(3.2,0)}
+    \end{scope}
+    \node at (14.3,0) {0}; \node at (15.8,0) {2};
+  \end{scope}
+  % ---------------- (b) two-span continuous beam ----------------
+  \begin{scope}[yshift=-2.2cm]
+    \node at (-0.6,0) {$(b)$};
+    \draw[member] (0,0) -- (3.2,0); \pic at (0,0) {pin}; \pic at (1.6,0) {roller}; \pic at (3.2,0) {roller};
+    \ld{(0.8,0)} \ld{(2.4,0)}
+    \begin{scope}[xshift=5cm]
+      \draw[member] (0,0) -- (3.2,0); \ld{(0.8,0)} \ld{(2.4,0)}
+      \draw[redund] (-0.7,0) -- (-0.1,0); \draw[redund] (0,-0.7) -- (0,-0.1);
+      \draw[redund] (1.6,-0.7) -- (1.6,-0.1); \draw[redund] (3.2,-0.7) -- (3.2,-0.1);
+    \end{scope}
+    \begin{scope}[xshift=10cm]
+      \draw[member] (0,0) -- (3.2,0); \pic at (0,0) {pin}; \pic at (1.6,0) {roller}; \pic at (3.2,0) {roller};
+      \ld{(0.8,0)} \ld{(2.4,0)}
+      \rot{(0,0)} \rot{(1.6,0)} \rot{(3.2,0)}
+    \end{scope}
+    \node at (14.3,0) {1}; \node at (15.8,0) {3};
+  \end{scope}
+  % ---------------- (c) fixed-fixed beam ----------------
+  \begin{scope}[yshift=-4.4cm]
+    \node at (-0.6,0) {$(c)$};
+    \draw[member] (0,0) -- (3.2,0); \pic at (0,0) {wallL}; \pic at (3.2,0) {wallR};
+    \ld{(1.4,0)}
+    \begin{scope}[xshift=5cm]
+      \draw[member] (0,0) -- (3.2,0); \ld{(1.4,0)}
+      \draw[redund] (-0.7,0) -- (-0.1,0); \draw[redund] (0,-0.7) -- (0,-0.1); \draw[redund] (0.05,-0.35) arc (-90:150:0.35);
+      \draw[redund] (3.2,-0.7) -- (3.2,-0.1); \draw[redund] (3.9,0) -- (3.3,0); \draw[redund] (3.15,-0.35) arc (270:30:0.35);
+    \end{scope}
+    \begin{scope}[xshift=10cm]
+      \draw[member] (0,0) -- (3.2,0); \pic at (0,0) {wallL}; \pic at (3.2,0) {wallR}; \ld{(1.4,0)}
+    \end{scope}
+    \node at (14.3,0) {3}; \node at (15.8,0) {0};
+  \end{scope}
+  % ---------------- (d) portal frame ----------------
+  \begin{scope}[yshift=-7.4cm]
+    \node at (-0.6,0.6) {$(d)$};
+    \draw[member] (0,0) -- (0,2) -- (3,2) -- (3,0); \pic at (0,0) {fixed}; \pic at (3,0) {fixed};
+    \ld{(1.3,2)}
+    \begin{scope}[xshift=5cm]
+      \draw[member] (0,0) -- (0,2) -- (3,2) -- (3,0); \ld{(1.3,2)}
+      \foreach \x in {0,3}{
+        \draw[redund] (\x-0.6,0) -- (\x-0.1,0); \draw[redund] (\x,-0.7) -- (\x,-0.1);
+        \draw[redund] (\x+0.35,-0.3) arc (-40:200:0.35);}
+    \end{scope}
+    \begin{scope}[xshift=10cm]
+      \draw[member] (0,0) -- (0,2) -- (3,2) -- (3,0); \pic at (0,0) {fixed}; \pic at (3,0) {fixed}; \ld{(1.3,2)}
+      \transh{(3,2)} \draw[dofm] (0,2) -- (0.6,2);
+      \draw[dofm] (0.4,2.3) arc (0:200:0.35); \draw[dofm] (3.4,2.3) arc (0:200:0.35);
+      \draw[dofm] (0,1.95) -- (0,1.4);
+    \end{scope}
+    \node at (14.3,0.6) {3}; \node at (15.8,0.6) {3};
+  \end{scope}
+  % ---------------- (e) multi-storey frame ----------------
+  \begin{scope}[yshift=-15.4cm]
+    \node at (-0.6,2.5) {$(e)$};
+    % 3 bays x 7 storeys
+    \newcommand{\frameE}{%
+      \foreach \x in {0,0.8,...,2.4}{\draw[thinmember] (\x,0) -- (\x,4.9);}
+      \foreach \y in {0.7,1.4,...,4.9}{\draw[thinmember] (0,\y) -- (2.4,\y);}
+      \fill[hatch] (-0.3,-0.25) rectangle (2.7,0); \draw (-0.3,0) -- (2.7,0);}
+    \frameE \ld{(0.6,4.9)} \ld{(2.0,4.9)}
+    \begin{scope}[xshift=5cm]
+      \frameE
+      % cut members: show internal forces at midpoint of every member
+      \foreach \x in {0,0.8,...,2.4}{\foreach \y in {0.35,1.05,...,4.55}{
+        \draw[redund,thin] (\x-0.15,\y) -- (\x+0.15,\y); \draw[thin] (\x,\y-0.1) -- (\x,\y+0.1);}}
+      \foreach \x in {0.4,1.2,2.0}{\foreach \y in {0.7,1.4,...,4.9}{
+        \draw[thin] (\x-0.1,\y) -- (\x+0.1,\y); \draw[redund,thin] (\x,\y-0.15) -- (\x,\y+0.15);}}
+      % detail bubble
+      \draw[rounded corners=8pt] (-0.3,5.5) rectangle (2.7,6.4);
+      \draw[thin] (0.7,5.5) -- (0.6,4.95);
+      \draw[redund] (0.3,5.95) -- (0.9,5.95); \draw[redund] (1.2,5.6) -- (1.2,6.3);
+      \draw[redund] (1.95,5.65) arc (-60:240:0.32);
+      \node at (1.6,5.95) {$\odot$};
+    \end{scope}
+    \begin{scope}[xshift=10cm]
+      \frameE
+      % dofs at the top two storeys (3 per node): shown as arrows + rotation
+      \foreach \x in {0,0.8,...,2.4}{
+        \draw[dofm] (\x+0.3,4.95) arc (0:180:0.3); \draw[dofm] (\x,4.9) -- (\x,4.5);
+        \draw[dofm] (\x,4.2) -- (\x+0.4,4.2); \draw[dofm] (\x+0.3,4.25) arc (0:180:0.3);}
+      \draw[dofm] (2.4,4.9) -- (2.85,4.9);
+    \end{scope}
+    \node at (14.3,2.5) {63}; \node at (15.8,2.5) {35};
+  \end{scope}
+\end{tikzpicture}

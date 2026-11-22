@@ -1,0 +1,14 @@
+% Skew (inclined) roller support: no penetration, v = 0
+\begin{tikzpicture}[scale=1.0,font=\small,rotate=35]
+  % ground surface
+  \draw[thick] (-1.6,0) -- (1.8,0);
+  \fill[hatch] (-1.6,-0.3) rectangle (1.8,0);
+  % roller
+  \draw[fill=white] (0,0.3) circle (0.3);
+  % attached wedge (member end)
+  \draw[thick] (-0.9,0.75) -- (0.6,0.6) -- (-0.5,1.5) -- cycle;
+  % tangential displacement u
+  \draw[->,thick] (0.4,0.85) -- (1.6,0.85) node[above] {$u$};
+  % normal displacement v = 0
+  \draw[->,thick] (0.6,-1.3) -- (0.6,-0.35) node[pos=0,below] {$v=0$};
+\end{tikzpicture}

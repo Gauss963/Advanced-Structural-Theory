@@ -1,0 +1,33 @@
+% Four choices of the local y' axis for a beam along the global Y axis
+\begin{tikzpicture}[scale=0.75,font=\small]
+  \newcommand{\block}{%
+    \draw (0,0) rectangle (0.5,1.2); \draw (0,1.2) -- (-0.6,1.6) -- (-0.1,1.6) -- (0.5,1.2); \draw (-0.6,1.6) -- (-0.6,0.4) -- (0,0);}
+  \begin{scope}
+    \block
+    \draw[->,thick] (0.25,0.6) -- (0.25,2.3) node[above] {$z'$};
+    \draw[->,thick] (0.25,0.6) -- (1.9,1.4) node[right] {$y'$};
+    \draw[->,thick] (0.25,0.6) -- (1.9,0.1) node[right] {$x'$};
+    \node at (0.6,-2.4) {Case 1};
+  \end{scope}
+  \begin{scope}[xshift=5.2cm]
+    \block
+    \draw[->,thick] (0.25,0.6) -- (0.25,-1.0) node[below] {$z'$};
+    \draw[->,thick] (0.25,0.6) -- (-1.4,-0.2) node[left] {$y'$};
+    \draw[->,thick] (0.25,0.6) -- (1.9,0.1) node[right] {$x'$};
+    \node at (0.6,-2.4) {Case 2};
+  \end{scope}
+  \begin{scope}[xshift=10.4cm]
+    \block
+    \draw[->,thick] (0.25,0.6) -- (0.25,2.3) node[above] {$y'$};
+    \draw[->,thick] (0.25,0.6) -- (-1.4,-0.2) node[left] {$z'$};
+    \draw[->,thick] (0.25,0.6) -- (1.9,0.1) node[right] {$x'$};
+    \node at (0.6,-2.4) {Case 3};
+  \end{scope}
+  \begin{scope}[xshift=15.6cm]
+    \block
+    \draw[->,thick] (0.25,0.6) -- (0.25,-1.0) node[below] {$y'$};
+    \draw[->,thick] (0.25,0.6) -- (1.9,1.4) node[right] {$z'$};
+    \draw[->,thick] (0.25,0.6) -- (1.9,0.1) node[right] {$x'$};
+    \node at (0.6,-2.4) {Case 4};
+  \end{scope}
+\end{tikzpicture}

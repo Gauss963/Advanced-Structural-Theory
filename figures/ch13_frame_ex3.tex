@@ -1,0 +1,16 @@
+% Example 3: two-storey frame with hinges at A and B (column continuous at B)
+\begin{tikzpicture}[scale=0.85,font=\small]
+  \draw[member] (0,0) -- (0,5) -- (3.5,5) -- (3.5,0); \draw[member] (0,2.5) -- (6,2.5) -- (6,0);
+  \pic at (0,0) {pin}; \pic at (3.5,0) {fixed}; \pic at (6,0) {fixed};
+  \node[node dot] at (3.5,5) {}; \node[node dot] at (3.5,2.5) {};
+  \node[above] at (3.5,5.1) {$A$}; \node[above right] at (3.55,2.55) {$B$};
+  \newcommand{\mem}[2]{\node[circle,draw,fill=white,inner sep=1pt,font=\scriptsize] at #1 {#2};}
+  \mem{(0,1.2)}{1} \mem{(3.5,1.2)}{2} \mem{(6,1.2)}{3} \mem{(0,3.8)}{4} \mem{(3.5,3.8)}{5}
+  \mem{(1.75,2.5)}{6} \mem{(4.75,2.5)}{7} \mem{(1.75,5)}{8}
+  \draw[load] (3.6,5) -- (4.8,5) node[right] {$u_2$};
+  \draw[load] (6.1,2.5) -- (7.3,2.5) node[right] {$u_1$};
+  \draw[->,thick] (0.5,5.35) arc (30:170:0.5); \node[left] at (-0.4,5.5) {$\theta_4$};
+  \draw[->,thick] (0.5,2.85) arc (30:170:0.5); \node[left] at (-0.4,3.0) {$\theta_1$};
+  \draw[->,thick] (3.3,2.85) arc (30:170:0.5); \node[left] at (2.4,3.0) {$\theta_2$};
+  \draw[->,thick] (6.5,2.85) arc (30:170:0.5); \node[left] at (5.6,3.0) {$\theta_3$};
+\end{tikzpicture}

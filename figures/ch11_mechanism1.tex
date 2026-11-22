@@ -1,0 +1,8 @@
+% Mechanism 1: plastic hinges at A and C
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \pic at (0,0) {wallL}; \pic at (9,0) {pin};
+  \draw[thick] (0,0) -- (9,0);
+  \draw[dashed,thick] (0,0) -- (6,-1.2) -- (9,0);
+  \node[node dot] at (0,0) {}; \node[node dot] at (6,-1.2) {};
+  \draw[->] (2.2,0) arc (0:-11.3:2.2); \node[right] at (2.3,-0.3) {$\delta\theta$};
+\end{tikzpicture}

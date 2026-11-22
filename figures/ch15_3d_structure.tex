@@ -1,0 +1,28 @@
+% 3D L-shaped structure: cantilever AB with a perpendicular arm BC loaded by P at C
+\begin{tikzpicture}[scale=1.0,font=\small,x={(1cm,0cm)},y={(0cm,1cm)},z={(-0.55cm,-0.85cm)}]
+  \begin{scope}
+    \def\h{0.5} \def\w{0.5}
+    % member AB along +x from A(0,0,0) to B(3,0,0)
+    \draw (0,0,0) -- (3,0,0) -- (3,\h,0) -- (0,\h,0) -- cycle;
+    \draw (3,0,0) -- (3,0,\w) -- (3,\h,\w) -- (3,\h,0); \draw (0,\h,0) -- (0,\h,\w) -- (3,\h,\w);
+    % member BC along +z from B to C(3,0,4.5)
+    \draw (3,0,\w) -- (3,0,4.5) -- (3,\h,4.5) -- (3,\h,\w); \draw (3,\h,4.5) -- (2.5,\h,4.5) -- (2.5,0,4.5) -- (3,0,4.5);
+    \draw (2.5,\h,4.5) -- (2.5,\h,\w);
+    % wall at A
+    \fill[hatch] (-0.25,-0.3,0) -- (0,-0.3,0) -- (0,\h+0.3,0) -- (-0.25,\h+0.3,0) -- cycle;
+    \node[above left] at (0,\h,0) {$A$}; \node[above] at (3,\h,0) {$B$}; \node[below] at (2.75,0,4.6) {$C$};
+    \draw[->] (2.2,\h+0.15,0) -- (1.0,\h+0.15,0) node[above] {$x'$};
+    \draw[->] (2.75,\h+0.1,3.0) -- (2.75,\h+0.1,1.8) node[above right] {$x'$};
+    \draw[load] (2.75,\h+1.5,4.2) -- (2.75,\h+0.15,4.2) node[pos=0,left] {$P$};
+    \draw[dim] (0,\h+0.9,0) -- (3,\h+0.9,0) node[midway,above] {$L$};
+    \draw[dim] (3.6,0,\w) -- (3.6,0,4.5) node[midway,right] {$2L$};
+  \end{scope}
+  % section
+  \begin{scope}[shift={(7.5,0.5,0)}]
+    \draw (-0.5,-0.5,0) rectangle (0.5,0.5,0); \draw (-0.35,-0.35,0) rectangle (0.35,0.35,0);
+    \draw[->,thick] (0,0,0) -- (0,2.0,0) node[above] {$I_2\,(z')$};
+    \draw[->,thick] (0,0,0) -- (2.0,0,0) node[right] {$I_1\,(y')$};
+    \draw[->,thick] (0,0,0) -- (0,0,2.2) node[below] {$J\,(x')$};
+    \node[right] at (0.4,-1.0,0) {section};
+  \end{scope}
+\end{tikzpicture}

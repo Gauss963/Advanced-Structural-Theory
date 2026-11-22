@@ -1,0 +1,38 @@
+% Global (u,v,F) and local (u',v',F') member displacements and forces
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \def\ang{40}
+  % ---- global displacements ----
+  \begin{scope}
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3);
+    \draw[member] (A) -- (B);
+    \draw[load] (A) -- ++(1.2,0) node[right] {$u_1$}; \draw[load] (A) -- ++(0,1.2) node[left] {$v_1$};
+    \draw[load] (B) -- ++(1.2,0) node[right] {$u_2$}; \draw[load] (B) -- ++(0,1.2) node[left] {$v_2$};
+  \end{scope}
+  % ---- global forces ----
+  \begin{scope}[xshift=5.5cm]
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3);
+    \draw[member] (A) -- (B);
+    \draw[load] (A) -- ++(1.2,0) node[right] {$F_{x1}$}; \draw[load] (A) -- ++(0,1.2) node[left] {$F_{y1}$};
+    \draw[load] (B) -- ++(1.2,0) node[right] {$F_{x2}$}; \draw[load] (B) -- ++(0,1.2) node[left] {$F_{y2}$};
+  \end{scope}
+  \node[anchor=west] at (-5.4,1.2) {Global\quad $\kmat\dvec = \mat{f}$};
+  % ---- local displacements ----
+  \begin{scope}[yshift=-4.2cm]
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3);
+    \draw[member] (A) -- (B);
+    \draw[load] ($(A)+(\ang+180:1.2)$) -- ($(A)+(\ang+180:0.05)$) node[pos=0,below] {$u_1'$};
+    \draw[load] (A) -- ++(\ang+90:1.1) node[above left] {$v_1'$};
+    \draw[load] (B) -- ++(\ang:1.2) node[right] {$u_2'$};
+    \draw[load] (B) -- ++(\ang+90:1.1) node[above] {$v_2'$};
+  \end{scope}
+  % ---- local forces ----
+  \begin{scope}[xshift=5.5cm,yshift=-4.2cm]
+    \coordinate (A) at (0,0); \coordinate (B) at (\ang:3);
+    \draw[member] (A) -- (B);
+    \draw[load] ($(A)+(\ang+180:1.2)$) -- ($(A)+(\ang+180:0.05)$) node[pos=0,below] {$F_{x1}'$};
+    \draw[load] (A) -- ++(\ang+90:1.1) node[above left] {$F_{y1}'$};
+    \draw[load] (B) -- ++(\ang:1.2) node[right] {$F_{x2}'$};
+    \draw[load] (B) -- ++(\ang+90:1.1) node[above] {$F_{y2}'$};
+  \end{scope}
+  \node[anchor=west] at (-5.4,-3.0) {Local\quad $\kmat'\dvec' = \mat{f}'$};
+\end{tikzpicture}

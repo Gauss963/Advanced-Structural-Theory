@@ -1,0 +1,28 @@
+% Graphical representation of the upper triangularization step m
+\begin{tikzpicture}[scale=0.85,font=\small]
+  \def\n{8}
+  % matrix frame
+  \draw (0,0) rectangle (\n,\n);
+  % processed upper-left triangle: X on the diagonal (rows 1..m-1)
+  \foreach \i in {1,...,5}{\node at (\i-0.5,\n-\i+0.5) {X};}
+  \draw[dashed] (0.6,\n-0.6) -- (2.7,\n-2.7); \node at (3.0,\n-3.0) {$\cdot$}; \node at (3.3,\n-3.3) {$\cdot$};
+  % dashed region of zeros below the processed part
+  \draw[dashed] (0.3,\n-0.3) -- (0.3,0.3) -- (3.7,0.3) -- (3.7,\n-3.7);
+  \node[font=\Large] at (1.6,3.6) {$0$};
+  % pivot row m and column m, column j, row i
+  \pgfmathsetmacro{\m}{\n-5.5} \pgfmathsetmacro{\ii}{\n-7.0}
+  \draw[dotted] (0,\m) -- (\n,\m); \node[left] at (0,\m) {$m$};
+  \draw[dotted] (0,\m-0.35) -- (3.7,\m-0.35); \node[left] at (0,\m-0.35) {$m{+}1$};
+  \draw[dotted] (0,\ii) -- (\n,\ii); \node[left] at (0,\ii) {$i$};
+  \draw[dotted] (3.7,0) -- (3.7,\n); \node[above] at (3.7,\n) {$m$};
+  \draw[dotted] (6.3,0) -- (6.3,\n); \node[above] at (6.3,\n) {$j$};
+  \node[left] at (0,0.2) {$n$};
+  \node[above right,font=\footnotesize] at (3.7,\m) {$a_{mm}$}; \node[above right,font=\footnotesize] at (6.3,\m) {$a_{mj}$};
+  \node[above right,font=\footnotesize] at (3.7,\ii) {$a_{im}$}; \node[above right,font=\footnotesize] at (6.3,\ii) {$a_{ij}$};
+  \fill (3.7,\m) circle (0.05); \fill (6.3,\m) circle (0.05); \fill (3.7,\ii) circle (0.05); \fill (6.3,\ii) circle (0.05);
+  % right-hand side vector
+  \draw (\n+0.8,0) rectangle (\n+1.8,\n);
+  \node[font=\footnotesize] at (\n+1.3,\m) {$b_m$}; \node[font=\footnotesize] at (\n+1.3,\ii) {$b_i$};
+  \draw[->] (\n+1.8,\m) -- (\n+2.6,\m) -- (\n+2.6,\ii) -- (\n+1.85,\ii);
+  \node[right,font=\footnotesize] at (\n+2.6,{(\m+\ii)/2}) {$\times\Bigl(-\dfrac{a_{im}}{a_{mm}}\Bigr)$};
+\end{tikzpicture}

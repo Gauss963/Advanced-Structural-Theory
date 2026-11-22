@@ -1,0 +1,31 @@
+% Beam connected to an axial member by two rigid links
+\begin{tikzpicture}[scale=0.68,font=\small]
+  % ---- (a) DOF Delta ----
+  \begin{scope}
+    \draw[fill=black!15] (0,0) rectangle (5.5,0.3);
+    \node[above] at (2.75,0.3) {$E, I, A, L$};
+    \fill[hatch] (0,-0.5) rectangle (0.18,0); \draw (0,-0.5) rectangle (0.18,0);
+    \fill[hatch] (5.32,-0.9) rectangle (5.5,0); \draw (5.32,-0.9) rectangle (5.5,0);
+    \draw[thinmember] (0.09,-0.5) -- (5.41,-0.9);
+    \node[below] at (2.75,-0.75) {$E, A, L_1$};
+    \node[right,font=\footnotesize] at (0.2,-0.25) {$e_1$}; \node[left,font=\footnotesize] at (5.3,-0.45) {$e_2$};
+    \node[below left] at (0,0) {1}; \node[below right] at (5.5,0) {2};
+    \draw[load] (-1.2,0.15) -- (-0.1,0.15) node[pos=0,left] {$u_1$};
+    \draw[load] (0,0.4) -- (0,1.4) node[above] {$v_1$};
+    \draw[->,thick] (0.3,-0.1) arc (-30:200:0.35); \node[below left] at (-0.1,-0.35) {$\theta_{z1}$};
+    \draw[load] (5.6,0.15) -- (6.7,0.15) node[right] {$u_2$};
+    \draw[load] (5.5,0.4) -- (5.5,1.4) node[above] {$v_2$};
+    \draw[->,thick] (5.8,-0.1) arc (-30:200:0.35); \node[below right] at (5.6,-0.35) {$\theta_{z2}$};
+    \node[below] at (2.75,-1.7) {(a) Degrees of freedom $\bs{\Delta}$};
+  \end{scope}
+  % ---- (b) DOF Delta' ----
+  \begin{scope}[xshift=9.5cm]
+    \draw[thinmember] (0,-0.5) -- (5.5,-0.9);
+    \node[below] at (2.75,-0.85) {$E, A, L_1$};
+    \draw[load] (-1.2,-0.5) -- (-0.1,-0.5) node[pos=0,left] {$d_1$};
+    \draw[load] (0,-0.4) -- (0,0.8) node[above] {$d_2$};
+    \draw[load] (5.6,-0.9) -- (6.7,-0.9) node[right] {$d_3$};
+    \draw[load] (5.5,-0.8) -- (5.5,0.4) node[above] {$d_4$};
+    \node[below] at (2.75,-1.7) {(b) Degrees of freedom $\bs{\Delta}'$};
+  \end{scope}
+\end{tikzpicture}

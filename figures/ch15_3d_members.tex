@@ -1,0 +1,20 @@
+% Free bodies of members AB and BC
+\begin{tikzpicture}[scale=0.9,font=\small]
+  \begin{scope}
+    \node[left] at (-0.8,0) {Member $AB$:};
+    \pic at (0,0) {wallL}; \draw (0,-0.25) rectangle (5,0.25);
+    \node[above right] at (0,0.25) {$A$}; \node[above left] at (5,0.25) {$B$};
+    \draw[->] (4.3,0) -- (2.8,0) node[below] {$x'$};
+    \draw[load] (5,1.4) -- (5,0.3) node[pos=0,above] {$P$};
+    \draw[->,thick,double] (5.2,0) -- (6.4,0) node[right] {$2PL$};
+    \draw[->] (0,-0.3) -- (0,-1.5) node[below] {$z'$};
+  \end{scope}
+  \begin{scope}[yshift=-4.8cm]
+    \node[left] at (-0.8,0) {Member $BC$:};
+    \draw (0,-0.25) rectangle (7,0.25);
+    \node[above right] at (0,0.25) {$C$}; \node[above left] at (7,0.25) {$B$};
+    \draw[->] (0.2,0) -- (1.7,0) node[below] {$x'$};
+    \draw[load] (0,1.4) -- (0,0.3) node[pos=0,above] {$P$};
+    \draw[->] (0,-0.3) -- (0,-1.5) node[below] {$z'$};
+  \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,25 @@
+% Load-displacement curve of the two-member truss (snap-through)
+\begin{tikzpicture}[>=Latex]
+  \begin{axis}[
+    width=12cm,height=6cm,
+    axis lines=middle,
+    xlabel={$\Delta$},ylabel={$P$},
+    xlabel style={at={(ticklabel* cs:1)},anchor=west},
+    ylabel style={at={(ticklabel* cs:1)},anchor=south},
+    xmin=0,xmax=2.6,ymin=-1.4,ymax=1.9,
+    xtick={0.1,1,2},xticklabels={$\Delta_i$,$h$,$2h$},
+    ytick=\empty,
+    clip=false,
+    samples=120,domain=0:2.35,
+  ]
+    % P proportional to (h-D)(D)(2h-D) (shape of the exact curve)
+    \addplot[thick,black] {2.6*(1-x)*x*(2-x)};
+    % P_lim and P_i
+    \pgfmathsetmacro{\plim}{2.6*(1-0.4226)*0.4226*(2-0.4226)}
+    \pgfmathsetmacro{\pI}{2.6*(1-0.1)*0.1*(2-0.1)}
+    \draw[densely dotted] (axis cs:0,\plim) -- (axis cs:2.2,\plim);
+    \draw[densely dotted] (axis cs:0,\pI) -- (axis cs:0.1,\pI) -- (axis cs:0.1,0);
+    \node[left] at (axis cs:0,\plim) {$P_{\lim}$};
+    \node[left] at (axis cs:0,\pI) {$P_i$};
+  \end{axis}
+\end{tikzpicture}

@@ -1,0 +1,13 @@
+% Rigid-body rotation mode about node 1
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \coordinate (A) at (0,0); \coordinate (B) at (30:4.2); \coordinate (Br) at (55:4.2);
+  \draw[member] (A) -- (B); \draw[member] (A) -- (Br);
+  \draw[dashed] (B) -- (Br);
+  \node[left] at ($(B)!0.5!(Br)+(-0.05,0)$) {$L\theta_r$};
+  \draw[->,thick] (A) -- ++(1.4,0) node[below right] {$u_1$};
+  \draw[->,thick] (A) -- ++(0,1.4) node[left] {$v_1$};
+  \draw[->,thick] (B) -- ++(1.2,0) node[right] {$u_2$};
+  \draw[->,thick] (B) -- ++(0,1.2) node[above] {$v_2$};
+  \draw[->] ($(A)+(1.0,0)$) arc (0:30:1.0); \node at ($(A)+(1.25,0.28)$) {$\phi$};
+  \draw[->] ($(A)+(30:1.7)$) arc (30:55:1.7); \node at ($(A)+(42:2.0)$) {$\theta_r$};
+\end{tikzpicture}

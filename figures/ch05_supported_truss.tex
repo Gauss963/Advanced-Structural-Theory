@@ -1,0 +1,21 @@
+% Supported example truss with two loads at node 2
+\begin{tikzpicture}[scale=1.0,font=\small]
+  \coordinate (n1) at (0,0); \coordinate (n2) at (3,0); \coordinate (n3) at (0,4);
+  \draw[member] (n1) -- (n2) -- (n3) -- cycle;
+  \fill[hatch] (-0.85,3.5) rectangle (-0.65,4.5); \draw (-0.65,3.5) -- (-0.65,4.5);
+  \foreach \p in {n1,n2,n3}{\node[node dot] at (\p) {};}
+  \node[below right] at ($(n1)+(0.05,-0.1)$) {1}; \node[below] at ($(n2)+(0,-0.05)$) {2}; \node at (-0.3,3.55) {3};
+  \node[circle,draw,inner sep=1.5pt] at (1.5,0.45) {\scriptsize 1};
+  \node[circle,draw,inner sep=1.5pt] at (1.95,2.35) {\scriptsize 2};
+  \node[circle,draw,inner sep=1.5pt] at (-0.45,1.6) {\scriptsize 3};
+  % supports: pin at 1, horizontal roller at 3
+  \pic at (n1) {pin};
+  \pic[rotate=-90] at (n3) {roller};
+  % dof arrows
+  \foreach \p/\i in {n1/1,n2/2,n3/3}{
+    \draw[->,thin] ($(\p)+(0.15,0.15)$) -- ++(0.55,0) node[right,inner sep=1pt] {$u_\i$};
+    \draw[->,thin] ($(\p)+(0.15,0.15)$) -- ++(0,0.55) node[above,inner sep=1pt] {$v_\i$};}
+  % loads
+  \draw[load] (n2) -- ++(1.4,0) node[right] {72\,kN};
+  \draw[load] (n2) -- ++(0,1.4) node[above] {90\,kN};
+\end{tikzpicture}

@@ -1,0 +1,17 @@
+% Simply supported beam: end moments and deformed shape due to M1
+\begin{tikzpicture}[scale=0.85,font=\small]
+  \begin{scope}
+    \draw[member] (0,0) -- (6,0); \pic at (0,0) {pin}; \pic at (6,0) {roller};
+    \draw[->,thick] (-0.35,0.7) arc (110:-40:0.5); \node[above left] at (-0.2,0.75) {$M_1(\bar\theta_1)$};
+    \draw[->,thick] (6.35,0.7) arc (70:220:0.5); \node[above right] at (6.2,0.75) {$M_2(\bar\theta_2)$};
+  \end{scope}
+  \begin{scope}[xshift=8.5cm]
+    \pic at (0,0) {pin}; \pic at (6,0) {roller};
+    \draw[dashed] (0,0) -- (6,0);
+    \draw[thinmember] (0,0) .. controls (2,1.4) and (4.5,0.9) .. (6,0);
+    \draw[thin] (0,0) -- (1.6,1.1); \draw[thin] (6,0) -- (4.6,0.55);
+    \draw[->] (0.9,0) arc (0:34:0.9); \node[below right] at (0.9,0.15) {$\bar\theta_1 = \dfrac{M_1L}{3EI}$};
+    \draw[->] (5.1,0) arc (180:158:0.9); \node[above left] at (4.9,0.2) {$\bar\theta_2 = \dfrac{M_1L}{6EI}$};
+    \draw[->,thick] (-0.35,0.7) arc (110:-40:0.5); \node[above left] at (-0.2,0.75) {$M_1$};
+  \end{scope}
+\end{tikzpicture}

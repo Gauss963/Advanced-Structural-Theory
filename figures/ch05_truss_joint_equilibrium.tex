@@ -1,0 +1,19 @@
+% Study of equilibrium in the P_i - Delta_i direction (after McGuire Fig. 3.2)
+\begin{tikzpicture}[scale=0.72,font=\small]
+  % member ends with their x-force components
+  \draw[thinmember] (-2.6,1.8) -- (-1.4,1.1) node[pos=0,above left] {(C)};
+  \fill (-1.4,1.1) circle (0.04); \draw[load] (-1.4,1.1) -- ++(1.0,0) node[above] {$F_i^C$};
+  \draw[thinmember] (2.6,1.9) -- (1.6,1.1) node[pos=0,above right] {(B)};
+  \fill (1.6,1.1) circle (0.04); \draw[load] (1.6,1.1) -- ++(1.0,0) node[above] {$F_i^B$};
+  \draw[thinmember] (-2.6,-1.9) -- (-1.4,-1.1) node[pos=0,below left] {(D)};
+  \fill (-1.4,-1.1) circle (0.04); \draw[load] (-1.4,-1.1) -- ++(1.0,0) node[below] {$F_i^D$};
+  \draw[thinmember] (2.6,-1.9) -- (1.6,-1.1) node[pos=0,below right] {(A)};
+  \fill (1.6,-1.1) circle (0.04); \draw[load] (1.6,-1.1) -- ++(1.0,0) node[above] {$F_i^A$};
+  % the joint
+  \fill (0,0) circle (0.06) node[below] {$q$};
+  \draw[load] (-1.8,0) -- (-0.15,0) node[pos=0,above] {$P_i$};
+  \foreach \y in {0.3,0.1,-0.1,-0.3}{\draw[load] (1.2,\y) -- (0.2,\y);}
+  \draw[decorate,decoration={brace,amplitude=4pt}] (1.35,0.45) -- (1.35,-0.45);
+  \node[right] at (1.5,0) {$F_i^A,\,F_i^B,\,F_i^C,\,F_i^D$};
+  \node[align=center,font=\scriptsize] at (0,-2.5) {Note: $y$ components of bar forces\\are omitted for clarity.};
+\end{tikzpicture}
